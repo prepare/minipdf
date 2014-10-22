@@ -1,0 +1,28 @@
+﻿Build started 22/10/2557 8:04:30.
+     1>Project "D:\zzshare\zz2\PDFSharp-MigraDocFoundation-1_31\MigraDoc\code\MigraDoc.RtfRendering\MigraDoc.RtfRendering.resources\MigraDoc.RtfRendering.Resources.vcxproj" on node 2 (rebuild target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\MigraDoc.RtfRendering.Resources.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       CustomBuild:
+         Compiling Messages.de.txt
+         Read in 9 resources from "D:\zzshare\zz2\PDFSharp-MigraDocFoundation-1_31\MigraDoc\code\MigraDoc.RtfRendering\MigraDoc.RtfRendering.resources\Messages.de.txt"
+         Writing resource file...  Done.
+         Compiling Messages.txt
+         Read in 9 resources from "D:\zzshare\zz2\PDFSharp-MigraDocFoundation-1_31\MigraDoc\code\MigraDoc.RtfRendering\MigraDoc.RtfRendering.resources\Messages.txt"
+         Writing resource file...  Done.
+       PostBuildEvent:
+         resgen Messages.resources Messages.resx
+         resgen Messages.de.resources Messages.de.resx
+         
+         :VCEnd
+         Read in 9 resources from "Messages.resources"
+         Writing resource file...  Done.
+         Read in 9 resources from "Messages.de.resources"
+         Writing resource file...  Done.
+       FinalizeBuildStatus:
+         Deleting file "Debug\MigraDoc.RtfRendering.Resources.unsuccessfulbuild".
+         Touching "Debug\MigraDoc.RtfRendering.Resources.lastbuildstate".
+     1>Done Building Project "D:\zzshare\zz2\PDFSharp-MigraDocFoundation-1_31\MigraDoc\code\MigraDoc.RtfRendering\MigraDoc.RtfRendering.resources\MigraDoc.RtfRendering.Resources.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:09.38

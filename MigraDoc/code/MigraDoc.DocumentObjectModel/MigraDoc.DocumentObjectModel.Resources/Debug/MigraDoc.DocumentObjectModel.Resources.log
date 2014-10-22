@@ -1,0 +1,28 @@
+﻿Build started 22/10/2557 8:04:45.
+     1>Project "D:\zzshare\zz2\PDFSharp-MigraDocFoundation-1_31\MigraDoc\code\MigraDoc.DocumentObjectModel\MigraDoc.DocumentObjectModel.Resources\MigraDoc.DocumentObjectModel.Resources.vcxproj" on node 2 (rebuild target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\MigraDoc.DocumentObjectModel.Resources.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       CustomBuild:
+         Compiling Messages.de.txt
+         Read in 57 resources from "D:\zzshare\zz2\PDFSharp-MigraDocFoundation-1_31\MigraDoc\code\MigraDoc.DocumentObjectModel\MigraDoc.DocumentObjectModel.Resources\Messages.de.txt"
+         Writing resource file...  Done.
+         Compiling Messages.txt
+         Read in 57 resources from "D:\zzshare\zz2\PDFSharp-MigraDocFoundation-1_31\MigraDoc\code\MigraDoc.DocumentObjectModel\MigraDoc.DocumentObjectModel.Resources\Messages.txt"
+         Writing resource file...  Done.
+       PostBuildEvent:
+         resgen Messages.resources Messages.resx
+         resgen Messages.de.resources Messages.de.resx
+         
+         :VCEnd
+         Read in 57 resources from "Messages.resources"
+         Writing resource file...  Done.
+         Read in 57 resources from "Messages.de.resources"
+         Writing resource file...  Done.
+       FinalizeBuildStatus:
+         Deleting file "Debug\MigraDoc.DocumentObjectModel.Resources.unsuccessfulbuild".
+         Touching "Debug\MigraDoc.DocumentObjectModel.Resources.lastbuildstate".
+     1>Done Building Project "D:\zzshare\zz2\PDFSharp-MigraDocFoundation-1_31\MigraDoc\code\MigraDoc.DocumentObjectModel\MigraDoc.DocumentObjectModel.Resources\MigraDoc.DocumentObjectModel.Resources.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.29
