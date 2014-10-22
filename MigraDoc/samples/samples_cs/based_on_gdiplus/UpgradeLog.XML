@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="MigraDoc Samples-VS2008">
+</Property><Property Name="Solution File" Value="D:\projects\v_7000\minipdf\MigraDoc\samples\samples_cs\based_on_gdiplus\MigraDoc Samples-VS2008.sln">
+</Property><Property Name="Date" Value="23 ตุลาคม 2557">
+</Property><Property Name="Time" Value="6:28">
+</Property></Properties><Event ErrorLevel="1" Project="HelloWorld" Source="HelloWorld\HelloWorld.csproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="HelloWorld" Source="HelloWorld\HelloWorld.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="HelloWorld" Source="HelloWorld\HelloWorld.csproj" Description="Converted">
+</Event><Event ErrorLevel="1" Project="HelloMigraDoc" Source="HelloMigraDoc\HelloMigraDoc.csproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="HelloMigraDoc" Source="HelloMigraDoc\HelloMigraDoc.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="HelloMigraDoc" Source="HelloMigraDoc\HelloMigraDoc.csproj" Description="Converted">
+</Event><Event ErrorLevel="1" Project="Invoice" Source="Invoice\Invoice.csproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="Invoice" Source="Invoice\Invoice.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Invoice" Source="Invoice\Invoice.csproj" Description="Converted">
+</Event><Event ErrorLevel="1" Project="DocumentViewer" Source="DocumentViewer\DocumentViewer.csproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="DocumentViewer" Source="DocumentViewer\DocumentViewer.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="DocumentViewer" Source="DocumentViewer\DocumentViewer.csproj" Description="Converted">
+</Event><Event ErrorLevel="1" Project="MixMigraDocAndPdfSharp" Source="MixMigraDocAndPdfSharp\MixMigraDocAndPdfSharp.csproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="MixMigraDocAndPdfSharp" Source="MixMigraDocAndPdfSharp\MixMigraDocAndPdfSharp.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="MixMigraDocAndPdfSharp" Source="MixMigraDocAndPdfSharp\MixMigraDocAndPdfSharp.csproj" Description="Converted">
+</Event><Event ErrorLevel="1" Project="Images" Source="Images\Images.csproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="Images" Source="Images\Images.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Images" Source="Images\Images.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="PdfSharp" Source="..\..\..\..\PDFsharp\code\PdfSharp\PdfSharp.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="PdfSharp" Source="..\..\..\..\PDFsharp\code\PdfSharp\PdfSharp.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="MigraDoc.DocumentObjectModel" Source="..\..\..\code\MigraDoc.DocumentObjectModel\MigraDoc.DocumentObjectModel.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="MigraDoc.DocumentObjectModel" Source="..\..\..\code\MigraDoc.DocumentObjectModel\MigraDoc.DocumentObjectModel.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="MigraDoc.Rendering" Source="..\..\..\code\MigraDoc.Rendering\MigraDoc.Rendering.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="MigraDoc.Rendering" Source="..\..\..\code\MigraDoc.Rendering\MigraDoc.Rendering.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="MigraDoc.RtfRendering" Source="..\..\..\code\MigraDoc.RtfRendering\MigraDoc.RtfRendering.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="MigraDoc.RtfRendering" Source="..\..\..\code\MigraDoc.RtfRendering\MigraDoc.RtfRendering.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="PdfSharp.Charting" Source="..\..\..\..\PDFsharp\code\PdfSharp.Charting\PdfSharp.Charting.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="PdfSharp.Charting" Source="..\..\..\..\PDFsharp\code\PdfSharp.Charting\PdfSharp.Charting.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="" Source="MigraDoc Samples-VS2008.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="MigraDoc Samples-VS2008.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="HelloWorld" Source="HelloWorld\HelloWorld.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="HelloMigraDoc" Source="HelloMigraDoc\HelloMigraDoc.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Invoice" Source="Invoice\Invoice.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="DocumentViewer" Source="DocumentViewer\DocumentViewer.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="MixMigraDocAndPdfSharp" Source="MixMigraDocAndPdfSharp\MixMigraDocAndPdfSharp.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Images" Source="Images\Images.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

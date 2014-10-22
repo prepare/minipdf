@@ -32,11 +32,11 @@ using System;
 
 namespace MigraDoc.Rendering
 {
-  internal enum VerticalReference
-  {
-    PreviousElement = 0, //Default
-    AreaBoundary,
-    PageMargin,
-    Page
-  }
+    internal enum VerticalReference
+    {
+        PreviousElement = 0, //Default
+        AreaBoundary,
+        PageMargin,
+        Page
+    }
 }

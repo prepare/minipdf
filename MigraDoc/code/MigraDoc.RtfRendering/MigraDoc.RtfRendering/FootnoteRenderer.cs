@@ -34,56 +34,56 @@ using MigraDoc.DocumentObjectModel;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Renders a footnote to RTF.
-  /// </summary>
-  internal class FootnoteRenderer : RendererBase
-  {
-    public FootnoteRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.footnote = domObj as Footnote;
-    }
-
     /// <summary>
     /// Renders a footnote to RTF.
     /// </summary>
-    internal override void Render()
+    internal class FootnoteRenderer : RendererBase
     {
-      RenderReference();
-      RenderContent();
-    }
+        public FootnoteRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.footnote = domObj as Footnote;
+        }
 
-    /// <summary>
-    /// Renders the footnote's reference symbol.
-    /// </summary>
-    internal void RenderReference()
-    {
-      this.rtfWriter.StartContent();
-      this.rtfWriter.WriteControl("super");
-      if (this.footnote.IsNull("Reference"))
-        this.rtfWriter.WriteControl("chftn");
-      else
-        this.rtfWriter.WriteText(this.footnote.Reference);
-      this.rtfWriter.EndContent();
-    }
+        /// <summary>
+        /// Renders a footnote to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            RenderReference();
+            RenderContent();
+        }
+
+        /// <summary>
+        /// Renders the footnote's reference symbol.
+        /// </summary>
+        internal void RenderReference()
+        {
+            this.rtfWriter.StartContent();
+            this.rtfWriter.WriteControl("super");
+            if (this.footnote.IsNull("Reference"))
+                this.rtfWriter.WriteControl("chftn");
+            else
+                this.rtfWriter.WriteText(this.footnote.Reference);
+            this.rtfWriter.EndContent();
+        }
 
 
-    /// <summary>
-    /// Renders the footnote's content.
-    /// </summary>
-    private void RenderContent()
-    {
-      this.rtfWriter.StartContent();
-      this.rtfWriter.WriteControl("footnote");
-      foreach (DocumentObject obj in this.footnote.Elements)
-      {
-        RendererBase rndrr = RendererFactory.CreateRenderer(obj, this.docRenderer);
-        if (rndrr != null)
-          rndrr.Render();
-      }
-      this.rtfWriter.EndContent();
+        /// <summary>
+        /// Renders the footnote's content.
+        /// </summary>
+        private void RenderContent()
+        {
+            this.rtfWriter.StartContent();
+            this.rtfWriter.WriteControl("footnote");
+            foreach (DocumentObject obj in this.footnote.Elements)
+            {
+                RendererBase rndrr = RendererFactory.CreateRenderer(obj, this.docRenderer);
+                if (rndrr != null)
+                    rndrr.Render();
+            }
+            this.rtfWriter.EndContent();
+        }
+        private Footnote footnote;
     }
-    private Footnote footnote;
-  }
 }

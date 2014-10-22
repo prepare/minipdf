@@ -35,68 +35,68 @@ using MigraDoc.DocumentObjectModel.Tables;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a Paragraph to RTF.
-  /// </summary>
-  internal class ParagraphRenderer : StyleAndFormatRenderer
-  {
-    public ParagraphRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.paragraph = domObj as Paragraph;
-    }
-
     /// <summary>
-    /// Renders the paragraph to RTF.
+    /// Class to render a Paragraph to RTF.
     /// </summary>
-    internal override void Render()
+    internal class ParagraphRenderer : StyleAndFormatRenderer
     {
-      useEffectiveValue = true;
-      DocumentElements elements = DocumentRelations.GetParent(this.paragraph) as DocumentElements;
-
-      this.rtfWriter.WriteControl("pard");
-      bool isCellParagraph = DocumentRelations.GetParent(elements) is Cell;
-      bool isFootnoteParagraph = isCellParagraph ? false : DocumentRelations.GetParent(elements) is Footnote;
-
-      if (isCellParagraph)
-        this.rtfWriter.WriteControl("intbl");
-
-      RenderStyleAndFormat();
-      if (!this.paragraph.IsNull("Elements"))
-        RenderContent();
-      EndStyleAndFormatAfterContent();
-
-      if ((!isCellParagraph && !isFootnoteParagraph) || this.paragraph != elements.LastObject)
-        this.rtfWriter.WriteControl("par");
-    }
-
-    /// <summary>
-    /// Renders the paragraph content to RTF.
-    /// </summary>
-    private void RenderContent()
-    {
-      DocumentElements elements = DocumentRelations.GetParent(this.paragraph) as DocumentElements;
-      //First paragraph of a footnote writes the reference symbol:
-      if (DocumentRelations.GetParent(elements) is Footnote && this.paragraph == elements.First)
-      {
-        FootnoteRenderer ftntRenderer = new FootnoteRenderer(DocumentRelations.GetParent(elements) as Footnote, this.docRenderer);
-        ftntRenderer.RenderReference();
-      }
-      foreach (DocumentObject docObj in this.paragraph.Elements)
-      {
-        if (docObj == paragraph.Elements.LastObject)
+        public ParagraphRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
         {
-          if (docObj is Character)
-          {
-            if (((Character)docObj).SymbolName == SymbolName.LineBreak)
-              continue; //Ignore last linebreak.
-          }
+            this.paragraph = domObj as Paragraph;
         }
-        RendererBase rndrr = RendererFactory.CreateRenderer(docObj, this.docRenderer);
-        if (rndrr != null)
-          rndrr.Render();
-      }
+
+        /// <summary>
+        /// Renders the paragraph to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            useEffectiveValue = true;
+            DocumentElements elements = DocumentRelations.GetParent(this.paragraph) as DocumentElements;
+
+            this.rtfWriter.WriteControl("pard");
+            bool isCellParagraph = DocumentRelations.GetParent(elements) is Cell;
+            bool isFootnoteParagraph = isCellParagraph ? false : DocumentRelations.GetParent(elements) is Footnote;
+
+            if (isCellParagraph)
+                this.rtfWriter.WriteControl("intbl");
+
+            RenderStyleAndFormat();
+            if (!this.paragraph.IsNull("Elements"))
+                RenderContent();
+            EndStyleAndFormatAfterContent();
+
+            if ((!isCellParagraph && !isFootnoteParagraph) || this.paragraph != elements.LastObject)
+                this.rtfWriter.WriteControl("par");
+        }
+
+        /// <summary>
+        /// Renders the paragraph content to RTF.
+        /// </summary>
+        private void RenderContent()
+        {
+            DocumentElements elements = DocumentRelations.GetParent(this.paragraph) as DocumentElements;
+            //First paragraph of a footnote writes the reference symbol:
+            if (DocumentRelations.GetParent(elements) is Footnote && this.paragraph == elements.First)
+            {
+                FootnoteRenderer ftntRenderer = new FootnoteRenderer(DocumentRelations.GetParent(elements) as Footnote, this.docRenderer);
+                ftntRenderer.RenderReference();
+            }
+            foreach (DocumentObject docObj in this.paragraph.Elements)
+            {
+                if (docObj == paragraph.Elements.LastObject)
+                {
+                    if (docObj is Character)
+                    {
+                        if (((Character)docObj).SymbolName == SymbolName.LineBreak)
+                            continue; //Ignore last linebreak.
+                    }
+                }
+                RendererBase rndrr = RendererFactory.CreateRenderer(docObj, this.docRenderer);
+                if (rndrr != null)
+                    rndrr.Render();
+            }
+        }
+        Paragraph paragraph;
     }
-    Paragraph paragraph;
-  }
 }

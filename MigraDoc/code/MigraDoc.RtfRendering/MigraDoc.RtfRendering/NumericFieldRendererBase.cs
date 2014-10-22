@@ -36,48 +36,48 @@ using MigraDoc.RtfRendering.Resources;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Base Class to render numeric fields.
-  /// </summary>
-  internal abstract class NumericFieldRendererBase : FieldRenderer
-  {
-    internal NumericFieldRendererBase(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.numericField = domObj as NumericFieldBase;
-    }
-
     /// <summary>
-    /// Translates the number format to RTF.
+    /// Base Class to render numeric fields.
     /// </summary>
-    protected void TranslateFormat()
+    internal abstract class NumericFieldRendererBase : FieldRenderer
     {
-      switch (this.numericField.Format)
-      {
-        case "":
-          break;
+        internal NumericFieldRendererBase(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.numericField = domObj as NumericFieldBase;
+        }
 
-        case "ROMAN":
-          this.rtfWriter.WriteText(@" \*ROMAN");
-          break;
+        /// <summary>
+        /// Translates the number format to RTF.
+        /// </summary>
+        protected void TranslateFormat()
+        {
+            switch (this.numericField.Format)
+            {
+                case "":
+                    break;
 
-        case "roman":
-          this.rtfWriter.WriteText(@" \*roman");
-          break;
+                case "ROMAN":
+                    this.rtfWriter.WriteText(@" \*ROMAN");
+                    break;
 
-        case "ALPHABETIC":
-          this.rtfWriter.WriteText(@" \*ALPHABETIC");
-          break;
+                case "roman":
+                    this.rtfWriter.WriteText(@" \*roman");
+                    break;
 
-        case "alphabetic":
-          this.rtfWriter.WriteText(@" \*alphabetic");
-          break;
+                case "ALPHABETIC":
+                    this.rtfWriter.WriteText(@" \*ALPHABETIC");
+                    break;
 
-        default:
-          Trace.WriteLine(Messages.InvalidNumericFieldFormat(this.numericField.Format), "warning");
-          break;
-      }
+                case "alphabetic":
+                    this.rtfWriter.WriteText(@" \*alphabetic");
+                    break;
+
+                default:
+                    Trace.WriteLine(Messages.InvalidNumericFieldFormat(this.numericField.Format), "warning");
+                    break;
+            }
+        }
+        private NumericFieldBase numericField;
     }
-    private NumericFieldBase numericField;
-  }
 }

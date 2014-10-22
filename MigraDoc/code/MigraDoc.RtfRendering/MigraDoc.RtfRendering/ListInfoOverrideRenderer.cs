@@ -34,50 +34,50 @@ using System.Collections;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Renders a ListInfo in the \listoverridetable control.
-  /// </summary>
-  internal class ListInfoOverrideRenderer : RendererBase
-  {
-      public ListInfoOverrideRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.listInfo = domObj as ListInfo;
-    }
-    
-    public static void Clear()
-    {
-      numberList.Clear();
-      listNumber = 1;
-    }
-
     /// <summary>
-    /// Renders a ListInfo to RTF for the \listoverridetable.
+    /// Renders a ListInfo in the \listoverridetable control.
     /// </summary>
-    internal override void Render()
+    internal class ListInfoOverrideRenderer : RendererBase
     {
-      int id = ListInfoRenderer.GetListID(this.listInfo);
-      if (id > -1)
-      {
-        this.rtfWriter.StartContent();
-        this.rtfWriter.WriteControl("listoverride");
-        this.rtfWriter.WriteControl("listid", id);
-        this.rtfWriter.WriteControl("listoverridecount" , 0);
-        this.rtfWriter.WriteControl("ls", listNumber);
-        this.rtfWriter.EndContent();
-        numberList.Add(this.listInfo, listNumber);
-        ++listNumber;
-      }
-    }
-    private ListInfo listInfo;
-    private static int listNumber = 1;
-    private static Hashtable numberList = new Hashtable();
-    internal static int GetListNumber(ListInfo li)
-    {
-      if (numberList.ContainsKey(li))
-        return (int)numberList[li];
+        public ListInfoOverrideRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.listInfo = domObj as ListInfo;
+        }
 
-      return -1;
+        public static void Clear()
+        {
+            numberList.Clear();
+            listNumber = 1;
+        }
+
+        /// <summary>
+        /// Renders a ListInfo to RTF for the \listoverridetable.
+        /// </summary>
+        internal override void Render()
+        {
+            int id = ListInfoRenderer.GetListID(this.listInfo);
+            if (id > -1)
+            {
+                this.rtfWriter.StartContent();
+                this.rtfWriter.WriteControl("listoverride");
+                this.rtfWriter.WriteControl("listid", id);
+                this.rtfWriter.WriteControl("listoverridecount", 0);
+                this.rtfWriter.WriteControl("ls", listNumber);
+                this.rtfWriter.EndContent();
+                numberList.Add(this.listInfo, listNumber);
+                ++listNumber;
+            }
+        }
+        private ListInfo listInfo;
+        private static int listNumber = 1;
+        private static Hashtable numberList = new Hashtable();
+        internal static int GetListNumber(ListInfo li)
+        {
+            if (numberList.ContainsKey(li))
+                return (int)numberList[li];
+
+            return -1;
+        }
     }
-  }
 }

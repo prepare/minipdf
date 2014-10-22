@@ -39,14 +39,14 @@ using System.Reflection;
 
 namespace MigraDoc.DocumentObjectModel.Internals
 {
-  /// <summary>
-  /// Interface for simple nullable values like NInt, NString etc.
-  /// </summary>
-  internal interface INullableValue
-  {
-    object GetValue();
-    void SetValue(object value);
-    void SetNull();
-    bool IsNull { get;}
-  }
+    /// <summary>
+    /// Interface for simple nullable values like NInt, NString etc.
+    /// </summary>
+    internal interface INullableValue
+    {
+        object GetValue();
+        void SetValue(object value);
+        void SetNull();
+        bool IsNull { get; }
+    }
 }

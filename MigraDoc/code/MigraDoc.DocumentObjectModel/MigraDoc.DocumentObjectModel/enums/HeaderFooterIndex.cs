@@ -34,24 +34,24 @@ using System;
 
 namespace MigraDoc.DocumentObjectModel
 {
-  /// <summary>
-  /// Index to the three HeaderFooter objects of a HeadersFooters collection.
-  /// </summary>
-  public enum HeaderFooterIndex
-  {
     /// <summary>
-    /// Header or footer which is primarily used.
+    /// Index to the three HeaderFooter objects of a HeadersFooters collection.
     /// </summary>
-    Primary = 0,
+    public enum HeaderFooterIndex
+    {
+        /// <summary>
+        /// Header or footer which is primarily used.
+        /// </summary>
+        Primary = 0,
 
-    /// <summary>
-    /// Header or footer for the first page of the section.
-    /// </summary>
-    FirstPage = 1,
+        /// <summary>
+        /// Header or footer for the first page of the section.
+        /// </summary>
+        FirstPage = 1,
 
-    /// <summary>
-    /// Header or footer for the even pages of the section.
-    /// </summary>
-    EvenPage = 2
-  }
+        /// <summary>
+        /// Header or footer for the even pages of the section.
+        /// </summary>
+        EvenPage = 2
+    }
 }

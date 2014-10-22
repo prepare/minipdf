@@ -35,35 +35,35 @@ using MigraDoc.DocumentObjectModel.IO;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a shading to RTF.
-  /// </summary>
-  internal class ShadingRenderer : RendererBase
-  {
-    internal ShadingRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.shading = domObj as Shading;
-      this.isCellShading = !(DocumentRelations.GetParent(shading) is ParagraphFormat);
-    }
-
-
     /// <summary>
-    /// Render a shading to RTF.
+    /// Class to render a shading to RTF.
     /// </summary>
-    internal override void Render()
+    internal class ShadingRenderer : RendererBase
     {
-      useEffectiveValue = true;
-      object vsbl = GetValueAsIntended("visible");
-      object clr = GetValueAsIntended("Color");
+        internal ShadingRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.shading = domObj as Shading;
+            this.isCellShading = !(DocumentRelations.GetParent(shading) is ParagraphFormat);
+        }
 
-      if (vsbl == null || (bool)vsbl)
-      {
-        if (clr != null)
-          Translate("Color", isCellShading ? "clcbpat" : "cbpat");
-      }
+
+        /// <summary>
+        /// Render a shading to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            useEffectiveValue = true;
+            object vsbl = GetValueAsIntended("visible");
+            object clr = GetValueAsIntended("Color");
+
+            if (vsbl == null || (bool)vsbl)
+            {
+                if (clr != null)
+                    Translate("Color", isCellShading ? "clcbpat" : "cbpat");
+            }
+        }
+        Shading shading;
+        bool isCellShading = false;
     }
-    Shading shading;
-    bool isCellShading = false;
-  }
 }

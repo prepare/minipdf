@@ -35,45 +35,45 @@ using MigraDoc.DocumentObjectModel.IO;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a Style to RTF.
-  /// </summary>
-  internal class StyleRenderer : RendererBase
-  {
-    internal StyleRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
+    /// <summary>
+    /// Class to render a Style to RTF.
+    /// </summary>
+    internal class StyleRenderer : RendererBase
     {
-      this.style = domObj as Style;
-      this.styles = DocumentRelations.GetParent(this.style) as Styles;
-    }
+        internal StyleRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.style = domObj as Style;
+            this.styles = DocumentRelations.GetParent(this.style) as Styles;
+        }
 
-    internal override void Render()
-    {
-      this.rtfWriter.StartContent();
-      int currIdx = this.styles.GetIndex(this.style.Name);
-      RendererBase rndrr = null;
-      if (this.style.Type == StyleType.Character)
-      {
-        this.rtfWriter.WriteControlWithStar("cs", currIdx);
-        this.rtfWriter.WriteControl("additive");
-        rndrr = RendererFactory.CreateRenderer(this.style.Font, this.docRenderer);
-      }
-      else
-      {
-        this.rtfWriter.WriteControl("s", currIdx);
-        rndrr = RendererFactory.CreateRenderer(this.style.ParagraphFormat, this.docRenderer);
-      }
-      if (this.style.BaseStyle != "")
-      {
-        int bsIdx = this.styles.GetIndex(this.style.BaseStyle);
-        this.rtfWriter.WriteControl("sbasedon", bsIdx);
-      }
-      rndrr.Render();
-      this.rtfWriter.WriteText(this.style.Name);
-      this.rtfWriter.WriteSeparator();
-      this.rtfWriter.EndContent();
+        internal override void Render()
+        {
+            this.rtfWriter.StartContent();
+            int currIdx = this.styles.GetIndex(this.style.Name);
+            RendererBase rndrr = null;
+            if (this.style.Type == StyleType.Character)
+            {
+                this.rtfWriter.WriteControlWithStar("cs", currIdx);
+                this.rtfWriter.WriteControl("additive");
+                rndrr = RendererFactory.CreateRenderer(this.style.Font, this.docRenderer);
+            }
+            else
+            {
+                this.rtfWriter.WriteControl("s", currIdx);
+                rndrr = RendererFactory.CreateRenderer(this.style.ParagraphFormat, this.docRenderer);
+            }
+            if (this.style.BaseStyle != "")
+            {
+                int bsIdx = this.styles.GetIndex(this.style.BaseStyle);
+                this.rtfWriter.WriteControl("sbasedon", bsIdx);
+            }
+            rndrr.Render();
+            this.rtfWriter.WriteText(this.style.Name);
+            this.rtfWriter.WriteSeparator();
+            this.rtfWriter.EndContent();
+        }
+        private Style style;
+        private Styles styles;
     }
-    private Style style;
-    private Styles styles;
-  }
 }

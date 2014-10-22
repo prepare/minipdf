@@ -32,18 +32,18 @@
 
 namespace MigraDoc.DocumentObjectModel
 {
-  /// <summary>
-  /// Specifies the type of the Border object and therefore its position.
-  /// </summary>
-  public enum BorderType
-  {
-    Top,
-    Left,
-    Bottom,
-    Right,
-    Horizontal,  // not used in MigraDoc 1.2
-    Vertical,    // not used in MigraDoc 1.2
-    DiagonalDown,
-    DiagonalUp
-  }
+    /// <summary>
+    /// Specifies the type of the Border object and therefore its position.
+    /// </summary>
+    public enum BorderType
+    {
+        Top,
+        Left,
+        Bottom,
+        Right,
+        Horizontal,  // not used in MigraDoc 1.2
+        Vertical,    // not used in MigraDoc 1.2
+        DiagonalDown,
+        DiagonalUp
+    }
 }

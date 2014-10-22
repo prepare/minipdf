@@ -35,58 +35,58 @@ using MigraDoc.DocumentObjectModel.Fields;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a Bookmark to RTF.
-  /// </summary>
-  internal class BookmarkFieldRenderer : RendererBase
-  {
-    public BookmarkFieldRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.bookmark = domObj as BookmarkField;
-    }
     /// <summary>
-    /// Renders a Bookmark.
+    /// Class to render a Bookmark to RTF.
     /// </summary>
-    internal override void Render()
+    internal class BookmarkFieldRenderer : RendererBase
     {
-      this.rtfWriter.StartContent();
-      this.rtfWriter.WriteControl("bkmkstart", true);
-      string name = MakeValidBookmarkName(this.bookmark.Name);
-      this.rtfWriter.WriteText(name);
-      rtfWriter.EndContent();
+        public BookmarkFieldRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.bookmark = domObj as BookmarkField;
+        }
+        /// <summary>
+        /// Renders a Bookmark.
+        /// </summary>
+        internal override void Render()
+        {
+            this.rtfWriter.StartContent();
+            this.rtfWriter.WriteControl("bkmkstart", true);
+            string name = MakeValidBookmarkName(this.bookmark.Name);
+            this.rtfWriter.WriteText(name);
+            rtfWriter.EndContent();
 
-      this.rtfWriter.StartContent();
-      this.rtfWriter.WriteControl("bkmkend", true);
-      this.rtfWriter.WriteText(name);
-      rtfWriter.EndContent();
+            this.rtfWriter.StartContent();
+            this.rtfWriter.WriteControl("bkmkend", true);
+            this.rtfWriter.WriteText(name);
+            rtfWriter.EndContent();
+        }
+
+        /// <summary>
+        /// Gets a valid bookmark name for RTF  by the given original name.
+        /// </summary>
+        internal static string MakeValidBookmarkName(string originalName)
+        {
+            //Bookmarks (at least in Word) have the following limitations:
+            //1. First character must be a letter (umlauts und ß are allowed)
+            //2. All further characters must be letters, numbers or underscores. 
+            //   For example, '-' is NOT allowed).
+            StringBuilder strBuilder = new StringBuilder(originalName.Length);
+            if (!Char.IsLetter(originalName[0]))
+                strBuilder.Append("BM__");
+
+            for (int idx = 0; idx < originalName.Length; ++idx)
+            {
+                char ch = originalName[idx];
+
+                if (char.IsLetterOrDigit(ch))
+                    strBuilder.Append(ch);
+                else
+                    strBuilder.Append('_');
+            }
+            return strBuilder.ToString();
+        }
+
+        BookmarkField bookmark;
     }
-
-    /// <summary>
-    /// Gets a valid bookmark name for RTF  by the given original name.
-    /// </summary>
-    internal static string MakeValidBookmarkName(string originalName)
-    {
-      //Bookmarks (at least in Word) have the following limitations:
-      //1. First character must be a letter (umlauts und ß are allowed)
-      //2. All further characters must be letters, numbers or underscores. 
-      //   For example, '-' is NOT allowed).
-      StringBuilder strBuilder = new StringBuilder(originalName.Length);
-      if (!Char.IsLetter(originalName[0]))
-        strBuilder.Append("BM__");
-
-      for (int idx = 0; idx < originalName.Length; ++idx)
-      {
-        char ch = originalName[idx];
-
-        if (char.IsLetterOrDigit(ch))
-          strBuilder.Append(ch);
-        else
-          strBuilder.Append('_');
-      }
-      return strBuilder.ToString();
-    }
-
-    BookmarkField bookmark;
-  }
 }

@@ -33,22 +33,22 @@ using MigraDoc.DocumentObjectModel;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a PageBreak to RTF.
-  /// </summary>
-  internal class PageBreakRenderer : RendererBase
-  {
-    internal PageBreakRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-    }
-
     /// <summary>
-    /// Renders a pagebreak to RTF.
+    /// Class to render a PageBreak to RTF.
     /// </summary>
-    internal override void Render()
+    internal class PageBreakRenderer : RendererBase
     {
-      this.rtfWriter.WriteControl("page");
+        internal PageBreakRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+        }
+
+        /// <summary>
+        /// Renders a pagebreak to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            this.rtfWriter.WriteControl("page");
+        }
     }
-  }
 }

@@ -35,49 +35,49 @@ using MigraDoc.DocumentObjectModel.IO;
 
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Renders a Shading to an XGraphics object.
-  /// </summary>
-  internal class ShadingRenderer
-  {
-    public ShadingRenderer(XGraphics gfx, Shading shading)
+    /// <summary>
+    /// Renders a Shading to an XGraphics object.
+    /// </summary>
+    internal class ShadingRenderer
     {
-      this.gfx = gfx;
-      this.shading = shading;
-      RealizeBrush();
-    }
+        public ShadingRenderer(XGraphics gfx, Shading shading)
+        {
+            this.gfx = gfx;
+            this.shading = shading;
+            RealizeBrush();
+        }
 
-    internal void Render(XUnit x, XUnit y, XUnit width, XUnit height)
-    {
-      if (this.shading == null || this.brush == null)
-        return;
+        internal void Render(XUnit x, XUnit y, XUnit width, XUnit height)
+        {
+            if (this.shading == null || this.brush == null)
+                return;
 
-      this.gfx.DrawRectangle(this.brush, x.Point, y.Point, width.Point, height.Point);
-    }
+            this.gfx.DrawRectangle(this.brush, x.Point, y.Point, width.Point, height.Point);
+        }
 
-    private bool IsVisible()
-    {
-      if (!this.shading.IsNull("Visible"))
-        return this.shading.Visible;
-      else
-        return !this.shading.IsNull("Color");
-    }
+        private bool IsVisible()
+        {
+            if (!this.shading.IsNull("Visible"))
+                return this.shading.Visible;
+            else
+                return !this.shading.IsNull("Color");
+        }
 
-    private void RealizeBrush()
-    {
-      if (this.shading == null)
-        return;
-      if (IsVisible())
-      {
+        private void RealizeBrush()
+        {
+            if (this.shading == null)
+                return;
+            if (IsVisible())
+            {
 #if noCMYK
         this.brush = new XSolidBrush(XColor.FromArgb((int)this.shading.Color.Argb));
 #else
-        this.brush = new XSolidBrush(ColorHelper.ToXColor(this.shading.Color, this.shading.Document.UseCmykColor));
+                this.brush = new XSolidBrush(ColorHelper.ToXColor(this.shading.Color, this.shading.Document.UseCmykColor));
 #endif
-      }
+            }
+        }
+        private Shading shading;
+        private XBrush brush;
+        private XGraphics gfx;
     }
-    private Shading shading;
-    private XBrush brush;
-    private XGraphics gfx;
-  }
 }

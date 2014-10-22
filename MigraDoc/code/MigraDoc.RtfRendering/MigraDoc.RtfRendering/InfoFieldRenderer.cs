@@ -34,56 +34,56 @@ using MigraDoc.DocumentObjectModel.Fields;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Renders an information field to RTF.
-  /// </summary>
-  internal class InfoFieldRenderer : FieldRenderer
-  {
-    internal InfoFieldRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.infoField = domObj as InfoField;
-    }
-
     /// <summary>
-    /// Renders an InfoField to RTF.
+    /// Renders an information field to RTF.
     /// </summary>
-    internal override void Render()
+    internal class InfoFieldRenderer : FieldRenderer
     {
-      StartField();
-      this.rtfWriter.WriteText("INFO ");
-      switch (this.infoField.Name.ToLower())
-      {
-        case "author":
-          this.rtfWriter.WriteText("Author");
-          break;
+        internal InfoFieldRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.infoField = domObj as InfoField;
+        }
 
-        case "title":
-          this.rtfWriter.WriteText("Title");
-          break;
+        /// <summary>
+        /// Renders an InfoField to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            StartField();
+            this.rtfWriter.WriteText("INFO ");
+            switch (this.infoField.Name.ToLower())
+            {
+                case "author":
+                    this.rtfWriter.WriteText("Author");
+                    break;
 
-        case "keywords":
-          this.rtfWriter.WriteText("Keywords");
-          break;
+                case "title":
+                    this.rtfWriter.WriteText("Title");
+                    break;
 
-        case "subject":
-          this.rtfWriter.WriteText("Subject");
-          break;
-      }
-      EndField();
+                case "keywords":
+                    this.rtfWriter.WriteText("Keywords");
+                    break;
+
+                case "subject":
+                    this.rtfWriter.WriteText("Subject");
+                    break;
+            }
+            EndField();
+        }
+
+        /// <summary>
+        /// Gets the requested document info if available.
+        /// </summary>
+        protected override string GetFieldResult()
+        {
+            Document doc = this.infoField.Document;
+            if (!doc.IsNull("Info." + this.infoField.Name))
+                return doc.Info.GetValue(this.infoField.Name) as string;
+
+            return "";
+        }
+        InfoField infoField;
     }
-
-    /// <summary>
-    /// Gets the requested document info if available.
-    /// </summary>
-    protected override string GetFieldResult()
-    {
-      Document doc = this.infoField.Document;
-      if (!doc.IsNull("Info." + this.infoField.Name))
-        return doc.Info.GetValue(this.infoField.Name) as string;
-
-      return "";
-    }
-    InfoField infoField;
-  }
 }

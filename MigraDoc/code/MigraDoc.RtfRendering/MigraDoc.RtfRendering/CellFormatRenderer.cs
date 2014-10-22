@@ -37,109 +37,109 @@ using MigraDoc.DocumentObjectModel.Internals;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Render the format information of a cell.
-  /// </summary>
-  internal class CellFormatRenderer : RendererBase
-  {
-    internal CellFormatRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.cell = domObj as Cell;
-    }
-
     /// <summary>
-    /// Renders the cell's shading, borders and so on (used by the RowRenderer).
+    /// Render the format information of a cell.
     /// </summary>
-    internal override void Render()
+    internal class CellFormatRenderer : RendererBase
     {
-      useEffectiveValue = true;
-      this.coveringCell = this.cellList.GetCoveringCell(this.cell);
-      Borders borders = this.cellList.GetEffectiveBorders(this.coveringCell);
-      if (this.cell.Column.Index != this.coveringCell.Column.Index)
-        return;
+        internal CellFormatRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.cell = domObj as Cell;
+        }
 
-      if (borders != null)
-      {
-        BordersRenderer brdrsRenderer = new BordersRenderer(borders, this.docRenderer);
-        brdrsRenderer.leaveAwayLeft = this.cell.Column.Index != this.coveringCell.Column.Index;
-        brdrsRenderer.leaveAwayTop = this.cell.Row.Index != this.coveringCell.Row.Index;
-        brdrsRenderer.leaveAwayBottom = this.cell.Row.Index != this.coveringCell.Row.Index + this.coveringCell.MergeDown;
-        brdrsRenderer.leaveAwayRight = false;
-        brdrsRenderer.ParentCell = this.cell;
-        brdrsRenderer.Render();
-      }
-      if (cell == this.coveringCell)
-      {
-        RenderLeftRightPadding();
-        Translate("VerticalAlignment", "clvertal");
-      }
-      object obj = this.coveringCell.GetValue("Shading", GV.GetNull);
-      if (obj != null)
-        new ShadingRenderer((DocumentObject)obj, this.docRenderer).Render();
+        /// <summary>
+        /// Renders the cell's shading, borders and so on (used by the RowRenderer).
+        /// </summary>
+        internal override void Render()
+        {
+            useEffectiveValue = true;
+            this.coveringCell = this.cellList.GetCoveringCell(this.cell);
+            Borders borders = this.cellList.GetEffectiveBorders(this.coveringCell);
+            if (this.cell.Column.Index != this.coveringCell.Column.Index)
+                return;
 
-      //Note that vertical and horizontal merging are not symmetrical.
-      //Horizontally merged cells are simply rendered as bigger cells.
-      if (this.cell.Row.Index == this.coveringCell.Row.Index && this.coveringCell.MergeDown > 0)
-        this.rtfWriter.WriteControl("clvmgf");
+            if (borders != null)
+            {
+                BordersRenderer brdrsRenderer = new BordersRenderer(borders, this.docRenderer);
+                brdrsRenderer.leaveAwayLeft = this.cell.Column.Index != this.coveringCell.Column.Index;
+                brdrsRenderer.leaveAwayTop = this.cell.Row.Index != this.coveringCell.Row.Index;
+                brdrsRenderer.leaveAwayBottom = this.cell.Row.Index != this.coveringCell.Row.Index + this.coveringCell.MergeDown;
+                brdrsRenderer.leaveAwayRight = false;
+                brdrsRenderer.ParentCell = this.cell;
+                brdrsRenderer.Render();
+            }
+            if (cell == this.coveringCell)
+            {
+                RenderLeftRightPadding();
+                Translate("VerticalAlignment", "clvertal");
+            }
+            object obj = this.coveringCell.GetValue("Shading", GV.GetNull);
+            if (obj != null)
+                new ShadingRenderer((DocumentObject)obj, this.docRenderer).Render();
 
-      if (this.cell.Row.Index > this.coveringCell.Row.Index)
-        this.rtfWriter.WriteControl("clvmrg");
+            //Note that vertical and horizontal merging are not symmetrical.
+            //Horizontally merged cells are simply rendered as bigger cells.
+            if (this.cell.Row.Index == this.coveringCell.Row.Index && this.coveringCell.MergeDown > 0)
+                this.rtfWriter.WriteControl("clvmgf");
 
-      this.rtfWriter.WriteControl("cellx", GetRightCellBoundary());
+            if (this.cell.Row.Index > this.coveringCell.Row.Index)
+                this.rtfWriter.WriteControl("clvmrg");
+
+            this.rtfWriter.WriteControl("cellx", GetRightCellBoundary());
+        }
+
+        private void RenderLeftRightPadding()
+        {
+            string clPadCtrl = "clpad";
+            string cellPadUnit = "clpadf";
+            object cellPdgVal = this.cell.Column.GetValue("LeftPadding", GV.GetNull);
+            if (cellPdgVal == null)
+                cellPdgVal = Unit.FromCentimeter(0.12);
+
+            //Top and left padding are mixed up in word:
+            this.rtfWriter.WriteControl(clPadCtrl + "t", ToRtfUnit((Unit)cellPdgVal, RtfUnit.Twips));
+            //Tells the RTF reader to take it as twips:
+            this.rtfWriter.WriteControl(cellPadUnit + "t", 3);
+            cellPdgVal = this.cell.Column.GetValue("RightPadding", GV.GetNull);
+            if (cellPdgVal == null)
+                cellPdgVal = Unit.FromCentimeter(0.12);
+
+            this.rtfWriter.WriteControl(clPadCtrl + "r", ToRtfUnit((Unit)cellPdgVal, RtfUnit.Twips));
+            //Tells the RTF reader to take it as Twips:
+            this.rtfWriter.WriteControl(cellPadUnit + "r", 3);
+        }
+
+        /// <summary>
+        /// Gets the right boundary of the cell which is currently rendered.
+        /// </summary>
+        private int GetRightCellBoundary()
+        {
+            int rightClmIdx = this.coveringCell.Column.Index + this.coveringCell.MergeRight;
+            double width = RowsRenderer.CalculateLeftIndent(this.cell.Table.Rows).Point;
+            for (int idx = 0; idx <= rightClmIdx; ++idx)
+            {
+                object obj = this.cell.Table.Columns[idx].GetValue("Width", GV.GetNull);
+                if (obj != null)
+                    width += ((Unit)obj).Point;
+                else
+                    width += ((Unit)"2.5cm").Point;
+            }
+            return ToRtfUnit(new Unit((double)width), RtfUnit.Twips);
+        }
+
+        /// <summary>
+        /// Sets the MergedCellList received from the DOM table. This property is set by the RowRenderer.
+        /// </summary>
+        internal MergedCellList CellList
+        {
+            set
+            {
+                this.cellList = value;
+            }
+        }
+        MergedCellList cellList = null;
+        Cell coveringCell;
+        Cell cell;
     }
-
-    private void RenderLeftRightPadding()
-    {
-      string clPadCtrl = "clpad";
-      string cellPadUnit = "clpadf";
-      object cellPdgVal = this.cell.Column.GetValue("LeftPadding", GV.GetNull);
-      if (cellPdgVal == null)
-        cellPdgVal = Unit.FromCentimeter(0.12);
-
-      //Top and left padding are mixed up in word:
-      this.rtfWriter.WriteControl(clPadCtrl + "t", ToRtfUnit((Unit)cellPdgVal, RtfUnit.Twips));
-      //Tells the RTF reader to take it as twips:
-      this.rtfWriter.WriteControl(cellPadUnit + "t", 3);
-      cellPdgVal = this.cell.Column.GetValue("RightPadding", GV.GetNull);
-      if (cellPdgVal == null)
-        cellPdgVal = Unit.FromCentimeter(0.12);
-
-      this.rtfWriter.WriteControl(clPadCtrl + "r", ToRtfUnit((Unit)cellPdgVal, RtfUnit.Twips));
-      //Tells the RTF reader to take it as Twips:
-      this.rtfWriter.WriteControl(cellPadUnit + "r", 3);
-    }
-
-    /// <summary>
-    /// Gets the right boundary of the cell which is currently rendered.
-    /// </summary>
-    private int GetRightCellBoundary()
-    {
-      int rightClmIdx = this.coveringCell.Column.Index + this.coveringCell.MergeRight;
-      double width = RowsRenderer.CalculateLeftIndent(this.cell.Table.Rows).Point;
-      for (int idx = 0; idx <= rightClmIdx; ++idx)
-      {
-        object obj = this.cell.Table.Columns[idx].GetValue("Width", GV.GetNull);
-        if (obj != null)
-          width += ((Unit)obj).Point;
-        else
-          width += ((Unit)"2.5cm").Point;
-      }
-      return ToRtfUnit(new Unit((double)width), RtfUnit.Twips);
-    }
-
-    /// <summary>
-    /// Sets the MergedCellList received from the DOM table. This property is set by the RowRenderer.
-    /// </summary>
-    internal MergedCellList CellList
-    {
-      set
-      {
-        this.cellList = value;
-      }
-    }
-    MergedCellList cellList = null;
-    Cell coveringCell;
-    Cell cell;
-  }
 }

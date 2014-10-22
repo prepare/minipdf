@@ -33,23 +33,23 @@ using PdfSharp.Drawing;
 
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Formatting information for an image.
-  /// </summary>
-  internal class ImageFormatInfo : ShapeFormatInfo
-  {
-    internal ImageFormatInfo()
+    /// <summary>
+    /// Formatting information for an image.
+    /// </summary>
+    internal class ImageFormatInfo : ShapeFormatInfo
     {
+        internal ImageFormatInfo()
+        {
+        }
+
+        internal int CropX;
+        internal int CropY;
+        internal int CropWidth;
+        internal int CropHeight;
+        internal XUnit Width;
+        internal XUnit Height;
+
+        internal ImageFailure failure;
+        internal string ImagePath;
     }
-
-    internal int CropX;
-    internal int CropY;
-    internal int CropWidth;
-    internal int CropHeight;
-    internal XUnit Width;
-    internal XUnit Height;
-
-    internal ImageFailure failure;
-    internal string ImagePath;
-  }
 }

@@ -32,13 +32,13 @@ using System;
 
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Horizontal reference point of alignment.
-  /// </summary>
-  internal enum HorizontalReference
-  {
-    AreaBoundary = 0, //Default
-    PageMargin,
-    Page
-  }
+    /// <summary>
+    /// Horizontal reference point of alignment.
+    /// </summary>
+    internal enum HorizontalReference
+    {
+        AreaBoundary = 0, //Default
+        PageMargin,
+        Page
+    }
 }

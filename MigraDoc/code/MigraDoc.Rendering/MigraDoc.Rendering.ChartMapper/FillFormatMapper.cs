@@ -34,31 +34,31 @@ using PdfSharp.Drawing;
 
 namespace MigraDoc.Rendering.ChartMapper
 {
-  internal class FillFormatMapper
-  {
-    private FillFormatMapper()
+    internal class FillFormatMapper
     {
-    }
+        private FillFormatMapper()
+        {
+        }
 
-    void MapObject(FillFormat fillFormat, MigraDoc.DocumentObjectModel.Shapes.FillFormat domFillFormat)
-    {
-      if (domFillFormat.Color.IsEmpty)
-        fillFormat.Color = XColor.Empty;
-      else
-      {
+        void MapObject(FillFormat fillFormat, MigraDoc.DocumentObjectModel.Shapes.FillFormat domFillFormat)
+        {
+            if (domFillFormat.Color.IsEmpty)
+                fillFormat.Color = XColor.Empty;
+            else
+            {
 #if noCMYK
         fillFormat.Color = XColor.FromArgb((int)domFillFormat.Color.Argb);
 #else
-        fillFormat.Color = ColorHelper.ToXColor(domFillFormat.Color, domFillFormat.Document.UseCmykColor);
+                fillFormat.Color = ColorHelper.ToXColor(domFillFormat.Color, domFillFormat.Document.UseCmykColor);
 #endif
-      }
-      fillFormat.Visible = domFillFormat.Visible;
-    }
+            }
+            fillFormat.Visible = domFillFormat.Visible;
+        }
 
-    internal static void Map(FillFormat fillFormat, MigraDoc.DocumentObjectModel.Shapes.FillFormat domFillFormat)
-    {
-      FillFormatMapper mapper = new FillFormatMapper();
-      mapper.MapObject(fillFormat, domFillFormat);
+        internal static void Map(FillFormat fillFormat, MigraDoc.DocumentObjectModel.Shapes.FillFormat domFillFormat)
+        {
+            FillFormatMapper mapper = new FillFormatMapper();
+            mapper.MapObject(fillFormat, domFillFormat);
+        }
     }
-  }
 }

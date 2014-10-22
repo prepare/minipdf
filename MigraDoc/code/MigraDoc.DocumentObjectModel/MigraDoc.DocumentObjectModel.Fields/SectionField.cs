@@ -37,62 +37,62 @@ using MigraDoc.DocumentObjectModel.Internals;
 
 namespace MigraDoc.DocumentObjectModel.Fields
 {
-  /// <summary>
-  /// SectionField is used to reference the number of the current section.
-  /// </summary>
-  public class SectionField : NumericFieldBase
-  {
     /// <summary>
-    /// Initializes a new instance of the SectionField class.
+    /// SectionField is used to reference the number of the current section.
     /// </summary>
-    internal SectionField()
+    public class SectionField : NumericFieldBase
     {
+        /// <summary>
+        /// Initializes a new instance of the SectionField class.
+        /// </summary>
+        internal SectionField()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the SectionField class with the specified parent.
+        /// </summary>
+        internal SectionField(DocumentObject parent) : base(parent) { }
+
+        #region Methods
+        /// <summary>
+        /// Creates a deep copy of this object.
+        /// </summary>
+        public new SectionField Clone()
+        {
+            return (SectionField)DeepCopy();
+        }
+        #endregion
+
+        #region Internal
+        /// <summary>
+        /// Converts SectionField into DDL.
+        /// </summary>
+        internal override void Serialize(Serializer serializer)
+        {
+            string str = "\\field(Section)";
+
+            if (this.format.Value != "")
+                str += "[Format = \"" + this.Format + "\"]";
+            else
+                str += "[]"; //Has to be appended to avoid confusion with '[' in directly following text.
+
+            serializer.Write(str);
+        }
+
+        /// <summary>
+        /// Returns the meta object of this instance.
+        /// </summary>
+        internal override Meta Meta
+        {
+            get
+            {
+                if (meta == null)
+                    meta = new Meta(typeof(SectionField));
+                return meta;
+            }
+        }
+        static Meta meta;
+        #endregion
     }
-
-    /// <summary>
-    /// Initializes a new instance of the SectionField class with the specified parent.
-    /// </summary>
-    internal SectionField(DocumentObject parent) : base(parent) { }
-
-    #region Methods
-    /// <summary>
-    /// Creates a deep copy of this object.
-    /// </summary>
-    public new SectionField Clone()
-    {
-      return (SectionField)DeepCopy();
-    }
-    #endregion
-
-    #region Internal
-    /// <summary>
-    /// Converts SectionField into DDL.
-    /// </summary>
-    internal override void Serialize(Serializer serializer)
-    {
-      string str = "\\field(Section)";
-
-      if (this.format.Value != "")
-        str += "[Format = \"" + this.Format + "\"]";
-      else
-        str += "[]"; //Has to be appended to avoid confusion with '[' in directly following text.
-
-      serializer.Write(str);
-    }
-
-    /// <summary>
-    /// Returns the meta object of this instance.
-    /// </summary>
-    internal override Meta Meta
-    {
-      get
-      {
-        if (meta == null)
-          meta = new Meta(typeof(SectionField));
-        return meta;
-      }
-    }
-    static Meta meta;
-    #endregion
-  }
 }

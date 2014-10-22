@@ -35,19 +35,19 @@ using MigraDoc.DocumentObjectModel.Shapes;
 
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Rendering information for shapes.
-  /// </summary>
-  internal abstract class ShapeRenderInfo : RenderInfo
-  {
-    internal ShapeRenderInfo()
+    /// <summary>
+    /// Rendering information for shapes.
+    /// </summary>
+    internal abstract class ShapeRenderInfo : RenderInfo
     {
-    }
+        internal ShapeRenderInfo()
+        {
+        }
 
-    internal override DocumentObject DocumentObject
-    {
-      get { return this.shape; }
+        internal override DocumentObject DocumentObject
+        {
+            get { return this.shape; }
+        }
+        internal Shape shape;
     }
-    internal Shape shape;
-  }
 }

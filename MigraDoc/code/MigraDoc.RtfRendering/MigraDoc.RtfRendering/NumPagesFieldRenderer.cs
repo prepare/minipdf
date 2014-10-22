@@ -34,26 +34,26 @@ using MigraDoc.DocumentObjectModel.Fields;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a NumPagesField to RTF.
-  /// </summary>
-  internal class NumPagesFieldRenderer : NumericFieldRendererBase
-  {
-    internal NumPagesFieldRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.numPagesField = domObj as NumPagesField;
-    }
     /// <summary>
-    /// Renders a NumPagesField to RTF.
+    /// Class to render a NumPagesField to RTF.
     /// </summary>
-    internal override void Render()
+    internal class NumPagesFieldRenderer : NumericFieldRendererBase
     {
-      StartField();
-      this.rtfWriter.WriteText("NUMPAGES");
-      TranslateFormat();
-      EndField();
+        internal NumPagesFieldRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.numPagesField = domObj as NumPagesField;
+        }
+        /// <summary>
+        /// Renders a NumPagesField to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            StartField();
+            this.rtfWriter.WriteText("NUMPAGES");
+            TranslateFormat();
+            EndField();
+        }
+        NumPagesField numPagesField;
     }
-    NumPagesField numPagesField;
-  }
 }

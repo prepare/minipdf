@@ -35,44 +35,44 @@ using MigraDoc.DocumentObjectModel.Internals;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Renders a font to RTF.
-  /// </summary>
-  internal class FontRenderer : RendererBase
-  {
-    internal FontRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.font = domObj as Font;
-    }
-
     /// <summary>
     /// Renders a font to RTF.
     /// </summary>
-    internal override void Render()
+    internal class FontRenderer : RendererBase
     {
-      this.useEffectiveValue = true;
+        internal FontRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.font = domObj as Font;
+        }
 
-      string name = (string)GetValueAsIntended("Name");
-      Debug.Assert(name != "");
+        /// <summary>
+        /// Renders a font to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            this.useEffectiveValue = true;
 
-      if (name != null)
-        this.rtfWriter.WriteControl("f", this.docRenderer.GetFontIndex(name));
+            string name = (string)GetValueAsIntended("Name");
+            Debug.Assert(name != "");
 
-      Translate("Size", "fs", RtfUnit.HalfPts, null, false);
-      TranslateBool("Bold", "b", "b0", false);
-      Translate("Underline", "ul");
-      TranslateBool("Italic", "i", "i0", false);
-      Translate("Color", "cf");
+            if (name != null)
+                this.rtfWriter.WriteControl("f", this.docRenderer.GetFontIndex(name));
 
-      object objectSub = this.font.GetValue("Subscript", GV.GetNull);
-      if (objectSub != null && (bool)(objectSub))
-        this.rtfWriter.WriteControl("sub");
+            Translate("Size", "fs", RtfUnit.HalfPts, null, false);
+            TranslateBool("Bold", "b", "b0", false);
+            Translate("Underline", "ul");
+            TranslateBool("Italic", "i", "i0", false);
+            Translate("Color", "cf");
 
-      object objectSuper = this.font.GetValue("Superscript", GV.GetNull);
-      if (objectSuper != null && (bool)(objectSuper))
-        this.rtfWriter.WriteControl("super");
+            object objectSub = this.font.GetValue("Subscript", GV.GetNull);
+            if (objectSub != null && (bool)(objectSub))
+                this.rtfWriter.WriteControl("sub");
+
+            object objectSuper = this.font.GetValue("Superscript", GV.GetNull);
+            if (objectSuper != null && (bool)(objectSuper))
+                this.rtfWriter.WriteControl("super");
+        }
+        Font font;
     }
-    Font font;
-  }
 }

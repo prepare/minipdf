@@ -34,13 +34,13 @@ using System;
 
 namespace MigraDoc.DocumentObjectModel.Tables
 {
-  /// <summary>
-  /// Specifies the calculation rule of the row height.
-  /// </summary>
-  public enum RowHeightRule
-  {
-    AtLeast,
-    Auto,
-    Exactly
-  }
+    /// <summary>
+    /// Specifies the calculation rule of the row height.
+    /// </summary>
+    public enum RowHeightRule
+    {
+        AtLeast,
+        Auto,
+        Exactly
+    }
 }

@@ -34,66 +34,66 @@ using MigraDoc.DocumentObjectModel.Internals;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a Section to RTF.
-  /// </summary>
-  internal class SectionRenderer : RendererBase
-  {
-    internal SectionRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.section = domObj as Section;
-    }
-
     /// <summary>
-    /// Renders a section to RTF
+    /// Class to render a Section to RTF.
     /// </summary>
-    internal override void Render()
+    internal class SectionRenderer : RendererBase
     {
-      this.useEffectiveValue = true;
-
-      Sections secs = DocumentRelations.GetParent(this.section) as Sections;
-      if (this.section != secs.First)
-      {
-        this.rtfWriter.WriteControl("pard");
-        this.rtfWriter.WriteControl("sect");
-      }
-      this.rtfWriter.WriteControl("sectd");
-
-      //Rendering some footnote attributes:
-      this.docRenderer.RenderSectionProperties();
-
-      object pageStp = this.section.PageSetup;
-      if (pageStp != null)
-        RendererFactory.CreateRenderer((PageSetup)pageStp, this.docRenderer).Render();
-
-      object hdrs = GetValueAsIntended("Headers");
-      if (hdrs != null)
-      {
-        HeadersFootersRenderer hfr = new HeadersFootersRenderer(hdrs as HeadersFooters, this.docRenderer);
-        //PageSetup muss hier gesetzt werden, da die HeaderFooter anderem Abschnitt gehören können als das PageSetup
-        hfr.PageSetup = (PageSetup)pageStp;
-        hfr.Render();
-      }
-
-      object ftrs = GetValueAsIntended("Footers");
-      if (ftrs != null)
-      {
-        HeadersFootersRenderer hfr = new HeadersFootersRenderer(ftrs as HeadersFooters, this.docRenderer);
-        hfr.PageSetup = (PageSetup)pageStp;
-        hfr.Render();
-      }
-
-      if (!section.IsNull("Elements"))
-      {
-        foreach (DocumentObject docObj in this.section.Elements)
+        internal SectionRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
         {
-          RendererBase rndrr = RendererFactory.CreateRenderer(docObj, this.docRenderer);
-          if (rndrr != null)
-            rndrr.Render();
+            this.section = domObj as Section;
         }
-      }
+
+        /// <summary>
+        /// Renders a section to RTF
+        /// </summary>
+        internal override void Render()
+        {
+            this.useEffectiveValue = true;
+
+            Sections secs = DocumentRelations.GetParent(this.section) as Sections;
+            if (this.section != secs.First)
+            {
+                this.rtfWriter.WriteControl("pard");
+                this.rtfWriter.WriteControl("sect");
+            }
+            this.rtfWriter.WriteControl("sectd");
+
+            //Rendering some footnote attributes:
+            this.docRenderer.RenderSectionProperties();
+
+            object pageStp = this.section.PageSetup;
+            if (pageStp != null)
+                RendererFactory.CreateRenderer((PageSetup)pageStp, this.docRenderer).Render();
+
+            object hdrs = GetValueAsIntended("Headers");
+            if (hdrs != null)
+            {
+                HeadersFootersRenderer hfr = new HeadersFootersRenderer(hdrs as HeadersFooters, this.docRenderer);
+                //PageSetup muss hier gesetzt werden, da die HeaderFooter anderem Abschnitt gehören können als das PageSetup
+                hfr.PageSetup = (PageSetup)pageStp;
+                hfr.Render();
+            }
+
+            object ftrs = GetValueAsIntended("Footers");
+            if (ftrs != null)
+            {
+                HeadersFootersRenderer hfr = new HeadersFootersRenderer(ftrs as HeadersFooters, this.docRenderer);
+                hfr.PageSetup = (PageSetup)pageStp;
+                hfr.Render();
+            }
+
+            if (!section.IsNull("Elements"))
+            {
+                foreach (DocumentObject docObj in this.section.Elements)
+                {
+                    RendererBase rndrr = RendererFactory.CreateRenderer(docObj, this.docRenderer);
+                    if (rndrr != null)
+                        rndrr.Render();
+                }
+            }
+        }
+        Section section;
     }
-    Section section;
-  }
 }

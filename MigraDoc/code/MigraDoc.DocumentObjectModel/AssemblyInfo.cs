@@ -33,7 +33,7 @@ using MigraDoc.DocumentObjectModel;
 [assembly: AssemblyDescription(VersionInfo.Description)]
 [assembly: AssemblyCompany(VersionInfo.Company)]
 #if DEBUG
-  [assembly: AssemblyProduct(VersionInfo.Product + " (Debug Build)")]
+[assembly: AssemblyProduct(VersionInfo.Product + " (Debug Build)")]
 #else
   [assembly: AssemblyProduct(VersionInfo.Product)]
 #endif

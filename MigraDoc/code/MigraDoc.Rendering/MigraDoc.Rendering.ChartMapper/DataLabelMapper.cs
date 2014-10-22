@@ -33,29 +33,29 @@ using PdfSharp.Charting;
 
 namespace MigraDoc.Rendering.ChartMapper
 {
-  internal class DataLabelMapper
-  {
-    private DataLabelMapper()
+    internal class DataLabelMapper
     {
-    }
+        private DataLabelMapper()
+        {
+        }
 
-    void MapObject(DataLabel dataLabel, MigraDoc.DocumentObjectModel.Shapes.Charts.DataLabel domDataLabel)
-    {
-      if (!domDataLabel.IsNull("Style"))
-        FontMapper.Map(dataLabel.Font, domDataLabel.Document, domDataLabel.Style);
-      if (!domDataLabel.IsNull("Font"))
-        FontMapper.Map(dataLabel.Font, domDataLabel.Font);
-      dataLabel.Format = domDataLabel.Format;
-      if (!domDataLabel.IsNull("Position"))
-        dataLabel.Position = (DataLabelPosition)domDataLabel.Position;
-      if (!domDataLabel.IsNull("Type"))
-        dataLabel.Type = (DataLabelType)domDataLabel.Type;
-    }
+        void MapObject(DataLabel dataLabel, MigraDoc.DocumentObjectModel.Shapes.Charts.DataLabel domDataLabel)
+        {
+            if (!domDataLabel.IsNull("Style"))
+                FontMapper.Map(dataLabel.Font, domDataLabel.Document, domDataLabel.Style);
+            if (!domDataLabel.IsNull("Font"))
+                FontMapper.Map(dataLabel.Font, domDataLabel.Font);
+            dataLabel.Format = domDataLabel.Format;
+            if (!domDataLabel.IsNull("Position"))
+                dataLabel.Position = (DataLabelPosition)domDataLabel.Position;
+            if (!domDataLabel.IsNull("Type"))
+                dataLabel.Type = (DataLabelType)domDataLabel.Type;
+        }
 
-    internal static void Map(DataLabel dataLabel, MigraDoc.DocumentObjectModel.Shapes.Charts.DataLabel domDataLabel)
-    {
-      DataLabelMapper mapper = new DataLabelMapper();
-      mapper.MapObject(dataLabel, domDataLabel);
+        internal static void Map(DataLabel dataLabel, MigraDoc.DocumentObjectModel.Shapes.Charts.DataLabel domDataLabel)
+        {
+            DataLabelMapper mapper = new DataLabelMapper();
+            mapper.MapObject(dataLabel, domDataLabel);
+        }
     }
-  }
 }

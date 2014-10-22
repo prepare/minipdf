@@ -33,25 +33,25 @@ using MigraDoc.DocumentObjectModel;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Renders Text to RTF.
-  /// </summary>
-  internal class TextRenderer : RendererBase
-  {
-    internal TextRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.text = domObj as Text;
-    }
-
     /// <summary>
-    /// Renders text to RTF.
+    /// Renders Text to RTF.
     /// </summary>
-    internal override void Render()
+    internal class TextRenderer : RendererBase
     {
-      if (!this.text.IsNull("Content"))
-        this.rtfWriter.WriteText(this.text.Content);
+        internal TextRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.text = domObj as Text;
+        }
+
+        /// <summary>
+        /// Renders text to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            if (!this.text.IsNull("Content"))
+                this.rtfWriter.WriteText(this.text.Content);
+        }
+        Text text;
     }
-    Text text;
-  }
 }

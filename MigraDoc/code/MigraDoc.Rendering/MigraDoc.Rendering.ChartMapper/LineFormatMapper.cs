@@ -35,67 +35,67 @@ using System.Drawing;
 
 namespace MigraDoc.Rendering.ChartMapper
 {
-  /// <summary>
-  /// The LineFormatMapper class.
-  /// </summary>
-  public class LineFormatMapper
-  {
     /// <summary>
-    /// Initializes a new instance of the <see cref="LineFormatMapper"/> class.
+    /// The LineFormatMapper class.
     /// </summary>
-    public LineFormatMapper()
+    public class LineFormatMapper
     {
-    }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LineFormatMapper"/> class.
+        /// </summary>
+        public LineFormatMapper()
+        {
+        }
 
-    void MapObject(LineFormat lineFormat, MigraDoc.DocumentObjectModel.Shapes.LineFormat domLineFormat)
-    {
-      if (domLineFormat.Color.IsEmpty)
-        lineFormat.Color = XColor.Empty;
-      else
-      {
+        void MapObject(LineFormat lineFormat, MigraDoc.DocumentObjectModel.Shapes.LineFormat domLineFormat)
+        {
+            if (domLineFormat.Color.IsEmpty)
+                lineFormat.Color = XColor.Empty;
+            else
+            {
 #if noCMYK
         lineFormat.Color = XColor.FromArgb(domLineFormat.Color.Argb);
 #else
-        lineFormat.Color = ColorHelper.ToXColor(domLineFormat.Color, domLineFormat.Document.UseCmykColor);
+                lineFormat.Color = ColorHelper.ToXColor(domLineFormat.Color, domLineFormat.Document.UseCmykColor);
 #endif
-      }
-      switch (domLineFormat.DashStyle)
-      {
-        case MigraDoc.DocumentObjectModel.Shapes.DashStyle.Dash:
-          lineFormat.DashStyle = XDashStyle.Dash;
-          break;
-        case MigraDoc.DocumentObjectModel.Shapes.DashStyle.DashDot:
-          lineFormat.DashStyle = XDashStyle.DashDot;
-          break;
-        case MigraDoc.DocumentObjectModel.Shapes.DashStyle.DashDotDot:
-          lineFormat.DashStyle = XDashStyle.DashDotDot;
-          break;
-        case MigraDoc.DocumentObjectModel.Shapes.DashStyle.Solid:
-          lineFormat.DashStyle = XDashStyle.Solid;
-          break;
-        case MigraDoc.DocumentObjectModel.Shapes.DashStyle.SquareDot:
-          lineFormat.DashStyle = XDashStyle.Dot;
-          break;
-        default:
-          lineFormat.DashStyle = XDashStyle.Solid;
-          break;
-      }
-      switch (domLineFormat.Style)
-      {
-        case MigraDoc.DocumentObjectModel.Shapes.LineStyle.Single:
-          lineFormat.Style = LineStyle.Single;
-          break;
-      }
-      lineFormat.Visible = domLineFormat.Visible;
-      if (domLineFormat.IsNull("Visible"))
-        lineFormat.Visible = true;
-      lineFormat.Width = domLineFormat.Width.Point;
-    }
+            }
+            switch (domLineFormat.DashStyle)
+            {
+                case MigraDoc.DocumentObjectModel.Shapes.DashStyle.Dash:
+                    lineFormat.DashStyle = XDashStyle.Dash;
+                    break;
+                case MigraDoc.DocumentObjectModel.Shapes.DashStyle.DashDot:
+                    lineFormat.DashStyle = XDashStyle.DashDot;
+                    break;
+                case MigraDoc.DocumentObjectModel.Shapes.DashStyle.DashDotDot:
+                    lineFormat.DashStyle = XDashStyle.DashDotDot;
+                    break;
+                case MigraDoc.DocumentObjectModel.Shapes.DashStyle.Solid:
+                    lineFormat.DashStyle = XDashStyle.Solid;
+                    break;
+                case MigraDoc.DocumentObjectModel.Shapes.DashStyle.SquareDot:
+                    lineFormat.DashStyle = XDashStyle.Dot;
+                    break;
+                default:
+                    lineFormat.DashStyle = XDashStyle.Solid;
+                    break;
+            }
+            switch (domLineFormat.Style)
+            {
+                case MigraDoc.DocumentObjectModel.Shapes.LineStyle.Single:
+                    lineFormat.Style = LineStyle.Single;
+                    break;
+            }
+            lineFormat.Visible = domLineFormat.Visible;
+            if (domLineFormat.IsNull("Visible"))
+                lineFormat.Visible = true;
+            lineFormat.Width = domLineFormat.Width.Point;
+        }
 
-    internal static void Map(LineFormat lineFormat, MigraDoc.DocumentObjectModel.Shapes.LineFormat domLineFormat)
-    {
-      LineFormatMapper mapper = new LineFormatMapper();
-      mapper.MapObject(lineFormat, domLineFormat);
+        internal static void Map(LineFormat lineFormat, MigraDoc.DocumentObjectModel.Shapes.LineFormat domLineFormat)
+        {
+            LineFormatMapper mapper = new LineFormatMapper();
+            mapper.MapObject(lineFormat, domLineFormat);
+        }
     }
-  }
 }

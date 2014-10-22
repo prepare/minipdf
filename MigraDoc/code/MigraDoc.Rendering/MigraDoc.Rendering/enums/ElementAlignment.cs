@@ -32,15 +32,15 @@ using System;
 
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Alignment of layout elements.
-  /// </summary>
-  internal enum ElementAlignment
-  {
-    Near = 0, //Default
-    Center,
-    Far,
-    Inside,
-    Outside
-  }
+    /// <summary>
+    /// Alignment of layout elements.
+    /// </summary>
+    internal enum ElementAlignment
+    {
+        Near = 0, //Default
+        Center,
+        Far,
+        Inside,
+        Outside
+    }
 }

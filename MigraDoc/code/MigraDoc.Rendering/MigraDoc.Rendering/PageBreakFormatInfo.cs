@@ -32,43 +32,43 @@ using System;
 
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Formatting information for a page break.
-  /// </summary>
-  internal class PageBreakFormatInfo : FormatInfo
-  {
-    //internal PageBreakFormatInfo()
-    //{
-    //}
-
-    internal override bool EndingIsComplete
+    /// <summary>
+    /// Formatting information for a page break.
+    /// </summary>
+    internal class PageBreakFormatInfo : FormatInfo
     {
-      get { return true; }
-    }
+        //internal PageBreakFormatInfo()
+        //{
+        //}
 
-    internal override bool IsComplete
-    {
-      get { return true; }
-    }
+        internal override bool EndingIsComplete
+        {
+            get { return true; }
+        }
 
-    internal override bool IsEmpty
-    {
-      get { return false; }
-    }
+        internal override bool IsComplete
+        {
+            get { return true; }
+        }
 
-    internal override bool IsEnding
-    {
-      get { return true; }
-    }
+        internal override bool IsEmpty
+        {
+            get { return false; }
+        }
 
-    internal override bool IsStarting
-    {
-      get { return true; }
-    }
+        internal override bool IsEnding
+        {
+            get { return true; }
+        }
 
-    internal override bool StartingIsComplete
-    {
-      get { return true; }
+        internal override bool IsStarting
+        {
+            get { return true; }
+        }
+
+        internal override bool StartingIsComplete
+        {
+            get { return true; }
+        }
     }
-  }
 }

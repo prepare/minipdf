@@ -32,17 +32,17 @@ using System;
 
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Floating behavior of layout elements.
-  /// </summary>
-  internal enum Floating
-  {
-    TopBottom = 0, //Default
-    None, //The element is ignored
+    /// <summary>
+    /// Floating behavior of layout elements.
+    /// </summary>
+    internal enum Floating
+    {
+        TopBottom = 0, //Default
+        None, //The element is ignored
 
-    //Served for future extensions:
-    Left,
-    Right,
-    BothSides,
-  }
+        //Served for future extensions:
+        Left,
+        Right,
+        BothSides,
+    }
 }

@@ -35,63 +35,63 @@ using MigraDoc.DocumentObjectModel.IO;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Base class to render objects that have a style and a format attribute (currently cells, paragraphs).
-  /// </summary>
-  internal abstract class StyleAndFormatRenderer : RendererBase
-  {
-    internal StyleAndFormatRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-    }
-
     /// <summary>
-    /// Renders format and style. Always call EndFormatAndStyleAfterContent() after the content was written.
+    /// Base class to render objects that have a style and a format attribute (currently cells, paragraphs).
     /// </summary>
-    protected void RenderStyleAndFormat()
+    internal abstract class StyleAndFormatRenderer : RendererBase
     {
-      object styleName = GetValueAsIntended("Style");
-      object parStyleName = styleName;
-      Style style = this.docRenderer.Document.Styles[(string)styleName];
-      this.hasCharacterStyle = false;
-      if (style != null)
-      {
-        if (((Style)style).Type == StyleType.Character)
+        internal StyleAndFormatRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
         {
-          this.hasCharacterStyle = true;
-          parStyleName = "Normal";
         }
-      }
-      else
-        parStyleName = null;
 
-      if (parStyleName != null)
-        this.rtfWriter.WriteControl("s", this.docRenderer.GetStyleIndex((string)parStyleName));
+        /// <summary>
+        /// Renders format and style. Always call EndFormatAndStyleAfterContent() after the content was written.
+        /// </summary>
+        protected void RenderStyleAndFormat()
+        {
+            object styleName = GetValueAsIntended("Style");
+            object parStyleName = styleName;
+            Style style = this.docRenderer.Document.Styles[(string)styleName];
+            this.hasCharacterStyle = false;
+            if (style != null)
+            {
+                if (((Style)style).Type == StyleType.Character)
+                {
+                    this.hasCharacterStyle = true;
+                    parStyleName = "Normal";
+                }
+            }
+            else
+                parStyleName = null;
 
-      ParagraphFormat frmt = GetValueAsIntended("Format") as ParagraphFormat;
-      RendererFactory.CreateRenderer(frmt, this.docRenderer).Render();
-      this.rtfWriter.WriteControl("brdrbtw");//Sollte Border trennen, funktioniert aber nicht.
-      if (this.hasCharacterStyle)
-      {
-        this.rtfWriter.StartContent();
-        this.rtfWriter.WriteControlWithStar("cs", this.docRenderer.GetStyleIndex((string)styleName));
-        object font = GetValueAsIntended("Format.Font");
-        if (font != null)
-          new FontRenderer(((Font)font), this.docRenderer).Render();
-      }
+            if (parStyleName != null)
+                this.rtfWriter.WriteControl("s", this.docRenderer.GetStyleIndex((string)parStyleName));
+
+            ParagraphFormat frmt = GetValueAsIntended("Format") as ParagraphFormat;
+            RendererFactory.CreateRenderer(frmt, this.docRenderer).Render();
+            this.rtfWriter.WriteControl("brdrbtw");//Sollte Border trennen, funktioniert aber nicht.
+            if (this.hasCharacterStyle)
+            {
+                this.rtfWriter.StartContent();
+                this.rtfWriter.WriteControlWithStar("cs", this.docRenderer.GetStyleIndex((string)styleName));
+                object font = GetValueAsIntended("Format.Font");
+                if (font != null)
+                    new FontRenderer(((Font)font), this.docRenderer).Render();
+            }
+        }
+
+
+        /// <summary>
+        /// Ends the format and style rendering. Always paired with RenderStyleAndFormat().
+        /// </summary>
+        protected void EndStyleAndFormatAfterContent()
+        {
+            if (this.hasCharacterStyle)
+            {
+                this.rtfWriter.EndContent();
+            }
+        }
+        private bool hasCharacterStyle = false;
     }
-
-
-    /// <summary>
-    /// Ends the format and style rendering. Always paired with RenderStyleAndFormat().
-    /// </summary>
-    protected void EndStyleAndFormatAfterContent()
-    {
-      if (this.hasCharacterStyle)
-      {
-        this.rtfWriter.EndContent();
-      }
-    }
-    private bool hasCharacterStyle = false;
-  }
 }

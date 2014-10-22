@@ -34,19 +34,19 @@ using System;
 
 namespace MigraDoc.DocumentObjectModel
 {
-  /// <summary>
-  /// Determines the position of the footnote on the page.
-  /// </summary>
-  public enum FootnoteLocation
-  {
     /// <summary>
-    /// Footnote will be rendered on the bottom of the page.
+    /// Determines the position of the footnote on the page.
     /// </summary>
-    BottomOfPage,
+    public enum FootnoteLocation
+    {
+        /// <summary>
+        /// Footnote will be rendered on the bottom of the page.
+        /// </summary>
+        BottomOfPage,
 
-    /// <summary>
-    /// Footnote will be rendered immediately after the text.
-    /// </summary>
-    BeneathText
-  }
+        /// <summary>
+        /// Footnote will be rendered immediately after the text.
+        /// </summary>
+        BeneathText
+    }
 }

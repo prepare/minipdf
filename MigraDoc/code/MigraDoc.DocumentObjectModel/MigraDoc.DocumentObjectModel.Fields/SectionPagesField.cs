@@ -37,62 +37,62 @@ using MigraDoc.DocumentObjectModel.Internals;
 
 namespace MigraDoc.DocumentObjectModel.Fields
 {
-  /// <summary>
-  /// SectionPagesField is used to reference the number of all pages of the current section.
-  /// </summary>
-  public class SectionPagesField : NumericFieldBase
-  {
     /// <summary>
-    /// Initializes a new instance of the SectionPagesField class.
+    /// SectionPagesField is used to reference the number of all pages of the current section.
     /// </summary>
-    public SectionPagesField()
+    public class SectionPagesField : NumericFieldBase
     {
+        /// <summary>
+        /// Initializes a new instance of the SectionPagesField class.
+        /// </summary>
+        public SectionPagesField()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the SectionPagesField class with the specified parent.
+        /// </summary>
+        internal SectionPagesField(DocumentObject parent) : base(parent) { }
+
+        #region Methods
+        /// <summary>
+        /// Creates a deep copy of this object.
+        /// </summary>
+        public new SectionPagesField Clone()
+        {
+            return (SectionPagesField)DeepCopy();
+        }
+        #endregion
+
+        #region Internal
+        /// <summary>
+        /// Converts SectionPagesField into DDL.
+        /// </summary>
+        internal override void Serialize(Serializer serializer)
+        {
+            string str = "\\field(SectionPages)";
+
+            if (this.format.Value != "")
+                str += "[Format = \"" + this.Format + "\"]";
+            else
+                str += "[]"; //Has to be appended to avoid confusion with '[' in directly following text.
+
+            serializer.Write(str);
+        }
+
+        /// <summary>
+        /// Returns the meta object of this instance.
+        /// </summary>
+        internal override Meta Meta
+        {
+            get
+            {
+                if (meta == null)
+                    meta = new Meta(typeof(SectionPagesField));
+                return meta;
+            }
+        }
+        static Meta meta;
+        #endregion
     }
-
-    /// <summary>
-    /// Initializes a new instance of the SectionPagesField class with the specified parent.
-    /// </summary>
-    internal SectionPagesField(DocumentObject parent) : base(parent) { }
-
-    #region Methods
-    /// <summary>
-    /// Creates a deep copy of this object.
-    /// </summary>
-    public new SectionPagesField Clone()
-    {
-      return (SectionPagesField)DeepCopy();
-    }
-    #endregion
-
-    #region Internal
-    /// <summary>
-    /// Converts SectionPagesField into DDL.
-    /// </summary>
-    internal override void Serialize(Serializer serializer)
-    {
-      string str = "\\field(SectionPages)";
-
-      if (this.format.Value != "")
-        str += "[Format = \"" + this.Format + "\"]";
-      else
-        str += "[]"; //Has to be appended to avoid confusion with '[' in directly following text.
-
-      serializer.Write(str);
-    }
-
-    /// <summary>
-    /// Returns the meta object of this instance.
-    /// </summary>
-    internal override Meta Meta
-    {
-      get
-      {
-        if (meta == null)
-          meta = new Meta(typeof(SectionPagesField));
-        return meta;
-      }
-    }
-    static Meta meta;
-    #endregion
-  }
 }

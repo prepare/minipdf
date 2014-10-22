@@ -36,60 +36,60 @@ using MigraDoc.DocumentObjectModel.IO;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a Row to RTF..
-  /// </summary>
-  internal class RowsRenderer : RendererBase
-  {
-    internal RowsRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
+    /// <summary>
+    /// Class to render a Row to RTF..
+    /// </summary>
+    internal class RowsRenderer : RendererBase
     {
-      this.rows = domObj as Rows;
-    }
-
-    internal override void Render()
-    {
-      Translate("Alignment", "trq");
-      this.rtfWriter.WriteControl("trleft", ToTwips(CalculateLeftIndent(this.rows)));
-    }
-
-    internal static Unit CalculateLeftIndent(Rows rows)
-    {
-      object leftInd = rows.GetValue("LeftIndent", GV.GetNull);
-      if (leftInd == null)
-      {
-        leftInd = rows.Table.Columns[0].GetValue("LeftPadding", GV.GetNull);
-        if (leftInd == null)
-          leftInd = Unit.FromCentimeter(-0.12);
-        else
-          leftInd = Unit.FromPoint(-((Unit)leftInd));
-
-        Cell cell = rows[0].Cells[0];
-
-        object visible = cell.GetValue("Borders.Left.Visible", GV.GetNull);
-        object lineWidth = cell.GetValue("Borders.Left.Width", GV.GetNull);
-
-        object style = cell.GetValue("Borders.Left.Style", GV.GetNull);
-        object color = cell.GetValue("Borders.Left.Color", GV.GetNull);
-
-        if (visible == null || (bool)visible)
+        internal RowsRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
         {
-          if (lineWidth != null || style != null || color != null)
-          {
-            if (style != null && (BorderStyle)style != BorderStyle.None)
-            {
-              if (lineWidth != null)
-                leftInd = Unit.FromPoint(((Unit)leftInd).Point - ((Unit)lineWidth).Point);
-              else
-                leftInd = Unit.FromPoint(((Unit)leftInd).Point - 0.5);
-            }
-          }
+            this.rows = domObj as Rows;
         }
-      }
-      return (Unit)leftInd;
+
+        internal override void Render()
+        {
+            Translate("Alignment", "trq");
+            this.rtfWriter.WriteControl("trleft", ToTwips(CalculateLeftIndent(this.rows)));
+        }
+
+        internal static Unit CalculateLeftIndent(Rows rows)
+        {
+            object leftInd = rows.GetValue("LeftIndent", GV.GetNull);
+            if (leftInd == null)
+            {
+                leftInd = rows.Table.Columns[0].GetValue("LeftPadding", GV.GetNull);
+                if (leftInd == null)
+                    leftInd = Unit.FromCentimeter(-0.12);
+                else
+                    leftInd = Unit.FromPoint(-((Unit)leftInd));
+
+                Cell cell = rows[0].Cells[0];
+
+                object visible = cell.GetValue("Borders.Left.Visible", GV.GetNull);
+                object lineWidth = cell.GetValue("Borders.Left.Width", GV.GetNull);
+
+                object style = cell.GetValue("Borders.Left.Style", GV.GetNull);
+                object color = cell.GetValue("Borders.Left.Color", GV.GetNull);
+
+                if (visible == null || (bool)visible)
+                {
+                    if (lineWidth != null || style != null || color != null)
+                    {
+                        if (style != null && (BorderStyle)style != BorderStyle.None)
+                        {
+                            if (lineWidth != null)
+                                leftInd = Unit.FromPoint(((Unit)leftInd).Point - ((Unit)lineWidth).Point);
+                            else
+                                leftInd = Unit.FromPoint(((Unit)leftInd).Point - 0.5);
+                        }
+                    }
+                }
+            }
+            return (Unit)leftInd;
+        }
+        Rows rows;
     }
-    Rows rows;
-  }
 
 
 }

@@ -34,19 +34,19 @@ using System;
 
 namespace MigraDoc.DocumentObjectModel
 {
-  /// <summary>
-  /// Specifies the type of a Style object.
-  /// </summary>
-  public enum StyleType
-  {
     /// <summary>
-    /// Style is a paragraph style.
+    /// Specifies the type of a Style object.
     /// </summary>
-    Paragraph,
+    public enum StyleType
+    {
+        /// <summary>
+        /// Style is a paragraph style.
+        /// </summary>
+        Paragraph,
 
-    /// <summary>
-    /// Style is a character style. Contains font part only.
-    /// </summary>
-    Character
-  }
+        /// <summary>
+        /// Style is a character style. Contains font part only.
+        /// </summary>
+        Character
+    }
 }

@@ -34,25 +34,25 @@ using MigraDoc.DocumentObjectModel.IO;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a TabStops collection to RTF.
-  /// </summary>
-  internal class TabStopsRenderer : RendererBase
-  {
-    internal TabStopsRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.tabStops = domObj as TabStops;
-    }
-
     /// <summary>
-    /// Renders a TabStops collection to RTF.
+    /// Class to render a TabStops collection to RTF.
     /// </summary>
-    internal override void Render()
+    internal class TabStopsRenderer : RendererBase
     {
-      foreach (TabStop tabStop in tabStops)
-        RendererFactory.CreateRenderer(tabStop, this.docRenderer).Render();
+        internal TabStopsRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.tabStops = domObj as TabStops;
+        }
+
+        /// <summary>
+        /// Renders a TabStops collection to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            foreach (TabStop tabStop in tabStops)
+                RendererFactory.CreateRenderer(tabStop, this.docRenderer).Render();
+        }
+        TabStops tabStops;
     }
-    TabStops tabStops;
-  }
 }

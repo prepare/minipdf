@@ -32,16 +32,16 @@ using System;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Units rendered in RTF output.
-  /// </summary>
-  public enum RtfUnit
-  {
-    Twips,
-    HalfPts,
-    Lines,
-    EMU,
-    CharUnit100,
-    Undefined
-  }
+    /// <summary>
+    /// Units rendered in RTF output.
+    /// </summary>
+    public enum RtfUnit
+    {
+        Twips,
+        HalfPts,
+        Lines,
+        EMU,
+        CharUnit100,
+        Undefined
+    }
 }

@@ -36,62 +36,62 @@ using MigraDoc.DocumentObjectModel.Internals;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Renders a Hyperlink to RTF.
-  /// </summary>
-  internal class HyperlinkRenderer : RendererBase
-  {
-    internal HyperlinkRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.hyperlink = domObj as Hyperlink;
-    }
-
     /// <summary>
-    /// Renders a hyperlink to RTF.
+    /// Renders a Hyperlink to RTF.
     /// </summary>
-    internal override void Render()
+    internal class HyperlinkRenderer : RendererBase
     {
-      useEffectiveValue = true;
-      this.rtfWriter.StartContent();
-      this.rtfWriter.WriteControl("field");
-      this.rtfWriter.StartContent();
-      this.rtfWriter.WriteControl("fldinst", true);
-      this.rtfWriter.WriteText("HYPERLINK ");
-      string name = this.hyperlink.Name;
-      if (this.hyperlink.IsNull("Type") || this.hyperlink.Type == HyperlinkType.Local)
-      {
-        name = BookmarkFieldRenderer.MakeValidBookmarkName(this.hyperlink.Name);
-        this.rtfWriter.WriteText(@"\l ");
-      }
-      else if (this.hyperlink.Type == HyperlinkType.File)
-      {
-        string workingDirectory = this.docRenderer.WorkingDirectory;
-        if (workingDirectory != null)
-          name = Path.Combine(this.docRenderer.WorkingDirectory, name);
+        internal HyperlinkRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.hyperlink = domObj as Hyperlink;
+        }
 
-        name = name.Replace(@"\", @"\\");
-      }
+        /// <summary>
+        /// Renders a hyperlink to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            useEffectiveValue = true;
+            this.rtfWriter.StartContent();
+            this.rtfWriter.WriteControl("field");
+            this.rtfWriter.StartContent();
+            this.rtfWriter.WriteControl("fldinst", true);
+            this.rtfWriter.WriteText("HYPERLINK ");
+            string name = this.hyperlink.Name;
+            if (this.hyperlink.IsNull("Type") || this.hyperlink.Type == HyperlinkType.Local)
+            {
+                name = BookmarkFieldRenderer.MakeValidBookmarkName(this.hyperlink.Name);
+                this.rtfWriter.WriteText(@"\l ");
+            }
+            else if (this.hyperlink.Type == HyperlinkType.File)
+            {
+                string workingDirectory = this.docRenderer.WorkingDirectory;
+                if (workingDirectory != null)
+                    name = Path.Combine(this.docRenderer.WorkingDirectory, name);
 
-      this.rtfWriter.WriteText("\"" + name + "\"");
-      this.rtfWriter.EndContent();
-      this.rtfWriter.StartContent();
-      this.rtfWriter.WriteControl("fldrslt");
-      this.rtfWriter.StartContent();
-      this.rtfWriter.WriteControl("cs", this.docRenderer.GetStyleIndex("Hyperlink"));
+                name = name.Replace(@"\", @"\\");
+            }
 
-      FontRenderer fontRenderer = new FontRenderer(this.hyperlink.Font, this.docRenderer);
-      fontRenderer.Render();
+            this.rtfWriter.WriteText("\"" + name + "\"");
+            this.rtfWriter.EndContent();
+            this.rtfWriter.StartContent();
+            this.rtfWriter.WriteControl("fldrslt");
+            this.rtfWriter.StartContent();
+            this.rtfWriter.WriteControl("cs", this.docRenderer.GetStyleIndex("Hyperlink"));
 
-      if (!this.hyperlink.IsNull("Elements"))
-      {
-        foreach (DocumentObject domObj in hyperlink.Elements)
-          RendererFactory.CreateRenderer(domObj, this.docRenderer).Render();
-      }
-      this.rtfWriter.EndContent();
-      this.rtfWriter.EndContent();
-      this.rtfWriter.EndContent();
+            FontRenderer fontRenderer = new FontRenderer(this.hyperlink.Font, this.docRenderer);
+            fontRenderer.Render();
+
+            if (!this.hyperlink.IsNull("Elements"))
+            {
+                foreach (DocumentObject domObj in hyperlink.Elements)
+                    RendererFactory.CreateRenderer(domObj, this.docRenderer).Render();
+            }
+            this.rtfWriter.EndContent();
+            this.rtfWriter.EndContent();
+            this.rtfWriter.EndContent();
+        }
+        Hyperlink hyperlink;
     }
-    Hyperlink hyperlink;
-  }
 }

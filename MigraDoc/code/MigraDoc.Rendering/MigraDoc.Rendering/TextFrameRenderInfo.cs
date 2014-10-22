@@ -32,24 +32,24 @@ using System;
 
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Summary description for TextFrameRenderInfo.
-  /// </summary>
-  internal class TextFrameRenderInfo : ShapeRenderInfo
-  {
-    internal TextFrameRenderInfo()
+    /// <summary>
+    /// Summary description for TextFrameRenderInfo.
+    /// </summary>
+    internal class TextFrameRenderInfo : ShapeRenderInfo
     {
-    }
-    internal override FormatInfo FormatInfo
-    {
-      get
-      {
-        if (this.formatInfo == null)
-          this.formatInfo = new TextFrameFormatInfo();
+        internal TextFrameRenderInfo()
+        {
+        }
+        internal override FormatInfo FormatInfo
+        {
+            get
+            {
+                if (this.formatInfo == null)
+                    this.formatInfo = new TextFrameFormatInfo();
 
-        return this.formatInfo;
-      }
+                return this.formatInfo;
+            }
+        }
+        private TextFrameFormatInfo formatInfo;
     }
-    private TextFrameFormatInfo formatInfo;
-  }
 }

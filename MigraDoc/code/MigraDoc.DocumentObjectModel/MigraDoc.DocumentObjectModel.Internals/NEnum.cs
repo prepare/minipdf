@@ -35,135 +35,135 @@ using System.ComponentModel;
 
 namespace MigraDoc.DocumentObjectModel.Internals
 {
-  ///// <summary>
-  ///// Exists only to make code like 'NInt n = null' compile.
-  ///// </summary>
-  //public class Dummy
-  //{
-  //  Dummy() {}
-  //}
+    ///// <summary>
+    ///// Exists only to make code like 'NInt n = null' compile.
+    ///// </summary>
+    //public class Dummy
+    //{
+    //  Dummy() {}
+    //}
 
-  /// <summary>
-  /// Represents a nullable Enum value.
-  /// </summary>
-  internal struct NEnum : INullableValue
-  {
-    public NEnum(int val, Type type)
+    /// <summary>
+    /// Represents a nullable Enum value.
+    /// </summary>
+    internal struct NEnum : INullableValue
     {
-      this.type = type;
-      this.val = val;
-    }
-
-    NEnum(int value)
-    {
-      this.type = null;
-      this.val = value;
-    }
-
-    internal Type Type
-    {
-      get { return this.type; }
-      set { this.type = value; }
-    }
-    Type type;
-
-    public int Value
-    {
-      get { return this.val != int.MinValue ? this.val : 0; }
-      set
-      {
-        //TODO: Klasse Character So ändern, dass symbolName und char in unterschiedlichen Feldern gespeichert wird
-        //Diese Spezialbehandlung entfällt dann.
-        if (this.type == typeof(SymbolName))
+        public NEnum(int val, Type type)
         {
-          //          if (Enum.IsDefined(this.type, (uint)value))
-          this.val = value;
-          //          else
-          //            throw new ArgumentOutOfRangeException("value");
+            this.type = type;
+            this.val = val;
         }
-        else
+
+        NEnum(int value)
         {
-          if (Enum.IsDefined(this.type, value))
+            this.type = null;
             this.val = value;
-          else
-            throw new InvalidEnumArgumentException("value");
         }
-      }
+
+        internal Type Type
+        {
+            get { return this.type; }
+            set { this.type = value; }
+        }
+        Type type;
+
+        public int Value
+        {
+            get { return this.val != int.MinValue ? this.val : 0; }
+            set
+            {
+                //TODO: Klasse Character So ändern, dass symbolName und char in unterschiedlichen Feldern gespeichert wird
+                //Diese Spezialbehandlung entfällt dann.
+                if (this.type == typeof(SymbolName))
+                {
+                    //          if (Enum.IsDefined(this.type, (uint)value))
+                    this.val = value;
+                    //          else
+                    //            throw new ArgumentOutOfRangeException("value");
+                }
+                else
+                {
+                    if (Enum.IsDefined(this.type, value))
+                        this.val = value;
+                    else
+                        throw new InvalidEnumArgumentException("value");
+                }
+            }
+        }
+
+        object INullableValue.GetValue()
+        {
+            return ToObject();
+        }
+
+        void INullableValue.SetValue(object value)
+        {
+            this.val = (int)value;
+        }
+
+        public void SetNull()
+        {
+            this.val = int.MinValue;
+        }
+
+        /// <summary>
+        /// Determines whether this instance is null (not set).
+        /// </summary>
+        public bool IsNull
+        {
+            get { return this.val == int.MinValue; }
+        }
+
+        public object ToObject()
+        {
+            if (this.val != int.MinValue)
+                return Enum.ToObject(this.type, this.val);
+            // BUG Have all enum 0 as valid value?
+            return Enum.ToObject(this.type, 0);
+        }
+
+        //public static readonly NEnum NullValue = new NEnum(int.MinValue);
+
+        /// <summary>
+        /// Returns a value indicating whether this instance is equal to the specified object.
+        /// </summary>
+        public override bool Equals(object value)
+        {
+            if (value is NEnum)
+                return this == (NEnum)value;
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.val.GetHashCode();
+        }
+
+        public static bool operator ==(NEnum l, NEnum r)
+        {
+            if (l.IsNull)
+                return r.IsNull;
+            else if (r.IsNull)
+                return false;
+            else
+            {
+                if (l.type == r.type)
+                    return l.Value == r.Value;
+                else
+                    return false;
+            }
+        }
+
+        public static bool operator !=(NEnum l, NEnum r)
+        {
+            return !(l == r);
+        }
+
+        public static NEnum NullValue(Type fieldType)
+        {
+            return new NEnum(int.MinValue, fieldType);
+        }
+
+        int val;
     }
-
-    object INullableValue.GetValue()
-    {
-      return ToObject();
-    }
-
-    void INullableValue.SetValue(object value)
-    {
-      this.val = (int)value;
-    }
-
-    public void SetNull()
-    {
-      this.val = int.MinValue;
-    }
-
-    /// <summary>
-    /// Determines whether this instance is null (not set).
-    /// </summary>
-    public bool IsNull
-    {
-      get { return this.val == int.MinValue; }
-    }
-
-    public object ToObject()
-    {
-      if (this.val != int.MinValue)
-        return Enum.ToObject(this.type, this.val);
-      // BUG Have all enum 0 as valid value?
-      return Enum.ToObject(this.type, 0);
-    }
-
-    //public static readonly NEnum NullValue = new NEnum(int.MinValue);
-
-    /// <summary>
-    /// Returns a value indicating whether this instance is equal to the specified object.
-    /// </summary>
-    public override bool Equals(object value)
-    {
-      if (value is NEnum)
-        return this == (NEnum)value;
-      return false;
-    }
-
-    public override int GetHashCode()
-    {
-      return this.val.GetHashCode();
-    }
-
-    public static bool operator ==(NEnum l, NEnum r)
-    {
-      if (l.IsNull)
-        return r.IsNull;
-      else if (r.IsNull)
-        return false;
-      else
-      {
-        if (l.type == r.type)
-          return l.Value == r.Value;
-        else
-          return false;
-      }
-    }
-
-    public static bool operator !=(NEnum l, NEnum r)
-    {
-      return !(l == r);
-    }
-
-    public static NEnum NullValue(Type fieldType)
-    {
-      return new NEnum(int.MinValue, fieldType);
-    }
-
-    int val;
-  }
 }

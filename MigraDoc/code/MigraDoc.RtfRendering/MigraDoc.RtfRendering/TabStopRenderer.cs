@@ -34,28 +34,28 @@ using MigraDoc.DocumentObjectModel.IO;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a TabStop to RTF.
-  /// </summary>
-  internal class TabStopRenderer : RendererBase
-  {
-    internal TabStopRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.tabStop = domObj as TabStop;
-    }
-
     /// <summary>
-    /// Renders a TabStop to RTF.
+    /// Class to render a TabStop to RTF.
     /// </summary>
-    internal override void Render()
+    internal class TabStopRenderer : RendererBase
     {
-      Translate("Alignment", "tq");
-      if (!this.tabStop.IsNull("Leader") && this.tabStop.Leader != TabLeader.Spaces)
-        Translate("Leader", "tl");
+        internal TabStopRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.tabStop = domObj as TabStop;
+        }
 
-      Translate("Position", "tx");
+        /// <summary>
+        /// Renders a TabStop to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            Translate("Alignment", "tq");
+            if (!this.tabStop.IsNull("Leader") && this.tabStop.Leader != TabLeader.Spaces)
+                Translate("Leader", "tl");
+
+            Translate("Position", "tx");
+        }
+        TabStop tabStop;
     }
-    TabStop tabStop;
-  }
 }

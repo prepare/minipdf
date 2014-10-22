@@ -34,26 +34,26 @@ using MigraDoc.DocumentObjectModel.Fields;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a SectionField to RTF.
-  /// </summary>
-  internal class SectionFieldRenderer : NumericFieldRendererBase
-  {
-    internal SectionFieldRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.sectionField = domObj as SectionField;
-    }
     /// <summary>
-    /// Renders a SectionField to RTF.
+    /// Class to render a SectionField to RTF.
     /// </summary>
-    internal override void Render()
+    internal class SectionFieldRenderer : NumericFieldRendererBase
     {
-      StartField();
-      this.rtfWriter.WriteText("SECTION");
-      TranslateFormat();
-      EndField();
+        internal SectionFieldRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.sectionField = domObj as SectionField;
+        }
+        /// <summary>
+        /// Renders a SectionField to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            StartField();
+            this.rtfWriter.WriteText("SECTION");
+            TranslateFormat();
+            EndField();
+        }
+        SectionField sectionField;
     }
-    SectionField sectionField;
-  }
 }

@@ -34,14 +34,14 @@ using System;
 
 namespace MigraDoc.DocumentObjectModel
 {
-  /// <summary>
-  /// Specifies the alignment of a paragraph.
-  /// </summary>
-  public enum ParagraphAlignment
-  {
-    Left,
-    Center,
-    Right,
-    Justify,
-  }
+    /// <summary>
+    /// Specifies the alignment of a paragraph.
+    /// </summary>
+    public enum ParagraphAlignment
+    {
+        Left,
+        Center,
+        Right,
+        Justify,
+    }
 }

@@ -34,22 +34,22 @@ using System;
 
 namespace MigraDoc.DocumentObjectModel.Shapes.Charts
 {
-  /// <summary>
-  /// Used to determine the horizontal alignment of the axis title.
-  /// </summary>
-  public enum HorizontalAlignment
-  {
     /// <summary>
-    /// Axis title will be left aligned.
+    /// Used to determine the horizontal alignment of the axis title.
     /// </summary>
-    Left,
-    /// <summary>
-    /// Axis title will be right aligned.
-    /// </summary>
-    Right,
-    /// <summary>
-    /// Axis title will be centered.
-    /// </summary>
-    Center
-  }
+    public enum HorizontalAlignment
+    {
+        /// <summary>
+        /// Axis title will be left aligned.
+        /// </summary>
+        Left,
+        /// <summary>
+        /// Axis title will be right aligned.
+        /// </summary>
+        Right,
+        /// <summary>
+        /// Axis title will be centered.
+        /// </summary>
+        Center
+    }
 }

@@ -32,25 +32,25 @@ using System;
 using MigraDoc.DocumentObjectModel;
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Rendering information for page breaks.
-  /// </summary>
-  internal class PageBreakRenderInfo : RenderInfo
-  {
-    internal PageBreakRenderInfo()
+    /// <summary>
+    /// Rendering information for page breaks.
+    /// </summary>
+    internal class PageBreakRenderInfo : RenderInfo
     {
-    }
+        internal PageBreakRenderInfo()
+        {
+        }
 
-    internal override FormatInfo FormatInfo
-    {
-      get { return this.pageBreakFormatInfo; }
-    }
-    internal PageBreakFormatInfo pageBreakFormatInfo;
+        internal override FormatInfo FormatInfo
+        {
+            get { return this.pageBreakFormatInfo; }
+        }
+        internal PageBreakFormatInfo pageBreakFormatInfo;
 
-    internal override DocumentObject DocumentObject
-    {
-      get { return this.pageBreak; }
+        internal override DocumentObject DocumentObject
+        {
+            get { return this.pageBreak; }
+        }
+        internal PageBreak pageBreak;
     }
-    internal PageBreak pageBreak;
-  }
 }

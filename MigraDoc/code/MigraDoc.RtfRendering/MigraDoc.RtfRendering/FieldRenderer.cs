@@ -34,47 +34,47 @@ using MigraDoc.RtfRendering.Resources;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Base class for all classes that render fields to RTF.
-  /// </summary>
-  internal abstract class FieldRenderer : RendererBase
-  {
-    internal FieldRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-    }
-
     /// <summary>
-    /// Starts an RTF field with appropriate control words.
+    /// Base class for all classes that render fields to RTF.
     /// </summary>
-    protected void StartField()
+    internal abstract class FieldRenderer : RendererBase
     {
-      this.rtfWriter.StartContent();
-      this.rtfWriter.WriteControl("field");
-      this.rtfWriter.WriteControl("flddirty");
-      this.rtfWriter.StartContent();
-      this.rtfWriter.WriteControl("fldinst", true);
-    }
+        internal FieldRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+        }
 
-    /// <summary>
-    /// Ends an RTF field with appropriate control words.
-    /// </summary>
-    protected void EndField()
-    {
-      this.rtfWriter.EndContent();
-      this.rtfWriter.StartContent();
-      this.rtfWriter.WriteControl("fldrslt");
-      this.rtfWriter.WriteText(GetFieldResult());
-      this.rtfWriter.EndContent();
-      this.rtfWriter.EndContent();
-    }
+        /// <summary>
+        /// Starts an RTF field with appropriate control words.
+        /// </summary>
+        protected void StartField()
+        {
+            this.rtfWriter.StartContent();
+            this.rtfWriter.WriteControl("field");
+            this.rtfWriter.WriteControl("flddirty");
+            this.rtfWriter.StartContent();
+            this.rtfWriter.WriteControl("fldinst", true);
+        }
 
-    /// <summary>
-    /// Gets the field result if possible.
-    /// </summary>
-    protected virtual string GetFieldResult()
-    {
-      return Messages.UpdateField;
+        /// <summary>
+        /// Ends an RTF field with appropriate control words.
+        /// </summary>
+        protected void EndField()
+        {
+            this.rtfWriter.EndContent();
+            this.rtfWriter.StartContent();
+            this.rtfWriter.WriteControl("fldrslt");
+            this.rtfWriter.WriteText(GetFieldResult());
+            this.rtfWriter.EndContent();
+            this.rtfWriter.EndContent();
+        }
+
+        /// <summary>
+        /// Gets the field result if possible.
+        /// </summary>
+        protected virtual string GetFieldResult()
+        {
+            return Messages.UpdateField;
+        }
     }
-  }
 }

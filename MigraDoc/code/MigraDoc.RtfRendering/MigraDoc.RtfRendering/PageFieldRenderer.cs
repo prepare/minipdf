@@ -34,26 +34,26 @@ using MigraDoc.DocumentObjectModel.Fields;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a PageField to RTF.
-  /// </summary>
-  internal class PageFieldRenderer : NumericFieldRendererBase
-  {
-    internal PageFieldRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.pageField = domObj as PageField;
-    }
     /// <summary>
-    /// Renders a PageField to RTF.
+    /// Class to render a PageField to RTF.
     /// </summary>
-    internal override void Render()
+    internal class PageFieldRenderer : NumericFieldRendererBase
     {
-      StartField();
-      this.rtfWriter.WriteText("PAGE");
-      TranslateFormat();
-      EndField();
+        internal PageFieldRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.pageField = domObj as PageField;
+        }
+        /// <summary>
+        /// Renders a PageField to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            StartField();
+            this.rtfWriter.WriteText("PAGE");
+            TranslateFormat();
+            EndField();
+        }
+        PageField pageField;
     }
-    PageField pageField;
-  }
 }

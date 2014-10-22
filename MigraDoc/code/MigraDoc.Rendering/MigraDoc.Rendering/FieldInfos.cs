@@ -35,66 +35,66 @@ using MigraDoc.DocumentObjectModel;
 
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Field information used to fill fields when rendering or formatting.
-  /// </summary>
-  internal class FieldInfos
-  {
-    internal FieldInfos(Dictionary<string, BookmarkInfo> bookmarks)
+    /// <summary>
+    /// Field information used to fill fields when rendering or formatting.
+    /// </summary>
+    internal class FieldInfos
     {
-      this.bookmarks = bookmarks;
+        internal FieldInfos(Dictionary<string, BookmarkInfo> bookmarks)
+        {
+            this.bookmarks = bookmarks;
+        }
+
+        internal struct BookmarkInfo
+        {
+            internal BookmarkInfo(int physicalPageNumber, int displayPageNumber)
+            {
+                this.displayPageNumber = physicalPageNumber;
+                this.shownPageNumber = displayPageNumber;
+            }
+
+            internal int displayPageNumber;
+            internal int shownPageNumber;
+        }
+
+        internal void AddBookmark(string name)
+        {
+            if (this.pyhsicalPageNr <= 0)
+                return;
+
+            if (this.bookmarks.ContainsKey(name))
+                this.bookmarks.Remove(name);
+
+            if (this.pyhsicalPageNr > 0)
+                this.bookmarks.Add(name, new BookmarkInfo(this.pyhsicalPageNr, this.displayPageNr));
+        }
+
+        internal int GetShownPageNumber(string bookmarkName)
+        {
+            if (this.bookmarks.ContainsKey(bookmarkName))
+            {
+                BookmarkInfo bi = this.bookmarks[bookmarkName];
+                return bi.shownPageNumber;
+            }
+            return -1;
+        }
+
+        internal int GetPhysicalPageNumber(string bookmarkName)
+        {
+            if (this.bookmarks.ContainsKey(bookmarkName))
+            {
+                BookmarkInfo bi = this.bookmarks[bookmarkName];
+                return bi.displayPageNumber;
+            }
+            return -1;
+        }
+
+        Dictionary<string, BookmarkInfo> bookmarks;
+        internal int displayPageNr;
+        internal int pyhsicalPageNr;
+        internal int section;
+        internal int sectionPages;
+        internal int numPages;
+        internal DateTime date;
     }
-
-    internal struct BookmarkInfo
-    {
-      internal BookmarkInfo(int physicalPageNumber, int displayPageNumber)
-      {
-        this.displayPageNumber = physicalPageNumber;
-        this.shownPageNumber = displayPageNumber;
-      }
-
-      internal int displayPageNumber;
-      internal int shownPageNumber;
-    }
-
-    internal void AddBookmark(string name)
-    {
-      if (this.pyhsicalPageNr <= 0)
-        return;
-
-      if (this.bookmarks.ContainsKey(name))
-        this.bookmarks.Remove(name);
-
-      if (this.pyhsicalPageNr > 0)
-        this.bookmarks.Add(name, new BookmarkInfo(this.pyhsicalPageNr, this.displayPageNr));
-    }
-
-    internal int GetShownPageNumber(string bookmarkName)
-    {
-      if (this.bookmarks.ContainsKey(bookmarkName))
-      {
-        BookmarkInfo bi = this.bookmarks[bookmarkName];
-        return bi.shownPageNumber;
-      }
-      return -1;
-    }
-
-    internal int GetPhysicalPageNumber(string bookmarkName)
-    {
-      if (this.bookmarks.ContainsKey(bookmarkName))
-      {
-        BookmarkInfo bi = this.bookmarks[bookmarkName];
-        return bi.displayPageNumber;
-      }
-      return -1;
-    }
-
-    Dictionary<string, BookmarkInfo> bookmarks;
-    internal int displayPageNr;
-    internal int pyhsicalPageNr;
-    internal int section;
-    internal int sectionPages;
-    internal int numPages;
-    internal DateTime date;
-  }
 }

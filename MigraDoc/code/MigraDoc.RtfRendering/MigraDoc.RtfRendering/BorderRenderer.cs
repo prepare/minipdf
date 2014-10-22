@@ -34,37 +34,37 @@ using MigraDoc.DocumentObjectModel.IO;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Renders a single border to RTF.
-  /// </summary>
-  internal class BorderRenderer : BorderRendererBase
-  {
-    public BorderRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.border = domObj as Border;
-    }
-
     /// <summary>
-    /// Renders a single border. A border also needs to be rendered if it is invisible.
+    /// Renders a single border to RTF.
     /// </summary>
-    internal override void Render()
+    internal class BorderRenderer : BorderRendererBase
     {
-      useEffectiveValue = true;
-      RenderBorder(GetBorderControl(this.borderType));
-    }
+        public BorderRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.border = domObj as Border;
+        }
 
-    /// <summary>
-    /// Sets the border type to render. This property is set by the borders renderer.
-    /// </summary>
-    internal BorderType BorderType
-    {
-      set
-      {
-        this.borderType = value;
-      }
+        /// <summary>
+        /// Renders a single border. A border also needs to be rendered if it is invisible.
+        /// </summary>
+        internal override void Render()
+        {
+            useEffectiveValue = true;
+            RenderBorder(GetBorderControl(this.borderType));
+        }
+
+        /// <summary>
+        /// Sets the border type to render. This property is set by the borders renderer.
+        /// </summary>
+        internal BorderType BorderType
+        {
+            set
+            {
+                this.borderType = value;
+            }
+        }
+        BorderType borderType;
+        Border border;
     }
-    BorderType borderType;
-    Border border;
-  }
 }

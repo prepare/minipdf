@@ -34,16 +34,16 @@ using System;
 
 namespace MigraDoc.DocumentObjectModel
 {
-  /// <summary>
-  /// Specifies the space between lines in a paragraph.
-  /// </summary>
-  public enum LineSpacingRule
-  {
-    Single,
-    OnePtFive,
-    Double,
-    AtLeast,
-    Exactly,
-    Multiple
-  }
+    /// <summary>
+    /// Specifies the space between lines in a paragraph.
+    /// </summary>
+    public enum LineSpacingRule
+    {
+        Single,
+        OnePtFive,
+        Double,
+        AtLeast,
+        Exactly,
+        Multiple
+    }
 }

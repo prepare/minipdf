@@ -32,12 +32,12 @@ using System;
 
 namespace MigraDoc.Rendering
 {
-  internal enum ImageFailure
-  {
-    None = 0,
-    FileNotFound,
-    InvalidType,
-    NotRead,
-    EmptySize
-  }
+    internal enum ImageFailure
+    {
+        None = 0,
+        FileNotFound,
+        InvalidType,
+        NotRead,
+        EmptySize
+    }
 }

@@ -35,100 +35,100 @@ using MigraDoc.DocumentObjectModel.Internals;
 
 namespace MigraDoc.DocumentObjectModel.Shapes.Charts
 {
-  /// <summary>
-  /// Represents a series of data on the X-Axis.
-  /// </summary>
-  public class XSeries : ChartObject
-  {
     /// <summary>
-    /// Initializes a new instance of the XSeries class.
+    /// Represents a series of data on the X-Axis.
     /// </summary>
-    public XSeries()
+    public class XSeries : ChartObject
     {
-      xSeriesElements = new XSeriesElements();
+        /// <summary>
+        /// Initializes a new instance of the XSeries class.
+        /// </summary>
+        public XSeries()
+        {
+            xSeriesElements = new XSeriesElements();
+        }
+
+        /// <summary>
+        /// The actual value container of the XSeries.
+        /// </summary>
+        [DV]
+        protected XSeriesElements xSeriesElements;
+
+        #region Methods
+        /// <summary>
+        /// Creates a deep copy of this object.
+        /// </summary>
+        public new XSeries Clone()
+        {
+            return (XSeries)DeepCopy();
+        }
+
+        /// <summary>
+        /// Implements the deep copy of the object.
+        /// </summary>
+        protected override object DeepCopy()
+        {
+            XSeries xSeries = (XSeries)base.DeepCopy();
+            if (xSeries.xSeriesElements != null)
+            {
+                xSeries.xSeriesElements = xSeries.xSeriesElements.Clone();
+                xSeries.xSeriesElements.parent = xSeries;
+            }
+            return xSeries;
+        }
+
+        /// <summary>
+        /// Adds a blank to the XSeries.
+        /// </summary>
+        public void AddBlank()
+        {
+            this.xSeriesElements.AddBlank();
+        }
+
+        /// <summary>
+        /// Adds a value to the XSeries.
+        /// </summary>
+        public XValue Add(string value)
+        {
+            return this.xSeriesElements.Add(value);
+        }
+
+        /// <summary>
+        /// Adds an array of values to the XSeries.
+        /// </summary>
+        public void Add(params string[] values)
+        {
+            this.xSeriesElements.Add(values);
+        }
+        #endregion
+
+        #region Internal
+        /// <summary>
+        /// Converts XSeries into DDL.
+        /// </summary>
+        internal override void Serialize(Serializer serializer)
+        {
+            serializer.WriteLine("\\xvalues");
+
+            serializer.BeginContent();
+            this.xSeriesElements.Serialize(serializer);
+            serializer.WriteLine("");
+            serializer.EndContent();
+        }
+
+        /// <summary>
+        /// Returns the meta object of this instance.
+        /// </summary>
+        internal override Meta Meta
+        {
+            get
+            {
+                if (meta == null)
+                    meta = new Meta(typeof(XSeries));
+                return meta;
+            }
+        }
+        static Meta meta;
+        #endregion
     }
-
-    /// <summary>
-    /// The actual value container of the XSeries.
-    /// </summary>
-    [DV]
-    protected XSeriesElements xSeriesElements;
-
-    #region Methods
-    /// <summary>
-    /// Creates a deep copy of this object.
-    /// </summary>
-    public new XSeries Clone()
-    {
-      return (XSeries)DeepCopy();
-    }
-
-    /// <summary>
-    /// Implements the deep copy of the object.
-    /// </summary>
-    protected override object DeepCopy()
-    {
-      XSeries xSeries = (XSeries)base.DeepCopy();
-      if (xSeries.xSeriesElements != null)
-      {
-        xSeries.xSeriesElements = xSeries.xSeriesElements.Clone();
-        xSeries.xSeriesElements.parent = xSeries;
-      }
-      return xSeries;
-    }
-
-    /// <summary>
-    /// Adds a blank to the XSeries.
-    /// </summary>
-    public void AddBlank()
-    {
-      this.xSeriesElements.AddBlank();
-    }
-
-    /// <summary>
-    /// Adds a value to the XSeries.
-    /// </summary>
-    public XValue Add(string value)
-    {
-      return this.xSeriesElements.Add(value);
-    }
-
-    /// <summary>
-    /// Adds an array of values to the XSeries.
-    /// </summary>
-    public void Add(params string[] values)
-    {
-      this.xSeriesElements.Add(values);
-    }
-    #endregion
-
-    #region Internal
-    /// <summary>
-    /// Converts XSeries into DDL.
-    /// </summary>
-    internal override void Serialize(Serializer serializer)
-    {
-      serializer.WriteLine("\\xvalues");
-
-      serializer.BeginContent();
-      this.xSeriesElements.Serialize(serializer);
-      serializer.WriteLine("");
-      serializer.EndContent();
-    }
-
-    /// <summary>
-    /// Returns the meta object of this instance.
-    /// </summary>
-    internal override Meta Meta
-    {
-      get
-      {
-        if (meta == null)
-          meta = new Meta(typeof(XSeries));
-        return meta;
-      }
-    }
-    static Meta meta;
-    #endregion
-  }
 }

@@ -32,51 +32,51 @@ using System;
 
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Format information for all shapes.
-  /// </summary>
-  internal class ShapeFormatInfo : FormatInfo
-  {
-    internal ShapeFormatInfo()
-    {
-    }
-
-    internal override bool IsStarting
-    {
-      get { return this.fits; }
-    }
-
-    internal override bool IsEnding
-    {
-      get { return this.fits; }
-    }
-
-    internal override bool IsComplete
-    {
-      get { return this.fits; }
-    }
-
     /// <summary>
-    /// Indicates that the starting of the element is completed
+    /// Format information for all shapes.
     /// </summary>
-    internal override bool StartingIsComplete
+    internal class ShapeFormatInfo : FormatInfo
     {
-      get { return this.fits; }
-    }
+        internal ShapeFormatInfo()
+        {
+        }
 
-    /// <summary>
-    /// Indicates that the ending of the element is completed
-    /// </summary>
-    internal override bool EndingIsComplete
-    {
-      get { return this.fits; }
-    }
+        internal override bool IsStarting
+        {
+            get { return this.fits; }
+        }
 
-    internal override bool IsEmpty
-    {
-      get { return !this.fits; }
-    }
+        internal override bool IsEnding
+        {
+            get { return this.fits; }
+        }
 
-    internal bool fits;
-  }
+        internal override bool IsComplete
+        {
+            get { return this.fits; }
+        }
+
+        /// <summary>
+        /// Indicates that the starting of the element is completed
+        /// </summary>
+        internal override bool StartingIsComplete
+        {
+            get { return this.fits; }
+        }
+
+        /// <summary>
+        /// Indicates that the ending of the element is completed
+        /// </summary>
+        internal override bool EndingIsComplete
+        {
+            get { return this.fits; }
+        }
+
+        internal override bool IsEmpty
+        {
+            get { return !this.fits; }
+        }
+
+        internal bool fits;
+    }
 }

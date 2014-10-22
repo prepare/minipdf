@@ -35,60 +35,60 @@ using MigraDoc.DocumentObjectModel.Visitors;
 
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Formatting information for tables.
-  /// </summary>
-  internal class TableFormatInfo : FormatInfo
-  {
-    internal TableFormatInfo()
+    /// <summary>
+    /// Formatting information for tables.
+    /// </summary>
+    internal class TableFormatInfo : FormatInfo
     {
+        internal TableFormatInfo()
+        {
+        }
+
+        internal override bool EndingIsComplete
+        {
+            get { return this.isEnding; }
+        }
+
+
+        internal override bool StartingIsComplete
+        {
+            get { return !this.IsEmpty && this.startRow > this.lastHeaderRow; }
+        }
+
+        internal override bool IsComplete
+        {
+            get { return false; }
+        }
+
+        internal override bool IsEmpty
+        {
+            get { return this.startRow < 0; }
+        }
+
+        internal override bool IsEnding
+        {
+            get { return this.isEnding; }
+        }
+        internal bool isEnding;
+
+        internal override bool IsStarting
+        {
+            get
+            {
+                return this.startRow == this.lastHeaderRow + 1;
+            }
+        }
+
+        internal int startColumn = -1;
+        internal int endColumn = -1;
+
+        internal int startRow = -1;
+        internal int endRow = -1;
+
+        internal int lastHeaderRow = -1;
+        internal SortedList formattedCells;
+        internal MergedCellList mergedCells;
+        internal SortedList bottomBorderMap;
+        internal SortedList connectedRowsMap;
     }
-
-    internal override bool EndingIsComplete
-    {
-      get { return this.isEnding; }
-    }
-
-
-    internal override bool StartingIsComplete
-    {
-      get { return !this.IsEmpty && this.startRow > this.lastHeaderRow; }
-    }
-
-    internal override bool IsComplete
-    {
-      get { return false; }
-    }
-
-    internal override bool IsEmpty
-    {
-      get { return this.startRow < 0; }
-    }
-
-    internal override bool IsEnding
-    {
-      get { return this.isEnding; }
-    }
-    internal bool isEnding;
-
-    internal override bool IsStarting
-    {
-      get
-      {
-        return this.startRow == this.lastHeaderRow + 1;
-      }
-    }
-
-    internal int startColumn = -1;
-    internal int endColumn = -1;
-
-    internal int startRow = -1;
-    internal int endRow = -1;
-
-    internal int lastHeaderRow = -1;
-    internal SortedList formattedCells;
-    internal MergedCellList mergedCells;
-    internal SortedList bottomBorderMap;
-    internal SortedList connectedRowsMap;
-  }
 }

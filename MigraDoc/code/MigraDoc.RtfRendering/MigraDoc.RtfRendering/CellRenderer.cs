@@ -35,59 +35,59 @@ using MigraDoc.DocumentObjectModel.Tables;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Renders a cell to RTF.
-  /// </summary>
-  internal class CellRenderer : StyleAndFormatRenderer
-  {
-    internal CellRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
+    /// <summary>
+    /// Renders a cell to RTF.
+    /// </summary>
+    internal class CellRenderer : StyleAndFormatRenderer
     {
-      this.cell = domObj as Cell;
-    }
-
-    internal override void Render()
-    {
-      useEffectiveValue = true;
-      Cell cvrgCell = this.cellList.GetCoveringCell(this.cell);
-      if (this.cell.Column.Index != cvrgCell.Column.Index)
-        return;
-
-      bool writtenAnyContent = false;
-      if (!this.cell.IsNull("Elements"))
-      {
-        if (this.cell == cvrgCell)
+        internal CellRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
         {
-          foreach (DocumentObject docObj in this.cell.Elements)
-          {
-            RendererBase rndrr = RendererFactory.CreateRenderer(docObj, this.docRenderer);
-            if (rndrr != null)
-            {
-              rndrr.Render();
-              writtenAnyContent = true;
-            }
-          }
+            this.cell = domObj as Cell;
         }
-      }
-      if (!writtenAnyContent)
-      {
-        //Format attributes need to be set here to satisfy Word 2000.
-        this.rtfWriter.WriteControl("pard");
-        RenderStyleAndFormat();
-        this.rtfWriter.WriteControl("intbl");
-        EndStyleAndFormatAfterContent();
-      }
-      this.rtfWriter.WriteControl("cell");
-    }
 
-    internal MergedCellList CellList
-    {
-      set
-      {
-        this.cellList = value;
-      }
+        internal override void Render()
+        {
+            useEffectiveValue = true;
+            Cell cvrgCell = this.cellList.GetCoveringCell(this.cell);
+            if (this.cell.Column.Index != cvrgCell.Column.Index)
+                return;
+
+            bool writtenAnyContent = false;
+            if (!this.cell.IsNull("Elements"))
+            {
+                if (this.cell == cvrgCell)
+                {
+                    foreach (DocumentObject docObj in this.cell.Elements)
+                    {
+                        RendererBase rndrr = RendererFactory.CreateRenderer(docObj, this.docRenderer);
+                        if (rndrr != null)
+                        {
+                            rndrr.Render();
+                            writtenAnyContent = true;
+                        }
+                    }
+                }
+            }
+            if (!writtenAnyContent)
+            {
+                //Format attributes need to be set here to satisfy Word 2000.
+                this.rtfWriter.WriteControl("pard");
+                RenderStyleAndFormat();
+                this.rtfWriter.WriteControl("intbl");
+                EndStyleAndFormatAfterContent();
+            }
+            this.rtfWriter.WriteControl("cell");
+        }
+
+        internal MergedCellList CellList
+        {
+            set
+            {
+                this.cellList = value;
+            }
+        }
+        MergedCellList cellList = null;
+        Cell cell;
     }
-    MergedCellList cellList = null;
-    Cell cell;
-  }
 }

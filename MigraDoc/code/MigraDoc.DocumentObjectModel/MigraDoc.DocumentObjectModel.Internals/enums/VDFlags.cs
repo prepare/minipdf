@@ -34,10 +34,10 @@ using System;
 
 namespace MigraDoc.DocumentObjectModel.Internals
 {
-  [Flags]
-  internal enum VDFlags
-  {
-    None = 0,
-    RefOnly = 0x0001
-  }
+    [Flags]
+    internal enum VDFlags
+    {
+        None = 0,
+        RefOnly = 0x0001
+    }
 }

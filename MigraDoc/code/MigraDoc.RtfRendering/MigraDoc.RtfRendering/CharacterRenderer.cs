@@ -35,129 +35,129 @@ using System.Globalization;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Renders a special character to RTF.
-  /// </summary>
-  internal class CharacterRenderer : RendererBase
-  {
     /// <summary>
-    /// Creates a new instance of the CharacterRenderer class.
+    /// Renders a special character to RTF.
     /// </summary>
-    internal CharacterRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
+    internal class CharacterRenderer : RendererBase
     {
-      this.character = domObj as Character;
-    }
-
-    /// <summary>
-    /// Renders a character to rtf.
-    /// </summary>
-    internal override void Render()
-    {
-      if (this.character.Char != '\0')
-      {
-        this.rtfWriter.WriteHex((uint)this.character.Char);
-      }
-      else
-      {
-        int count = this.character.IsNull("Count") ? 1 : this.character.Count;
-        switch (this.character.SymbolName)
+        /// <summary>
+        /// Creates a new instance of the CharacterRenderer class.
+        /// </summary>
+        internal CharacterRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
         {
-          case SymbolName.Blank:
-            for (int i = 0; i < count; ++i)
-              this.rtfWriter.WriteBlank();
-            //WriteText wouldn't work if there was a control before.
-            break;
-
-          case SymbolName.Bullet:
-            for (int i = 0; i < count; ++i)
-              this.rtfWriter.WriteControl("bullet");
-            break;
-
-          case SymbolName.Copyright:
-            for (int i = 0; i < count; ++i)
-              this.rtfWriter.WriteHex(0xa9);
-            break;
-
-          case SymbolName.Em:
-            for (int i = 0; i < count; ++i)
-            {
-              this.rtfWriter.WriteControl("u", "8195");
-              //I don't know why, but it works:
-              this.rtfWriter.WriteHex(0x20);
-            }
-            break;
-
-          case SymbolName.Em4:
-            for (int i = 0; i < count; ++i)
-            {
-              this.rtfWriter.WriteControl("u", "8197");
-              //I don't know why, but it works:
-              this.rtfWriter.WriteHex(0x20);
-            }
-            break;
-
-          case SymbolName.En:
-            for (int i = 0; i < count; ++i)
-            {
-              this.rtfWriter.WriteControl("u", "8194");
-              //I don't know why, but it works:
-              this.rtfWriter.WriteHex(0x20);
-            }
-            break;
-
-          case SymbolName.EmDash:
-            for (int i = 0; i < count; ++i)
-              this.rtfWriter.WriteControl("emdash");
-            break;
-
-          case SymbolName.EnDash:
-            for (int i = 0; i < count; ++i)
-              this.rtfWriter.WriteControl("endash");
-            break;
-
-          case SymbolName.Euro:
-            for (int i = 0; i < count; ++i)
-              this.rtfWriter.WriteHex(0x80);
-            break;
-
-          case SymbolName.NonBreakableBlank:
-            for (int i = 0; i < count; ++i)
-              this.rtfWriter.WriteControl("~");
-            break;
-
-          case SymbolName.LineBreak:
-            for (int i = 0; i < count; ++i)
-              this.rtfWriter.WriteControl("line");
-            break;
-
-          case SymbolName.Not:
-            for (int i = 0; i < count; ++i)
-              this.rtfWriter.WriteHex(0xac);
-            break;
-
-          case SymbolName.ParaBreak:
-            for (int i = 0; i < count; ++i)
-              this.rtfWriter.WriteControl("par");
-            break;
-
-          case SymbolName.RegisteredTrademark:
-            for (int i = 0; i < count; ++i)
-              this.rtfWriter.WriteHex(0xae);
-            break;
-
-          case SymbolName.Tab:
-            for (int i = 0; i < count; ++i)
-              this.rtfWriter.WriteControl("tab");
-            break;
-
-          case SymbolName.Trademark:
-            for (int i = 0; i < count; ++i)
-              this.rtfWriter.WriteHex(0x99);
-            break;
+            this.character = domObj as Character;
         }
-      }
+
+        /// <summary>
+        /// Renders a character to rtf.
+        /// </summary>
+        internal override void Render()
+        {
+            if (this.character.Char != '\0')
+            {
+                this.rtfWriter.WriteHex((uint)this.character.Char);
+            }
+            else
+            {
+                int count = this.character.IsNull("Count") ? 1 : this.character.Count;
+                switch (this.character.SymbolName)
+                {
+                    case SymbolName.Blank:
+                        for (int i = 0; i < count; ++i)
+                            this.rtfWriter.WriteBlank();
+                        //WriteText wouldn't work if there was a control before.
+                        break;
+
+                    case SymbolName.Bullet:
+                        for (int i = 0; i < count; ++i)
+                            this.rtfWriter.WriteControl("bullet");
+                        break;
+
+                    case SymbolName.Copyright:
+                        for (int i = 0; i < count; ++i)
+                            this.rtfWriter.WriteHex(0xa9);
+                        break;
+
+                    case SymbolName.Em:
+                        for (int i = 0; i < count; ++i)
+                        {
+                            this.rtfWriter.WriteControl("u", "8195");
+                            //I don't know why, but it works:
+                            this.rtfWriter.WriteHex(0x20);
+                        }
+                        break;
+
+                    case SymbolName.Em4:
+                        for (int i = 0; i < count; ++i)
+                        {
+                            this.rtfWriter.WriteControl("u", "8197");
+                            //I don't know why, but it works:
+                            this.rtfWriter.WriteHex(0x20);
+                        }
+                        break;
+
+                    case SymbolName.En:
+                        for (int i = 0; i < count; ++i)
+                        {
+                            this.rtfWriter.WriteControl("u", "8194");
+                            //I don't know why, but it works:
+                            this.rtfWriter.WriteHex(0x20);
+                        }
+                        break;
+
+                    case SymbolName.EmDash:
+                        for (int i = 0; i < count; ++i)
+                            this.rtfWriter.WriteControl("emdash");
+                        break;
+
+                    case SymbolName.EnDash:
+                        for (int i = 0; i < count; ++i)
+                            this.rtfWriter.WriteControl("endash");
+                        break;
+
+                    case SymbolName.Euro:
+                        for (int i = 0; i < count; ++i)
+                            this.rtfWriter.WriteHex(0x80);
+                        break;
+
+                    case SymbolName.NonBreakableBlank:
+                        for (int i = 0; i < count; ++i)
+                            this.rtfWriter.WriteControl("~");
+                        break;
+
+                    case SymbolName.LineBreak:
+                        for (int i = 0; i < count; ++i)
+                            this.rtfWriter.WriteControl("line");
+                        break;
+
+                    case SymbolName.Not:
+                        for (int i = 0; i < count; ++i)
+                            this.rtfWriter.WriteHex(0xac);
+                        break;
+
+                    case SymbolName.ParaBreak:
+                        for (int i = 0; i < count; ++i)
+                            this.rtfWriter.WriteControl("par");
+                        break;
+
+                    case SymbolName.RegisteredTrademark:
+                        for (int i = 0; i < count; ++i)
+                            this.rtfWriter.WriteHex(0xae);
+                        break;
+
+                    case SymbolName.Tab:
+                        for (int i = 0; i < count; ++i)
+                            this.rtfWriter.WriteControl("tab");
+                        break;
+
+                    case SymbolName.Trademark:
+                        for (int i = 0; i < count; ++i)
+                            this.rtfWriter.WriteHex(0x99);
+                        break;
+                }
+            }
+        }
+        Character character;
     }
-    Character character;
-  }
 }

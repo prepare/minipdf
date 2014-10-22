@@ -41,144 +41,144 @@ using MigraDoc.RtfRendering.Resources;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Summary description for ChartRenderer.
-  /// </summary>
-  internal class ChartRenderer : ShapeRenderer
-  {
-    internal ChartRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.chart = (Chart)domObj;
-      this.isInline = DocumentRelations.HasParentOfType(this.chart, typeof(Paragraph)) ||
-        RenderInParagraph();
-    }
-
     /// <summary>
-    /// Renders an image to RTF.
+    /// Summary description for ChartRenderer.
     /// </summary>
-    internal override void Render()
+    internal class ChartRenderer : ShapeRenderer
     {
-      string fileName = System.IO.Path.GetTempFileName();
-      if (!StoreTempImage(fileName))
-        return;
+        internal ChartRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.chart = (Chart)domObj;
+            this.isInline = DocumentRelations.HasParentOfType(this.chart, typeof(Paragraph)) ||
+              RenderInParagraph();
+        }
 
-      bool renderInParagraph = RenderInParagraph();
-      DocumentElements elms = DocumentRelations.GetParent(this.chart) as DocumentElements;
-      if (elms != null && !renderInParagraph && !(DocumentRelations.GetParent(elms) is Section || DocumentRelations.GetParent(elms) is HeaderFooter))
-      {
-        Trace.WriteLine(Messages.ChartFreelyPlacedInWrongContext, "warning");
-        return;
-      }
-      if (renderInParagraph)
-        StartDummyParagraph();
+        /// <summary>
+        /// Renders an image to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            string fileName = System.IO.Path.GetTempFileName();
+            if (!StoreTempImage(fileName))
+                return;
 
-      if (!this.isInline)
-        StartShapeArea();
+            bool renderInParagraph = RenderInParagraph();
+            DocumentElements elms = DocumentRelations.GetParent(this.chart) as DocumentElements;
+            if (elms != null && !renderInParagraph && !(DocumentRelations.GetParent(elms) is Section || DocumentRelations.GetParent(elms) is HeaderFooter))
+            {
+                Trace.WriteLine(Messages.ChartFreelyPlacedInWrongContext, "warning");
+                return;
+            }
+            if (renderInParagraph)
+                StartDummyParagraph();
 
-      RenderImage(fileName);
+            if (!this.isInline)
+                StartShapeArea();
 
-      if (!this.isInline)
-        EndShapeArea();
+            RenderImage(fileName);
 
-      if (renderInParagraph)
-        EndDummyParagraph();
+            if (!this.isInline)
+                EndShapeArea();
 
-      if (File.Exists(fileName))
-        File.Delete(fileName);
-    }
+            if (renderInParagraph)
+                EndDummyParagraph();
 
-    /// <summary>
-    /// Renders image specific attributes and the image byte series to RTF.
-    /// </summary>
-    void RenderImage(string fileName)
-    {
-      StartImageDescription();
-      RenderImageAttributes();
-      RenderByteSeries(fileName);
-      EndImageDescription();
-    }
+            if (File.Exists(fileName))
+                File.Delete(fileName);
+        }
 
-    void StartImageDescription()
-    {
-      if (isInline)
-      {
-        this.rtfWriter.StartContent();
-        this.rtfWriter.WriteControlWithStar("shppict");
-        this.rtfWriter.StartContent();
-        this.rtfWriter.WriteControl("pict");
-      }
-      else
-      {
-        RenderNameValuePair("shapeType", "75");//75 entspr. Bildrahmen.
-        StartNameValuePair("pib");
-        this.rtfWriter.StartContent();
-        this.rtfWriter.WriteControl("pict");
-      }
-    }
+        /// <summary>
+        /// Renders image specific attributes and the image byte series to RTF.
+        /// </summary>
+        void RenderImage(string fileName)
+        {
+            StartImageDescription();
+            RenderImageAttributes();
+            RenderByteSeries(fileName);
+            EndImageDescription();
+        }
 
-    void EndImageDescription()
-    {
-      if (isInline)
-      {
-        this.rtfWriter.EndContent();
-        this.rtfWriter.EndContent();
-      }
-      else
-      {
-        this.rtfWriter.EndContent();
-        EndNameValuePair();
-      }
-    }
+        void StartImageDescription()
+        {
+            if (isInline)
+            {
+                this.rtfWriter.StartContent();
+                this.rtfWriter.WriteControlWithStar("shppict");
+                this.rtfWriter.StartContent();
+                this.rtfWriter.WriteControl("pict");
+            }
+            else
+            {
+                RenderNameValuePair("shapeType", "75");//75 entspr. Bildrahmen.
+                StartNameValuePair("pib");
+                this.rtfWriter.StartContent();
+                this.rtfWriter.WriteControl("pict");
+            }
+        }
 
-    void RenderImageAttributes()
-    {
-      if (this.isInline)
-      {
-        this.rtfWriter.StartContent();
-        this.rtfWriter.WriteControlWithStar("picprop");
-        RenderNameValuePair("shapeType", "75");
-        RenderFillFormat();
-        //REM: LineFormat is not completely supported in word.
-        //RenderLineFormat();
-        this.rtfWriter.EndContent();
-      }
-      RenderDimensionSettings();
-      RenderSourceType();
-    }
+        void EndImageDescription()
+        {
+            if (isInline)
+            {
+                this.rtfWriter.EndContent();
+                this.rtfWriter.EndContent();
+            }
+            else
+            {
+                this.rtfWriter.EndContent();
+                EndNameValuePair();
+            }
+        }
 
-    private void RenderSourceType()
-    {
-      this.rtfWriter.WriteControl("pngblip");
-    }
+        void RenderImageAttributes()
+        {
+            if (this.isInline)
+            {
+                this.rtfWriter.StartContent();
+                this.rtfWriter.WriteControlWithStar("picprop");
+                RenderNameValuePair("shapeType", "75");
+                RenderFillFormat();
+                //REM: LineFormat is not completely supported in word.
+                //RenderLineFormat();
+                this.rtfWriter.EndContent();
+            }
+            RenderDimensionSettings();
+            RenderSourceType();
+        }
 
-    /// <summary>
-    /// Renders scaling, width and height for the image.
-    /// </summary>
-    private void RenderDimensionSettings()
-    {
-      this.rtfWriter.WriteControl("picscalex", 100);
-      this.rtfWriter.WriteControl("picscaley", 100);
+        private void RenderSourceType()
+        {
+            this.rtfWriter.WriteControl("pngblip");
+        }
+
+        /// <summary>
+        /// Renders scaling, width and height for the image.
+        /// </summary>
+        private void RenderDimensionSettings()
+        {
+            this.rtfWriter.WriteControl("picscalex", 100);
+            this.rtfWriter.WriteControl("picscaley", 100);
 
 
-      RenderUnit("pichgoal", GetShapeHeight());
-      RenderUnit("picwgoal", GetShapeWidth());
+            RenderUnit("pichgoal", GetShapeHeight());
+            RenderUnit("picwgoal", GetShapeWidth());
 
-      //A bit obscure, but necessary for Word 2000:
-      this.rtfWriter.WriteControl("pich", (int)(GetShapeHeight().Millimeter * 100));
-      this.rtfWriter.WriteControl("picw", (int)(GetShapeWidth().Millimeter * 100));
-    }
+            //A bit obscure, but necessary for Word 2000:
+            this.rtfWriter.WriteControl("pich", (int)(GetShapeHeight().Millimeter * 100));
+            this.rtfWriter.WriteControl("picw", (int)(GetShapeWidth().Millimeter * 100));
+        }
 
-    bool StoreTempImage(string fileName)
-    {
-      try
-      {
-        float resolution = 96;
-        int horzPixels = (int)(GetShapeWidth().Inch * resolution);
-        int vertPixels = (int)(GetShapeHeight().Inch * resolution);
-        Bitmap bmp = new Bitmap(horzPixels, vertPixels);
+        bool StoreTempImage(string fileName)
+        {
+            try
+            {
+                float resolution = 96;
+                int horzPixels = (int)(GetShapeWidth().Inch * resolution);
+                int vertPixels = (int)(GetShapeHeight().Inch * resolution);
+                Bitmap bmp = new Bitmap(horzPixels, vertPixels);
 #if true
-        XGraphics gfx = XGraphics.CreateMeasureContext(new XSize(horzPixels, vertPixels), XGraphicsUnit.Point, XPageDirection.Downwards);
+                XGraphics gfx = XGraphics.CreateMeasureContext(new XSize(horzPixels, vertPixels), XGraphicsUnit.Point, XPageDirection.Downwards);
 #else
 #if GDI
         XGraphics gfx = XGraphics.FromGraphics(Graphics.FromImage(bmp), new XSize(horzPixels, vertPixels));
@@ -188,150 +188,150 @@ namespace MigraDoc.RtfRendering
         XGraphics gfx = null; //XGraphics.FromGraphics(Graphics.FromImage(bmp), new XSize(horzPixels, vertPixels));
 #endif
 #endif
-        //REM: Should not be necessary:
-        gfx.ScaleTransform(resolution / 72);
-        //gfx.PageUnit = XGraphicsUnit.Point;
+                //REM: Should not be necessary:
+                gfx.ScaleTransform(resolution / 72);
+                //gfx.PageUnit = XGraphicsUnit.Point;
 
-        DocumentRenderer renderer = new DocumentRenderer(this.chart.Document);
-        renderer.RenderObject(gfx, 0, 0, GetShapeWidth().Point, this.chart);
-        bmp.SetResolution(resolution, resolution);
-        bmp.Save(fileName, ImageFormat.Png);
-      }
-      catch (Exception)
-      {
-        return false;
-      }
-      return true;
-    }
-    /*private void CalculateImageDimensions()
-    {
-      try
-      {
-        this.imageFile = File.OpenRead(this.filePath);
-        System.Drawing.Bitmap bip = new System.Drawing.Bitmap(imageFile);
-        float horzResolution;
-        float vertResolution;
-        string ext = Path.GetExtension(this.filePath).ToLower();
-        float origHorzRes = bip.HorizontalResolution;
-        float origVertRes = bip.VerticalResolution;
-
-        this.originalHeight = bip.Height * 72 / origVertRes;
-        this.originalWidth = bip.Width * 72 / origHorzRes;
-
-          horzResolution = bip.HorizontalResolution;
-          vertResolution = bip.VerticalResolution;
+                DocumentRenderer renderer = new DocumentRenderer(this.chart.Document);
+                renderer.RenderObject(gfx, 0, 0, GetShapeWidth().Point, this.chart);
+                bmp.SetResolution(resolution, resolution);
+                bmp.Save(fileName, ImageFormat.Png);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
-        else
+        /*private void CalculateImageDimensions()
         {
-          horzResolution= (float)GetValueAsIntended("Resolution");
-          vertResolution= horzResolution;
-        }
-
-        Unit origHeight = bip.Size.Height * 72 / vertResolution;
-        Unit origWidth = bip.Size.Width * 72 / horzResolution;
-
-        this.imageHeight = origHeight;
-        this.imageWidth = origWidth;
-
-        bool scaleWidthIsNull = this.image.IsNull("ScaleWidth");
-        bool scaleHeightIsNull = this.image.IsNull("ScaleHeight");
-        float sclHeight = scaleHeightIsNull ? 1 : (float)GetValueAsIntended("ScaleHeight");
-        this.scaleHeight= sclHeight;
-        float sclWidth = scaleWidthIsNull ? 1 : (float)GetValueAsIntended("ScaleWidth");
-        this.scaleWidth = sclWidth;
-
-        bool doLockAspectRatio = this.image.IsNull("LockAspectRatio") || this.image.LockAspectRatio;
-
-        if (doLockAspectRatio && (scaleHeightIsNull || scaleWidthIsNull))
-        {
-          if (!this.image.IsNull("Width") && this.image.IsNull("Height"))
+          try
           {
-            imageWidth = this.image.Width;
-            imageHeight = origHeight * imageWidth / origWidth;
+            this.imageFile = File.OpenRead(this.filePath);
+            System.Drawing.Bitmap bip = new System.Drawing.Bitmap(imageFile);
+            float horzResolution;
+            float vertResolution;
+            string ext = Path.GetExtension(this.filePath).ToLower();
+            float origHorzRes = bip.HorizontalResolution;
+            float origVertRes = bip.VerticalResolution;
+
+            this.originalHeight = bip.Height * 72 / origVertRes;
+            this.originalWidth = bip.Width * 72 / origHorzRes;
+
+              horzResolution = bip.HorizontalResolution;
+              vertResolution = bip.VerticalResolution;
+            }
+            else
+            {
+              horzResolution= (float)GetValueAsIntended("Resolution");
+              vertResolution= horzResolution;
+            }
+
+            Unit origHeight = bip.Size.Height * 72 / vertResolution;
+            Unit origWidth = bip.Size.Width * 72 / horzResolution;
+
+            this.imageHeight = origHeight;
+            this.imageWidth = origWidth;
+
+            bool scaleWidthIsNull = this.image.IsNull("ScaleWidth");
+            bool scaleHeightIsNull = this.image.IsNull("ScaleHeight");
+            float sclHeight = scaleHeightIsNull ? 1 : (float)GetValueAsIntended("ScaleHeight");
+            this.scaleHeight= sclHeight;
+            float sclWidth = scaleWidthIsNull ? 1 : (float)GetValueAsIntended("ScaleWidth");
+            this.scaleWidth = sclWidth;
+
+            bool doLockAspectRatio = this.image.IsNull("LockAspectRatio") || this.image.LockAspectRatio;
+
+            if (doLockAspectRatio && (scaleHeightIsNull || scaleWidthIsNull))
+            {
+              if (!this.image.IsNull("Width") && this.image.IsNull("Height"))
+              {
+                imageWidth = this.image.Width;
+                imageHeight = origHeight * imageWidth / origWidth;
+              }
+              else if (!this.image.IsNull("Height") && this.image.IsNull("Width"))
+              {
+                imageHeight = this.image.Height;
+                imageWidth = origWidth * imageHeight / origHeight;
+              }
+              else if (!this.image.IsNull("Height") && !this.image.IsNull("Width"))
+              {
+                imageWidth = this.image.Width;
+                imageHeight = this.image.Height;
+              }
+              if (scaleWidthIsNull && !scaleHeightIsNull)
+                scaleWidth = scaleHeight;
+              else if (scaleHeightIsNull && ! scaleWidthIsNull)
+                scaleHeight =  scaleWidth;
+            }
+            else
+            {
+              if (!this.image.IsNull("Width"))
+                imageWidth = this.image.Width;
+              if (!this.image.IsNull("Height"))
+                imageHeight = this.image.Height;
+            }
+
+            return;
           }
-          else if (!this.image.IsNull("Height") && this.image.IsNull("Width"))
+          catch(FileNotFoundException)
           {
-            imageHeight = this.image.Height;
-            imageWidth = origWidth * imageHeight / origHeight;
+            Trace.WriteLine(Messages.ImageNotFound(this.image.Name), "warning");
           }
-          else if (!this.image.IsNull("Height") && !this.image.IsNull("Width"))
+          catch(Exception exc)
           {
-            imageWidth = this.image.Width;
-            imageHeight = this.image.Height;
+            Trace.WriteLine(Messages.ImageNotReadable(this.image.Name, exc.Message), "warning");
           }
-          if (scaleWidthIsNull && !scaleHeightIsNull)
-            scaleWidth = scaleHeight;
-          else if (scaleHeightIsNull && ! scaleWidthIsNull)
-            scaleHeight =  scaleWidth;
-        }
-        else
+
+          //Setting defaults in case an error occured.
+          this.imageFile = null;
+          this.imageHeight = (Unit)GetValueOrDefault("Height", Unit.FromInch(1));
+          this.imageWidth = (Unit)GetValueOrDefault("Width", Unit.FromInch(1));
+          this.scaleHeight = (double)GetValueOrDefault("ScaleHeight", 1.0);
+          this.scaleWidth = (double)GetValueOrDefault("ScaleWidth", 1.0);
+        }*/
+
+        /// <summary>
+        /// Renders the image file as byte series.
+        /// </summary>
+        private void RenderByteSeries(string fileName)
         {
-          if (!this.image.IsNull("Width"))
-            imageWidth = this.image.Width;
-          if (!this.image.IsNull("Height"))
-            imageHeight = this.image.Height;
+            FileStream imageFile = null;
+            try
+            {
+                imageFile = new FileStream(fileName, FileMode.Open);
+
+                imageFile.Seek(0, SeekOrigin.Begin);
+                int byteVal;
+                while ((byteVal = imageFile.ReadByte()) != -1)
+                {
+                    string strVal = byteVal.ToString("x");
+                    if (strVal.Length == 1)
+                        this.rtfWriter.WriteText("0");
+                    this.rtfWriter.WriteText(strVal);
+                }
+            }
+            catch
+            {
+                Trace.WriteLine("Chart image file not read", "warning");
+            }
+            finally
+            {
+                if (imageFile != null)
+                    imageFile.Close();
+            }
         }
 
-        return;
-      }
-      catch(FileNotFoundException)
-      {
-        Trace.WriteLine(Messages.ImageNotFound(this.image.Name), "warning");
-      }
-      catch(Exception exc)
-      {
-        Trace.WriteLine(Messages.ImageNotReadable(this.image.Name, exc.Message), "warning");
-      }
-
-      //Setting defaults in case an error occured.
-      this.imageFile = null;
-      this.imageHeight = (Unit)GetValueOrDefault("Height", Unit.FromInch(1));
-      this.imageWidth = (Unit)GetValueOrDefault("Width", Unit.FromInch(1));
-      this.scaleHeight = (double)GetValueOrDefault("ScaleHeight", 1.0);
-      this.scaleWidth = (double)GetValueOrDefault("ScaleWidth", 1.0);
-    }*/
-
-    /// <summary>
-    /// Renders the image file as byte series.
-    /// </summary>
-    private void RenderByteSeries(string fileName)
-    {
-      FileStream imageFile = null;
-      try
-      {
-        imageFile = new FileStream(fileName, FileMode.Open);
-
-        imageFile.Seek(0, SeekOrigin.Begin);
-        int byteVal;
-        while ((byteVal = imageFile.ReadByte()) != -1)
+        protected override Unit GetShapeHeight()
         {
-          string strVal = byteVal.ToString("x");
-          if (strVal.Length == 1)
-            this.rtfWriter.WriteText("0");
-          this.rtfWriter.WriteText(strVal);
+            return base.GetShapeHeight() + base.GetLineWidth();
         }
-      }
-      catch
-      {
-        Trace.WriteLine("Chart image file not read", "warning");
-      }
-      finally
-      {
-        if (imageFile != null)
-          imageFile.Close();
-      }
-    }
 
-    protected override Unit GetShapeHeight()
-    {
-      return base.GetShapeHeight() + base.GetLineWidth();
+        protected override Unit GetShapeWidth()
+        {
+            return base.GetShapeWidth() + base.GetLineWidth(); ;
+        }
+        private Chart chart;
+        bool isInline;
     }
-
-    protected override Unit GetShapeWidth()
-    {
-      return base.GetShapeWidth() + base.GetLineWidth(); ;
-    }
-    private Chart chart;
-    bool isInline;
-  }
 }

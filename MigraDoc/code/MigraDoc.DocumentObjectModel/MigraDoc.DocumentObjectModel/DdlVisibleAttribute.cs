@@ -34,50 +34,50 @@ using System;
 
 namespace MigraDoc.DocumentObjectModel
 {
-  /// <summary>
-  /// Under Construction.
-  /// </summary>
-  [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-  internal class DdlVisibleAttribute : Attribute
-  {
     /// <summary>
-    /// Initializes a new instance of the DdlVisibleAttribute class.
+    /// Under Construction.
     /// </summary>
-    public DdlVisibleAttribute()
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    internal class DdlVisibleAttribute : Attribute
     {
-      visible = true;
-    }
+        /// <summary>
+        /// Initializes a new instance of the DdlVisibleAttribute class.
+        /// </summary>
+        public DdlVisibleAttribute()
+        {
+            visible = true;
+        }
 
-    /// <summary>
-    /// Initializes a new instance of the DdlVisibleAttribute class with the specified visibility.
-    /// </summary>
-    public DdlVisibleAttribute(bool _visible)
-    {
-      visible = _visible;
-    }
+        /// <summary>
+        /// Initializes a new instance of the DdlVisibleAttribute class with the specified visibility.
+        /// </summary>
+        public DdlVisibleAttribute(bool _visible)
+        {
+            visible = _visible;
+        }
 
-    /// <summary>
-    /// Gets or sets the visibility.
-    /// </summary>
-    public bool Visible
-    {
-      get { return visible; }
-      set { visible = value; }
-    }
-    bool visible;
+        /// <summary>
+        /// Gets or sets the visibility.
+        /// </summary>
+        public bool Visible
+        {
+            get { return visible; }
+            set { visible = value; }
+        }
+        bool visible;
 
-    public bool CanAddValue
-    {
-      get { return canAddValue; }
-      set { canAddValue = value; }
-    }
-    bool canAddValue;
+        public bool CanAddValue
+        {
+            get { return canAddValue; }
+            set { canAddValue = value; }
+        }
+        bool canAddValue;
 
-    public bool CanRemoveValue
-    {
-      get { return canRemoveValue; }
-      set { canRemoveValue = value; }
+        public bool CanRemoveValue
+        {
+            get { return canRemoveValue; }
+            set { canRemoveValue = value; }
+        }
+        bool canRemoveValue;
     }
-    bool canRemoveValue;
-  }
 }

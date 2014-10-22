@@ -27,40 +27,40 @@
 
 namespace MigraDoc
 {
-  /// <summary>
-  /// Base namespace of MigraDoc. Classes are implemented in nested namespaces like e. g. MigraDoc.DocumentObjectModel.
-  /// </summary>
-  /// <seealso cref="MigraDoc.DocumentObjectModel"></seealso>
-  [System.Runtime.CompilerServices.CompilerGenerated]
-  internal class NamespaceDoc { }
+    /// <summary>
+    /// Base namespace of MigraDoc. Classes are implemented in nested namespaces like e. g. MigraDoc.DocumentObjectModel.
+    /// </summary>
+    /// <seealso cref="MigraDoc.DocumentObjectModel"></seealso>
+    [System.Runtime.CompilerServices.CompilerGenerated]
+    internal class NamespaceDoc { }
 
-  /// <summary>
-  /// Version info base for all MigraDoc related assemblies.
-  /// </summary>
-  public sealed class ProductVersionInfo
-  {
-    ProductVersionInfo() { }
+    /// <summary>
+    /// Version info base for all MigraDoc related assemblies.
+    /// </summary>
+    public sealed class ProductVersionInfo
+    {
+        ProductVersionInfo() { }
 
-    public const string Title = "empira MigraDoc";
-    public const string Description = "Creating Documents on the Fly";
-    public const string Creator = Title + " " + VersionMajor + "." + VersionMinor + "." + VersionBuild + " (" + Url + ")";
-    public const string Version = VersionMajor + "." + VersionMinor + "." + VersionBuild + "." + VersionPatch;
-    public const string Url = "www.migradoc.com";
-    public const string Configuration = "";
-    public const string Company = "empira Software GmbH, Cologne (Germany)";
-    public const string Product = "empira MigraDoc";
-    public const string Copyright = "Copyright © 2001-2009 empira Software GmbH.";
-    public const string Trademark = "empira MigraDoc";
-    public const string Culture = "";
+        public const string Title = "empira MigraDoc";
+        public const string Description = "Creating Documents on the Fly";
+        public const string Creator = Title + " " + VersionMajor + "." + VersionMinor + "." + VersionBuild + " (" + Url + ")";
+        public const string Version = VersionMajor + "." + VersionMinor + "." + VersionBuild + "." + VersionPatch;
+        public const string Url = "www.migradoc.com";
+        public const string Configuration = "";
+        public const string Company = "empira Software GmbH, Cologne (Germany)";
+        public const string Product = "empira MigraDoc";
+        public const string Copyright = "Copyright © 2001-2009 empira Software GmbH.";
+        public const string Trademark = "empira MigraDoc";
+        public const string Culture = "";
 
-    // Build = days since 2001-07-04  -  change values ONLY here
-    public const string VersionMajor = "1";
-    public const string VersionMinor = "31";
-    public const string VersionBuild = "3066";
-    public const string VersionPatch = "0";
+        // Build = days since 2001-07-04  -  change values ONLY here
+        public const string VersionMajor = "1";
+        public const string VersionMinor = "31";
+        public const string VersionBuild = "3066";
+        public const string VersionPatch = "0";
 
 #if DEBUG
-    public static int BuildNumber = (System.DateTime.Now - new System.DateTime(2001, 7, 4)).Days;
+        public static int BuildNumber = (System.DateTime.Now - new System.DateTime(2001, 7, 4)).Days;
 #endif
-  }
+    }
 }

@@ -34,60 +34,60 @@ using PdfSharp.Drawing;
 
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Renders a page break to an XGraphics object.
-  /// </summary>
-  internal class PageBreakRenderer : Renderer
-  {
     /// <summary>
-    /// Initializes a ParagraphRenderer object for formatting.
+    /// Renders a page break to an XGraphics object.
     /// </summary>
-    /// <param name="gfx">The XGraphics object to do measurements on.</param>
-    /// <param name="pageBreak">The page break.</param>
-    /// <param name="fieldInfos">The field infos.</param>
-    internal PageBreakRenderer(XGraphics gfx, PageBreak pageBreak, FieldInfos fieldInfos)
-      : base(gfx, pageBreak, fieldInfos)
+    internal class PageBreakRenderer : Renderer
     {
-      this.pageBreak = pageBreak;
-    }
+        /// <summary>
+        /// Initializes a ParagraphRenderer object for formatting.
+        /// </summary>
+        /// <param name="gfx">The XGraphics object to do measurements on.</param>
+        /// <param name="pageBreak">The page break.</param>
+        /// <param name="fieldInfos">The field infos.</param>
+        internal PageBreakRenderer(XGraphics gfx, PageBreak pageBreak, FieldInfos fieldInfos)
+            : base(gfx, pageBreak, fieldInfos)
+        {
+            this.pageBreak = pageBreak;
+        }
 
-    /// <summary>
-    /// Initializes a ParagraphRenderer object for rendering.
-    /// </summary>
-    /// <param name="gfx">The XGraphics object to render on.</param>
-    /// <param name="renderInfo">The render info object containing information necessary for rendering.</param>
-    /// <param name="fieldInfos">The field infos.</param>
-    internal PageBreakRenderer(XGraphics gfx, RenderInfo renderInfo, FieldInfos fieldInfos)
-      : base(gfx, renderInfo, fieldInfos)
-    {
-      this.renderInfo = renderInfo;
-    }
+        /// <summary>
+        /// Initializes a ParagraphRenderer object for rendering.
+        /// </summary>
+        /// <param name="gfx">The XGraphics object to render on.</param>
+        /// <param name="renderInfo">The render info object containing information necessary for rendering.</param>
+        /// <param name="fieldInfos">The field infos.</param>
+        internal PageBreakRenderer(XGraphics gfx, RenderInfo renderInfo, FieldInfos fieldInfos)
+            : base(gfx, renderInfo, fieldInfos)
+        {
+            this.renderInfo = renderInfo;
+        }
 
-    internal override void Format(Area area, FormatInfo previousFormatInfo)
-    {
-      PageBreakRenderInfo pbRenderInfo = new PageBreakRenderInfo();
-      pbRenderInfo.pageBreakFormatInfo = new PageBreakFormatInfo();
-      this.renderInfo = pbRenderInfo;
+        internal override void Format(Area area, FormatInfo previousFormatInfo)
+        {
+            PageBreakRenderInfo pbRenderInfo = new PageBreakRenderInfo();
+            pbRenderInfo.pageBreakFormatInfo = new PageBreakFormatInfo();
+            this.renderInfo = pbRenderInfo;
 
-      pbRenderInfo.LayoutInfo.PageBreakBefore = true;
-      pbRenderInfo.LayoutInfo.ContentArea = new Rectangle(area.Y, area.Y, 0, 0);
-      pbRenderInfo.pageBreak = this.pageBreak;
-    }
+            pbRenderInfo.LayoutInfo.PageBreakBefore = true;
+            pbRenderInfo.LayoutInfo.ContentArea = new Rectangle(area.Y, area.Y, 0, 0);
+            pbRenderInfo.pageBreak = this.pageBreak;
+        }
 
-    internal override void Render()
-    {
-      //Nothing to do here.
-    }
+        internal override void Render()
+        {
+            //Nothing to do here.
+        }
 
-    internal override LayoutInfo InitialLayoutInfo
-    {
-      get
-      {
-        LayoutInfo layoutInfo = new LayoutInfo();
-        layoutInfo.PageBreakBefore = true;
-        return layoutInfo;
-      }
+        internal override LayoutInfo InitialLayoutInfo
+        {
+            get
+            {
+                LayoutInfo layoutInfo = new LayoutInfo();
+                layoutInfo.PageBreakBefore = true;
+                return layoutInfo;
+            }
+        }
+        PageBreak pageBreak;
     }
-    PageBreak pageBreak;
-  }
 }

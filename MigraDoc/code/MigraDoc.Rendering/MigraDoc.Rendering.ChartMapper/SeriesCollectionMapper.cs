@@ -34,85 +34,85 @@ using PdfSharp.Charting;
 
 namespace MigraDoc.Rendering.ChartMapper
 {
-  /// <summary>
-  /// The SeriesCollectionMapper class.
-  /// </summary>
-  public class SeriesCollectionMapper
-  {
     /// <summary>
-    /// Initializes a new instance of the <see cref="SeriesCollectionMapper"/> class.
+    /// The SeriesCollectionMapper class.
     /// </summary>
-    public SeriesCollectionMapper()
+    public class SeriesCollectionMapper
     {
-    }
-    
-    void MapObject(SeriesCollection seriesCollection, MigraDoc.DocumentObjectModel.Shapes.Charts.SeriesCollection domSeriesCollection)
-    {
-      foreach (MigraDoc.DocumentObjectModel.Shapes.Charts.Series domSeries in domSeriesCollection)
-      {
-        Series series = seriesCollection.AddSeries();
-        series.Name = domSeries.Name;
-
-        if (domSeries.IsNull("ChartType"))
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SeriesCollectionMapper"/> class.
+        /// </summary>
+        public SeriesCollectionMapper()
         {
-          MigraDoc.DocumentObjectModel.Shapes.Charts.Chart chart = (MigraDoc.DocumentObjectModel.Shapes.Charts.Chart)MigraDoc.DocumentObjectModel.DocumentRelations.GetParentOfType(domSeries, typeof(MigraDoc.DocumentObjectModel.Shapes.Charts.Chart));
-          series.ChartType = (ChartType)chart.Type;
         }
-        else
-          series.ChartType = (ChartType)domSeries.ChartType;
 
-        if (!domSeries.IsNull("DataLabel"))
-          DataLabelMapper.Map(series.DataLabel, domSeries.DataLabel);
-        if (!domSeries.IsNull("LineFormat"))
-          LineFormatMapper.Map(series.LineFormat, domSeries.LineFormat);
-        if (!domSeries.IsNull("FillFormat"))
-          FillFormatMapper.Map(series.FillFormat, domSeries.FillFormat);
-
-        series.HasDataLabel = domSeries.HasDataLabel;
-        if (domSeries.MarkerBackgroundColor.IsEmpty)
-          series.MarkerBackgroundColor = XColor.Empty;
-        else
+        void MapObject(SeriesCollection seriesCollection, MigraDoc.DocumentObjectModel.Shapes.Charts.SeriesCollection domSeriesCollection)
         {
+            foreach (MigraDoc.DocumentObjectModel.Shapes.Charts.Series domSeries in domSeriesCollection)
+            {
+                Series series = seriesCollection.AddSeries();
+                series.Name = domSeries.Name;
+
+                if (domSeries.IsNull("ChartType"))
+                {
+                    MigraDoc.DocumentObjectModel.Shapes.Charts.Chart chart = (MigraDoc.DocumentObjectModel.Shapes.Charts.Chart)MigraDoc.DocumentObjectModel.DocumentRelations.GetParentOfType(domSeries, typeof(MigraDoc.DocumentObjectModel.Shapes.Charts.Chart));
+                    series.ChartType = (ChartType)chart.Type;
+                }
+                else
+                    series.ChartType = (ChartType)domSeries.ChartType;
+
+                if (!domSeries.IsNull("DataLabel"))
+                    DataLabelMapper.Map(series.DataLabel, domSeries.DataLabel);
+                if (!domSeries.IsNull("LineFormat"))
+                    LineFormatMapper.Map(series.LineFormat, domSeries.LineFormat);
+                if (!domSeries.IsNull("FillFormat"))
+                    FillFormatMapper.Map(series.FillFormat, domSeries.FillFormat);
+
+                series.HasDataLabel = domSeries.HasDataLabel;
+                if (domSeries.MarkerBackgroundColor.IsEmpty)
+                    series.MarkerBackgroundColor = XColor.Empty;
+                else
+                {
 #if noCMYK
           series.MarkerBackgroundColor = XColor.FromArgb(domSeries.MarkerBackgroundColor.Argb);
 #else
-          series.MarkerBackgroundColor = 
-            ColorHelper.ToXColor(domSeries.MarkerBackgroundColor, domSeries.Document.UseCmykColor);
+                    series.MarkerBackgroundColor =
+                      ColorHelper.ToXColor(domSeries.MarkerBackgroundColor, domSeries.Document.UseCmykColor);
 #endif
-        }
-        if (domSeries.MarkerForegroundColor.IsEmpty)
-          series.MarkerForegroundColor = XColor.Empty;
-        else
-        {
+                }
+                if (domSeries.MarkerForegroundColor.IsEmpty)
+                    series.MarkerForegroundColor = XColor.Empty;
+                else
+                {
 #if noCMYK
           series.MarkerForegroundColor = XColor.FromArgb(domSeries.MarkerForegroundColor.Argb);
 #else
-          series.MarkerForegroundColor = 
-            ColorHelper.ToXColor(domSeries.MarkerForegroundColor, domSeries.Document.UseCmykColor);
+                    series.MarkerForegroundColor =
+                      ColorHelper.ToXColor(domSeries.MarkerForegroundColor, domSeries.Document.UseCmykColor);
 #endif
-        }
-        series.MarkerSize = domSeries.MarkerSize.Point;
-        if (!domSeries.IsNull("MarkerStyle"))
-          series.MarkerStyle = (MarkerStyle)domSeries.MarkerStyle;
+                }
+                series.MarkerSize = domSeries.MarkerSize.Point;
+                if (!domSeries.IsNull("MarkerStyle"))
+                    series.MarkerStyle = (MarkerStyle)domSeries.MarkerStyle;
 
-        foreach (MigraDoc.DocumentObjectModel.Shapes.Charts.Point domPoint in domSeries.Elements)
+                foreach (MigraDoc.DocumentObjectModel.Shapes.Charts.Point domPoint in domSeries.Elements)
+                {
+                    if (domPoint != null)
+                    {
+                        Point point = series.Add(domPoint.Value);
+                        FillFormatMapper.Map(point.FillFormat, domPoint.FillFormat);
+                        LineFormatMapper.Map(point.LineFormat, domPoint.LineFormat);
+                    }
+                    else
+                        series.Add(double.NaN);
+                }
+            }
+        }
+
+        internal static void Map(SeriesCollection seriesCollection, MigraDoc.DocumentObjectModel.Shapes.Charts.SeriesCollection domSeriesCollection)
         {
-          if (domPoint != null)
-          {
-            Point point = series.Add(domPoint.Value);
-            FillFormatMapper.Map(point.FillFormat, domPoint.FillFormat);
-            LineFormatMapper.Map(point.LineFormat, domPoint.LineFormat);
-          }
-          else
-            series.Add(double.NaN);
+            SeriesCollectionMapper mapper = new SeriesCollectionMapper();
+            mapper.MapObject(seriesCollection, domSeriesCollection);
         }
-      }
     }
-
-    internal static void Map(SeriesCollection seriesCollection, MigraDoc.DocumentObjectModel.Shapes.Charts.SeriesCollection domSeriesCollection)
-    {
-      SeriesCollectionMapper mapper = new SeriesCollectionMapper();
-      mapper.MapObject(seriesCollection, domSeriesCollection);
-    }
-  }
 }

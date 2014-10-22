@@ -34,13 +34,13 @@ using System;
 
 namespace MigraDoc.DocumentObjectModel.Tables
 {
-  /// <summary>
-  /// Specifies the horizontal alignment of the table.
-  /// </summary>
-  public enum RowAlignment
-  {
-    Left,
-    Center,
-    Right
-  }
+    /// <summary>
+    /// Specifies the horizontal alignment of the table.
+    /// </summary>
+    public enum RowAlignment
+    {
+        Left,
+        Center,
+        Right
+    }
 }

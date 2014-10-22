@@ -34,24 +34,24 @@ using System;
 
 namespace MigraDoc.DocumentObjectModel.Shapes.Charts
 {
-  /// <summary>
-  /// Determines how null values will be handled in a chart.
-  /// </summary>
-  public enum BlankType
-  {
     /// <summary>
-    /// Null value is not plotted.
+    /// Determines how null values will be handled in a chart.
     /// </summary>
-    NotPlotted,
+    public enum BlankType
+    {
+        /// <summary>
+        /// Null value is not plotted.
+        /// </summary>
+        NotPlotted,
 
-    /// <summary>
-    /// Null value will be interpolated.
-    /// </summary>
-    Interpolated,
+        /// <summary>
+        /// Null value will be interpolated.
+        /// </summary>
+        Interpolated,
 
-    /// <summary>
-    /// Null value will be handled as zero.
-    /// </summary>
-    Zero
-  }
+        /// <summary>
+        /// Null value will be handled as zero.
+        /// </summary>
+        Zero
+    }
 }

@@ -32,24 +32,24 @@ using System;
 
 namespace MigraDoc.Rendering
 {
-  /// <summary>
-  /// Rendering information for charts.
-  /// </summary>
-  internal class ChartRenderInfo : ShapeRenderInfo
-  {
-    internal ChartRenderInfo()
+    /// <summary>
+    /// Rendering information for charts.
+    /// </summary>
+    internal class ChartRenderInfo : ShapeRenderInfo
     {
-    }
+        internal ChartRenderInfo()
+        {
+        }
 
-    internal override FormatInfo FormatInfo
-    {
-      get
-      {
-        if (this.formatInfo == null)
-          this.formatInfo = new ChartFormatInfo();
-        return this.formatInfo;
-      }
+        internal override FormatInfo FormatInfo
+        {
+            get
+            {
+                if (this.formatInfo == null)
+                    this.formatInfo = new ChartFormatInfo();
+                return this.formatInfo;
+            }
+        }
+        ChartFormatInfo formatInfo;
     }
-    ChartFormatInfo formatInfo;
-  }
 }

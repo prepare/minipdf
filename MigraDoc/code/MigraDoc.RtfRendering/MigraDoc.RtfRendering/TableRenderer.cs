@@ -36,32 +36,32 @@ using MigraDoc.DocumentObjectModel.Visitors;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a Table to RTF.
-  /// </summary>
-  internal class TableRenderer : RendererBase
-  {
-    internal TableRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.table = domObj as Table;
-    }
-
     /// <summary>
-    /// Renders a Table to RTF.
+    /// Class to render a Table to RTF.
     /// </summary>
-    internal override void Render()
+    internal class TableRenderer : RendererBase
     {
-      DocumentElements elms = DocumentRelations.GetParent(this.table) as DocumentElements;
-      MergedCellList mrgdCellList = new MergedCellList(this.table);
+        internal TableRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.table = domObj as Table;
+        }
 
-      foreach (Row row in this.table.Rows)
-      {
-        RowRenderer rowRenderer = new RowRenderer(row, this.docRenderer);
-        rowRenderer.CellList = mrgdCellList;
-        rowRenderer.Render();
-      }
+        /// <summary>
+        /// Renders a Table to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            DocumentElements elms = DocumentRelations.GetParent(this.table) as DocumentElements;
+            MergedCellList mrgdCellList = new MergedCellList(this.table);
+
+            foreach (Row row in this.table.Rows)
+            {
+                RowRenderer rowRenderer = new RowRenderer(row, this.docRenderer);
+                rowRenderer.CellList = mrgdCellList;
+                rowRenderer.Render();
+            }
+        }
+        Table table;
     }
-    Table table;
-  }
 }

@@ -34,54 +34,54 @@ using MigraDoc.DocumentObjectModel.IO;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Renders formatted text to RTF.
-  /// </summary>
-  internal class FormattedTextRenderer : RendererBase
-  {
-    internal FormattedTextRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.formattedText = domObj as FormattedText;
-    }
-
     /// <summary>
-    /// Renders a formatted text to RTF.
+    /// Renders formatted text to RTF.
     /// </summary>
-    internal override void Render()
+    internal class FormattedTextRenderer : RendererBase
     {
-      useEffectiveValue = true;
+        internal FormattedTextRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.formattedText = domObj as FormattedText;
+        }
 
-      this.rtfWriter.StartContent();
-      RenderStyleAndFont();
-      foreach (DocumentObject docObj in this.formattedText.Elements)
-        RendererFactory.CreateRenderer(docObj, this.docRenderer).Render();
+        /// <summary>
+        /// Renders a formatted text to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            useEffectiveValue = true;
 
-      this.rtfWriter.EndContent();
+            this.rtfWriter.StartContent();
+            RenderStyleAndFont();
+            foreach (DocumentObject docObj in this.formattedText.Elements)
+                RendererFactory.CreateRenderer(docObj, this.docRenderer).Render();
+
+            this.rtfWriter.EndContent();
+        }
+
+        /// <summary>
+        /// Renders the style if it is a character style and the font of the formatted text.
+        /// </summary>
+        void RenderStyleAndFont()
+        {
+            bool hasCharacterStyle = false;
+            if (!this.formattedText.IsNull("Style"))
+            {
+                Style style = this.formattedText.Document.Styles[this.formattedText.Style];
+                if (style != null && style.Type == StyleType.Character)
+                    hasCharacterStyle = true;
+            }
+            object font = GetValueAsIntended("Font");
+            if (font != null)
+            {
+                if (hasCharacterStyle)
+                    this.rtfWriter.WriteControlWithStar("cs", this.docRenderer.GetStyleIndex(this.formattedText.Style));
+
+                RendererFactory.CreateRenderer(this.formattedText.Font, this.docRenderer).Render();
+            }
+        }
+
+        private FormattedText formattedText;
     }
-
-    /// <summary>
-    /// Renders the style if it is a character style and the font of the formatted text.
-    /// </summary>
-    void RenderStyleAndFont()
-    {
-      bool hasCharacterStyle = false;
-      if (!this.formattedText.IsNull("Style"))
-      {
-        Style style = this.formattedText.Document.Styles[this.formattedText.Style];
-        if (style != null && style.Type == StyleType.Character)
-          hasCharacterStyle = true;
-      }
-      object font = GetValueAsIntended("Font");
-      if (font != null)
-      {
-        if (hasCharacterStyle)
-          this.rtfWriter.WriteControlWithStar("cs", this.docRenderer.GetStyleIndex(this.formattedText.Style));
-
-        RendererFactory.CreateRenderer(this.formattedText.Font, this.docRenderer).Render();
-      }
-    }
-
-    private FormattedText formattedText;
-  }
 }

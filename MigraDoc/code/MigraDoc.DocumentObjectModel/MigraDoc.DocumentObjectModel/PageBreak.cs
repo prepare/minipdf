@@ -37,55 +37,55 @@ using MigraDoc.DocumentObjectModel.Internals;
 
 namespace MigraDoc.DocumentObjectModel
 {
-  /// <summary>
-  /// A PageBreak is used to put following elements on a new page.
-  /// </summary>
-  public class PageBreak : DocumentObject
-  {
     /// <summary>
-    /// Initializes a new instance of the PageBreak class.
+    /// A PageBreak is used to put following elements on a new page.
     /// </summary>
-    public PageBreak()
+    public class PageBreak : DocumentObject
     {
-    }
+        /// <summary>
+        /// Initializes a new instance of the PageBreak class.
+        /// </summary>
+        public PageBreak()
+        {
+        }
 
-    /// <summary>
-    /// Initializes a new instance of the PageBreak class with the specified parent.
-    /// </summary>
-    internal PageBreak(DocumentObject parent) : base(parent) { }
+        /// <summary>
+        /// Initializes a new instance of the PageBreak class with the specified parent.
+        /// </summary>
+        internal PageBreak(DocumentObject parent) : base(parent) { }
 
-    //#region Methods
-    /// <summary>
-    /// Creates a deep copy of this object.
-    /// </summary>
-    public new PageBreak Clone()
-    {
-      return (PageBreak)DeepCopy();
-    }
-    //#endregion
+        //#region Methods
+        /// <summary>
+        /// Creates a deep copy of this object.
+        /// </summary>
+        public new PageBreak Clone()
+        {
+            return (PageBreak)DeepCopy();
+        }
+        //#endregion
 
-    //#region Internal
-    /// <summary>
-    /// Converts PageBreak into DDL.
-    /// </summary>
-    internal override void Serialize(Serializer serializer)
-    {
-      serializer.WriteLine("\\pagebreak");
-    }
+        //#region Internal
+        /// <summary>
+        /// Converts PageBreak into DDL.
+        /// </summary>
+        internal override void Serialize(Serializer serializer)
+        {
+            serializer.WriteLine("\\pagebreak");
+        }
 
-    /// <summary>
-    /// Returns the meta object of this instance.
-    /// </summary>
-    internal override Meta Meta
-    {
-      get
-      {
-        if (meta == null)
-          meta = new Meta(typeof(PageBreak));
-        return meta;
-      }
+        /// <summary>
+        /// Returns the meta object of this instance.
+        /// </summary>
+        internal override Meta Meta
+        {
+            get
+            {
+                if (meta == null)
+                    meta = new Meta(typeof(PageBreak));
+                return meta;
+            }
+        }
+        static Meta meta;
+        //#endregion
     }
-    static Meta meta;
-    //#endregion
-  }
 }

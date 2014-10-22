@@ -34,60 +34,60 @@ using System;
 
 namespace MigraDoc.DocumentObjectModel.IO
 {
-  /// <summary>
-  /// Represents an exception used by the DDL parser. This exception will always be caught inside
-  /// the DDL parser.
-  /// </summary>
-  internal class DdlParserException : Exception // TODO DaSt/KlPo/NiSc: ApplicationException???
-  {
     /// <summary>
-    /// Initializes a new instance of the DdlParserException class with the specified message.
+    /// Represents an exception used by the DDL parser. This exception will always be caught inside
+    /// the DDL parser.
     /// </summary>
-    public DdlParserException(string message)
-      : base(message)
+    internal class DdlParserException : Exception // TODO DaSt/KlPo/NiSc: ApplicationException???
     {
-      this.error = new DdlReaderError(DdlErrorLevel.Error, message, 0);
-    }
+        /// <summary>
+        /// Initializes a new instance of the DdlParserException class with the specified message.
+        /// </summary>
+        public DdlParserException(string message)
+            : base(message)
+        {
+            this.error = new DdlReaderError(DdlErrorLevel.Error, message, 0);
+        }
 
-    /// <summary>
-    /// Initializes a new instance of the DdlParserException class with the specified message and the
-    /// inner exception.
-    /// </summary>
-    public DdlParserException(string message, Exception innerException)
-      :
-      base(message, innerException)
-    {
-      this.error = new DdlReaderError(DdlErrorLevel.Error, message, 0);
-    }
+        /// <summary>
+        /// Initializes a new instance of the DdlParserException class with the specified message and the
+        /// inner exception.
+        /// </summary>
+        public DdlParserException(string message, Exception innerException)
+            :
+            base(message, innerException)
+        {
+            this.error = new DdlReaderError(DdlErrorLevel.Error, message, 0);
+        }
 
-    /// <summary>
-    /// Initializes a new instance of the DdlParserException class with the specified error level, name,
-    /// error code and message.
-    /// </summary>
-    public DdlParserException(DdlErrorLevel level, string message, DomMsgID errorCode)
-      :
-      base(message)
-    {
-      this.error = new DdlReaderError(level, message, (int)errorCode);
-    }
+        /// <summary>
+        /// Initializes a new instance of the DdlParserException class with the specified error level, name,
+        /// error code and message.
+        /// </summary>
+        public DdlParserException(DdlErrorLevel level, string message, DomMsgID errorCode)
+            :
+            base(message)
+        {
+            this.error = new DdlReaderError(level, message, (int)errorCode);
+        }
 
-    /// <summary>
-    /// Initializes a new instance of the DdlParserException class with the DdlReaderError.
-    /// </summary>
-    public DdlParserException(DdlReaderError error)
-      : base(error.ErrorMessage)
-    {
-      this.error = error;
-    }
+        /// <summary>
+        /// Initializes a new instance of the DdlParserException class with the DdlReaderError.
+        /// </summary>
+        public DdlParserException(DdlReaderError error)
+            : base(error.ErrorMessage)
+        {
+            this.error = error;
+        }
 
-    /// <summary>
-    /// Gets the DdlReaderError.
-    /// </summary>
-    public DdlReaderError Error
-    {
-      get { return this.error; }
-    }
+        /// <summary>
+        /// Gets the DdlReaderError.
+        /// </summary>
+        public DdlReaderError Error
+        {
+            get { return this.error; }
+        }
 
-    DdlReaderError error;
-  }
+        DdlReaderError error;
+    }
 }

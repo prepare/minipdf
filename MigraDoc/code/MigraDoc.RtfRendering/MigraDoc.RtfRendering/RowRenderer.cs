@@ -36,115 +36,115 @@ using MigraDoc.DocumentObjectModel.Tables;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Class to render a Row to RTF.
-  /// </summary>
-  internal class RowRenderer : RendererBase
-  {
-    internal RowRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.row = domObj as Row;
-    }
-
     /// <summary>
-    /// Render a Row to RTF.
+    /// Class to render a Row to RTF.
     /// </summary>
-    internal override void Render()
+    internal class RowRenderer : RendererBase
     {
-      this.useEffectiveValue = true;
-      this.rtfWriter.WriteControl("trowd");
-      new RowsRenderer(DocumentRelations.GetParent(this.row) as Rows, this.docRenderer).Render();
-      RenderRowHeight();
-      //MigraDoc always keeps together table rows.
-      this.rtfWriter.WriteControl("trkeep");
-      Translate("HeadingFormat", "trhdr");
-
-      // trkeepfollow is intended to keep table rows together.
-      // Unfortunalte, this does not work in word.
-      int thisRowIdx = this.row.Index;
-      for (int rowIdx = 0; rowIdx <= this.row.Index; ++rowIdx)
-      {
-        object keepWith = this.row.Table.Rows[rowIdx].GetValue("KeepWith");
-        if (keepWith != null && (int)keepWith + rowIdx > thisRowIdx)
-          this.rtfWriter.WriteControl("trkeepfollow");
-      }
-      RenderTopBottomPadding();
-
-      //Cell borders etc. are written before the contents.
-      for (int idx = 0; idx < this.row.Table.Columns.Count; ++idx)
-      {
-        Cell cell = this.row.Cells[idx];
-        CellFormatRenderer cellFrmtRenderer =
-        new CellFormatRenderer(cell, this.docRenderer);
-        cellFrmtRenderer.CellList = this.cellList;
-        cellFrmtRenderer.Render();
-      }
-      foreach (Cell cell in this.row.Cells)
-      {
-        CellRenderer cellRndrr = new CellRenderer(cell, this.docRenderer);
-        cellRndrr.CellList = this.cellList;
-        cellRndrr.Render();
-      }
-
-      this.rtfWriter.WriteControl("row");
-    }
-
-    private void RenderTopBottomPadding()
-    {
-      string rwPadCtrl = "trpadd";
-      string rwPadUnit = "trpaddf";
-      object rwPdgVal = this.row.GetValue("TopPadding", GV.GetNull);
-      if (rwPdgVal == null)
-        rwPdgVal = Unit.FromCentimeter(0);
-
-      //Word bug: Top and leftpadding are being confused in word.
-      this.rtfWriter.WriteControl(rwPadCtrl + "t", ToRtfUnit((Unit)rwPdgVal, RtfUnit.Twips));
-      //Tells the RTF reader to take it as Twips:
-      this.rtfWriter.WriteControl(rwPadUnit + "t", 3);
-      rwPdgVal = this.row.GetValue("BottomPadding", GV.GetNull);
-      if (rwPdgVal == null)
-        rwPdgVal = Unit.FromCentimeter(0);
-
-      this.rtfWriter.WriteControl(rwPadCtrl + "b", ToRtfUnit((Unit)rwPdgVal, RtfUnit.Twips));
-      this.rtfWriter.WriteControl(rwPadUnit + "b", 3);
-    }
-    private void RenderRowHeight()
-    {
-      object heightObj = GetValueAsIntended("Height");
-      object heightRlObj = GetValueAsIntended("HeightRule");
-      if (heightRlObj != null)
-      {
-        switch ((RowHeightRule)heightRlObj)
+        internal RowRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
         {
-          case RowHeightRule.AtLeast:
-            Translate("Height", "trrh", RtfUnit.Twips, "0", false);
-            break;
-          case RowHeightRule.Auto:
-            this.rtfWriter.WriteControl("trrh", 0);
-            break;
-
-          case RowHeightRule.Exactly:
-            if (heightObj != null)
-              RenderUnit("trrh", -((Unit)heightObj).Point);
-            break;
+            this.row = domObj as Row;
         }
-      }
-      else
-        Translate("Height", "trrh", RtfUnit.Twips, "0", false); //treat it like "AtLeast".
-    }
 
-    /// <summary>
-    /// Sets the merged cell list. This property is set by the table renderer.
-    /// </summary>
-    internal MergedCellList CellList
-    {
-      set
-      {
-        this.cellList = value;
-      }
+        /// <summary>
+        /// Render a Row to RTF.
+        /// </summary>
+        internal override void Render()
+        {
+            this.useEffectiveValue = true;
+            this.rtfWriter.WriteControl("trowd");
+            new RowsRenderer(DocumentRelations.GetParent(this.row) as Rows, this.docRenderer).Render();
+            RenderRowHeight();
+            //MigraDoc always keeps together table rows.
+            this.rtfWriter.WriteControl("trkeep");
+            Translate("HeadingFormat", "trhdr");
+
+            // trkeepfollow is intended to keep table rows together.
+            // Unfortunalte, this does not work in word.
+            int thisRowIdx = this.row.Index;
+            for (int rowIdx = 0; rowIdx <= this.row.Index; ++rowIdx)
+            {
+                object keepWith = this.row.Table.Rows[rowIdx].GetValue("KeepWith");
+                if (keepWith != null && (int)keepWith + rowIdx > thisRowIdx)
+                    this.rtfWriter.WriteControl("trkeepfollow");
+            }
+            RenderTopBottomPadding();
+
+            //Cell borders etc. are written before the contents.
+            for (int idx = 0; idx < this.row.Table.Columns.Count; ++idx)
+            {
+                Cell cell = this.row.Cells[idx];
+                CellFormatRenderer cellFrmtRenderer =
+                new CellFormatRenderer(cell, this.docRenderer);
+                cellFrmtRenderer.CellList = this.cellList;
+                cellFrmtRenderer.Render();
+            }
+            foreach (Cell cell in this.row.Cells)
+            {
+                CellRenderer cellRndrr = new CellRenderer(cell, this.docRenderer);
+                cellRndrr.CellList = this.cellList;
+                cellRndrr.Render();
+            }
+
+            this.rtfWriter.WriteControl("row");
+        }
+
+        private void RenderTopBottomPadding()
+        {
+            string rwPadCtrl = "trpadd";
+            string rwPadUnit = "trpaddf";
+            object rwPdgVal = this.row.GetValue("TopPadding", GV.GetNull);
+            if (rwPdgVal == null)
+                rwPdgVal = Unit.FromCentimeter(0);
+
+            //Word bug: Top and leftpadding are being confused in word.
+            this.rtfWriter.WriteControl(rwPadCtrl + "t", ToRtfUnit((Unit)rwPdgVal, RtfUnit.Twips));
+            //Tells the RTF reader to take it as Twips:
+            this.rtfWriter.WriteControl(rwPadUnit + "t", 3);
+            rwPdgVal = this.row.GetValue("BottomPadding", GV.GetNull);
+            if (rwPdgVal == null)
+                rwPdgVal = Unit.FromCentimeter(0);
+
+            this.rtfWriter.WriteControl(rwPadCtrl + "b", ToRtfUnit((Unit)rwPdgVal, RtfUnit.Twips));
+            this.rtfWriter.WriteControl(rwPadUnit + "b", 3);
+        }
+        private void RenderRowHeight()
+        {
+            object heightObj = GetValueAsIntended("Height");
+            object heightRlObj = GetValueAsIntended("HeightRule");
+            if (heightRlObj != null)
+            {
+                switch ((RowHeightRule)heightRlObj)
+                {
+                    case RowHeightRule.AtLeast:
+                        Translate("Height", "trrh", RtfUnit.Twips, "0", false);
+                        break;
+                    case RowHeightRule.Auto:
+                        this.rtfWriter.WriteControl("trrh", 0);
+                        break;
+
+                    case RowHeightRule.Exactly:
+                        if (heightObj != null)
+                            RenderUnit("trrh", -((Unit)heightObj).Point);
+                        break;
+                }
+            }
+            else
+                Translate("Height", "trrh", RtfUnit.Twips, "0", false); //treat it like "AtLeast".
+        }
+
+        /// <summary>
+        /// Sets the merged cell list. This property is set by the table renderer.
+        /// </summary>
+        internal MergedCellList CellList
+        {
+            set
+            {
+                this.cellList = value;
+            }
+        }
+        MergedCellList cellList = null;
+        Row row;
     }
-    MergedCellList cellList = null;
-    Row row;
-  }
 }

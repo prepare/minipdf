@@ -33,72 +33,72 @@ using MigraDoc.DocumentObjectModel;
 
 namespace MigraDoc.RtfRendering
 {
-  /// <summary>
-  /// Renders headers and footers to RTF.
-  /// </summary>
-  internal class HeadersFootersRenderer : RendererBase
-  {
-    internal HeadersFootersRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
-      : base(domObj, docRenderer)
-    {
-      this.headersFooters = domObj as HeadersFooters;
-    }
-
-
     /// <summary>
-    /// Renders a section's headers and footers to RTF.
+    /// Renders headers and footers to RTF.
     /// </summary>
-    /* The MigraDoc DOM page setup properties, the MigraDoc DOM headers and the
-     * RTF Controls For left, right and first header/footer 
-     * and the RTF flag titlepg are related as follows.
-     * 
-     * |  First | OddEvn | | Left  | Right | First |TitlePg |
-     * ------------------------------------------------------
-     * |  True  | True   | | EvnPg | Prim  | First |  True  |
-     * |  False | False  | | Prim  | Prim  |   -   |  False |
-     * |  True  | False  | | Prim  | Prim  | First |  True  |
-     * |  False | True   | | EvnPg | Prim  |   -   |  False |
-    */
-    internal override void Render()
+    internal class HeadersFootersRenderer : RendererBase
     {
-      useEffectiveValue = true;
-      object obj = GetValueAsIntended("Primary");
-      if (obj != null)
-        RenderHeaderFooter((HeaderFooter)obj, HeaderFooterIndex.Primary);
+        internal HeadersFootersRenderer(DocumentObject domObj, RtfDocumentRenderer docRenderer)
+            : base(domObj, docRenderer)
+        {
+            this.headersFooters = domObj as HeadersFooters;
+        }
 
-      obj = GetValueAsIntended("FirstPage");
-      if (obj != null)
-        RenderHeaderFooter((HeaderFooter)obj, HeaderFooterIndex.FirstPage);
 
-      obj = GetValueAsIntended("EvenPage");
-      if (obj != null)
-        RenderHeaderFooter((HeaderFooter)obj, HeaderFooterIndex.EvenPage);
+        /// <summary>
+        /// Renders a section's headers and footers to RTF.
+        /// </summary>
+        /* The MigraDoc DOM page setup properties, the MigraDoc DOM headers and the
+         * RTF Controls For left, right and first header/footer 
+         * and the RTF flag titlepg are related as follows.
+         * 
+         * |  First | OddEvn | | Left  | Right | First |TitlePg |
+         * ------------------------------------------------------
+         * |  True  | True   | | EvnPg | Prim  | First |  True  |
+         * |  False | False  | | Prim  | Prim  |   -   |  False |
+         * |  True  | False  | | Prim  | Prim  | First |  True  |
+         * |  False | True   | | EvnPg | Prim  |   -   |  False |
+        */
+        internal override void Render()
+        {
+            useEffectiveValue = true;
+            object obj = GetValueAsIntended("Primary");
+            if (obj != null)
+                RenderHeaderFooter((HeaderFooter)obj, HeaderFooterIndex.Primary);
+
+            obj = GetValueAsIntended("FirstPage");
+            if (obj != null)
+                RenderHeaderFooter((HeaderFooter)obj, HeaderFooterIndex.FirstPage);
+
+            obj = GetValueAsIntended("EvenPage");
+            if (obj != null)
+                RenderHeaderFooter((HeaderFooter)obj, HeaderFooterIndex.EvenPage);
+        }
+
+        /// <summary>
+        /// Renders a single header footer.
+        /// </summary>
+        private void RenderHeaderFooter(HeaderFooter hdrFtr, HeaderFooterIndex renderAs)
+        {
+            HeaderFooterRenderer hfr = new HeaderFooterRenderer(hdrFtr, this.docRenderer);
+            hfr.PageSetup = this.pageSetup;
+            hfr.RenderAs = renderAs;
+            hfr.Render();
+        }
+
+        /// <summary>
+        /// Sets the PageSetup (It stems from the section the HeadersFooters are used in).
+        /// Caution: This PageSetup might differ from the one the "parent" section's got
+        /// for inheritance reasons.
+        /// </summary>
+        internal PageSetup PageSetup
+        {
+            set
+            {
+                this.pageSetup = value;
+            }
+        }
+        private HeadersFooters headersFooters;
+        private PageSetup pageSetup;
     }
-
-    /// <summary>
-    /// Renders a single header footer.
-    /// </summary>
-    private void RenderHeaderFooter(HeaderFooter hdrFtr, HeaderFooterIndex renderAs)
-    {
-      HeaderFooterRenderer hfr = new HeaderFooterRenderer(hdrFtr, this.docRenderer);
-      hfr.PageSetup = this.pageSetup;
-      hfr.RenderAs = renderAs;
-      hfr.Render();
-    }
-
-    /// <summary>
-    /// Sets the PageSetup (It stems from the section the HeadersFooters are used in).
-    /// Caution: This PageSetup might differ from the one the "parent" section's got
-    /// for inheritance reasons.
-    /// </summary>
-    internal PageSetup PageSetup
-    {
-      set
-      {
-        this.pageSetup = value;
-      }
-    }
-    private HeadersFooters headersFooters;
-    private PageSetup pageSetup;
-  }
 }

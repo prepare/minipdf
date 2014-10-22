@@ -37,111 +37,111 @@ using MigraDoc.DocumentObjectModel.Internals;
 
 namespace MigraDoc.DocumentObjectModel.Shapes
 {
-  /// <summary>
-  /// A PictureFormat object.
-  /// Used to set more detailed image attributes
-  /// </summary>
-  public class PictureFormat : DocumentObject
-  {
     /// <summary>
-    /// Initializes a new instance of the PictureFormat class.
+    /// A PictureFormat object.
+    /// Used to set more detailed image attributes
     /// </summary>
-    public PictureFormat()
+    public class PictureFormat : DocumentObject
     {
-    }
+        /// <summary>
+        /// Initializes a new instance of the PictureFormat class.
+        /// </summary>
+        public PictureFormat()
+        {
+        }
 
-    /// <summary>
-    /// Initializes a new instance of the PictureFormat class with the specified parent.
-    /// </summary>
-    internal PictureFormat(DocumentObject parent) : base(parent) { }
+        /// <summary>
+        /// Initializes a new instance of the PictureFormat class with the specified parent.
+        /// </summary>
+        internal PictureFormat(DocumentObject parent) : base(parent) { }
 
-    #region Methods
-    /// <summary>
-    /// Creates a deep copy of this object.
-    /// </summary>
-    public new PictureFormat Clone()
-    {
-      return (PictureFormat)DeepCopy();
-    }
-    #endregion
+        #region Methods
+        /// <summary>
+        /// Creates a deep copy of this object.
+        /// </summary>
+        public new PictureFormat Clone()
+        {
+            return (PictureFormat)DeepCopy();
+        }
+        #endregion
 
-    #region Properties
-    /// <summary>
-    /// Gets or sets the part cropped from the left of the image.
-    /// </summary>
-    public Unit CropLeft
-    {
-      get { return this.cropLeft; }
-      set { this.cropLeft = value; }
-    }
-    [DV]
-    protected Unit cropLeft = Unit.NullValue;
+        #region Properties
+        /// <summary>
+        /// Gets or sets the part cropped from the left of the image.
+        /// </summary>
+        public Unit CropLeft
+        {
+            get { return this.cropLeft; }
+            set { this.cropLeft = value; }
+        }
+        [DV]
+        protected Unit cropLeft = Unit.NullValue;
 
-    /// <summary>
-    /// Gets or sets the part cropped from the right of the image.
-    /// </summary>
-    public Unit CropRight
-    {
-      get { return this.cropRight; }
-      set { this.cropRight = value; }
-    }
-    [DV]
-    protected Unit cropRight = Unit.NullValue;
+        /// <summary>
+        /// Gets or sets the part cropped from the right of the image.
+        /// </summary>
+        public Unit CropRight
+        {
+            get { return this.cropRight; }
+            set { this.cropRight = value; }
+        }
+        [DV]
+        protected Unit cropRight = Unit.NullValue;
 
-    /// <summary>
-    /// Gets or sets the part cropped from the top of the image.
-    /// </summary>
-    public Unit CropTop
-    {
-      get { return this.cropTop; }
-      set { this.cropTop = value; }
-    }
-    [DV]
-    protected Unit cropTop = Unit.NullValue;
+        /// <summary>
+        /// Gets or sets the part cropped from the top of the image.
+        /// </summary>
+        public Unit CropTop
+        {
+            get { return this.cropTop; }
+            set { this.cropTop = value; }
+        }
+        [DV]
+        protected Unit cropTop = Unit.NullValue;
 
-    /// <summary>
-    /// Gets or sets the part cropped from the bottom of the image.
-    /// </summary>
-    public Unit CropBottom
-    {
-      get { return this.cropBottom; }
-      set { this.cropBottom = value; }
-    }
-    [DV]
-    protected Unit cropBottom = Unit.NullValue;
-    #endregion
+        /// <summary>
+        /// Gets or sets the part cropped from the bottom of the image.
+        /// </summary>
+        public Unit CropBottom
+        {
+            get { return this.cropBottom; }
+            set { this.cropBottom = value; }
+        }
+        [DV]
+        protected Unit cropBottom = Unit.NullValue;
+        #endregion
 
-    #region Internal
-    /// <summary>
-    /// Converts PictureFormat into DDL
-    /// </summary>
-    internal override void Serialize(Serializer serializer)
-    {
-      serializer.BeginContent("PictureFormat");
-      if (!this.cropLeft.IsNull)
-        serializer.WriteSimpleAttribute("CropLeft", this.CropLeft);
-      if (!this.cropRight.IsNull)
-        serializer.WriteSimpleAttribute("CropRight", this.CropRight);
-      if (!this.cropTop.IsNull)
-        serializer.WriteSimpleAttribute("CropTop", this.CropTop);
-      if (!this.cropBottom.IsNull)
-        serializer.WriteSimpleAttribute("CropBottom", this.CropBottom);
-      serializer.EndContent();
-    }
+        #region Internal
+        /// <summary>
+        /// Converts PictureFormat into DDL
+        /// </summary>
+        internal override void Serialize(Serializer serializer)
+        {
+            serializer.BeginContent("PictureFormat");
+            if (!this.cropLeft.IsNull)
+                serializer.WriteSimpleAttribute("CropLeft", this.CropLeft);
+            if (!this.cropRight.IsNull)
+                serializer.WriteSimpleAttribute("CropRight", this.CropRight);
+            if (!this.cropTop.IsNull)
+                serializer.WriteSimpleAttribute("CropTop", this.CropTop);
+            if (!this.cropBottom.IsNull)
+                serializer.WriteSimpleAttribute("CropBottom", this.CropBottom);
+            serializer.EndContent();
+        }
 
-    /// <summary>
-    /// Returns the meta object of this instance.
-    /// </summary>
-    internal override Meta Meta
-    {
-      get
-      {
-        if (meta == null)
-          meta = new Meta(typeof(PictureFormat));
-        return meta;
-      }
+        /// <summary>
+        /// Returns the meta object of this instance.
+        /// </summary>
+        internal override Meta Meta
+        {
+            get
+            {
+                if (meta == null)
+                    meta = new Meta(typeof(PictureFormat));
+                return meta;
+            }
+        }
+        static Meta meta;
+        #endregion
     }
-    static Meta meta;
-    #endregion
-  }
 }

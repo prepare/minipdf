@@ -34,14 +34,14 @@ using System;
 
 namespace MigraDoc.DocumentObjectModel.Shapes
 {
-  /// <summary>
-  /// Specifies the line style of the LineFormat object.
-  /// </summary>
-  public enum LineStyle
-  {
     /// <summary>
-    /// A solid line.
+    /// Specifies the line style of the LineFormat object.
     /// </summary>
-    Single
-  }
+    public enum LineStyle
+    {
+        /// <summary>
+        /// A solid line.
+        /// </summary>
+        Single
+    }
 }
